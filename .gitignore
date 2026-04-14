@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 local.db
 *.db
+/data/NovaCarta_EMEA_Dataset_DUMMY.xlsx
