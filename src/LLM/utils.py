@@ -1,8 +1,17 @@
 def extract_tables_from_response(response: str, tables: list[str]) -> list[str]:
-    # Checks for every table if it appears in the response as a seperate word
+    """
+    Extract table names robustly from an LLM response.
+
+    Handles formats like:
+    - ['FACT_Sales', 'DIM_Time']
+    - FACT_Sales, DIM_Time
+    - "Relevant tables: FACT_Sales and DIM_Time"
+    """
+    import re
+
     relevant_tables = []
     for table in tables:
-        if f" {table} " in f" {response} ":
+        if re.search(rf"\b{re.escape(table)}\b", response):
             relevant_tables.append(table)
     return relevant_tables
 

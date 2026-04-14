@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.RAG.agent import RAGAgent
-from src.RAG.databaseservice import DatabaseService
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
