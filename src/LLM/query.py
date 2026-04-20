@@ -13,7 +13,7 @@ def query_llm(prompt: str, context: str, llm_name: str = "groq", system: str = D
     Optional environment variable:
     - `GROQ_MODEL` (default: `llama3-8b-8192`)
     """
-    api_key = os.environ.get("GROQ_API_KEY")
+    api_key = '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'
     if not api_key:
         return (
             "LLM not configured. Please set environment variable `GROQ_API_KEY` "
