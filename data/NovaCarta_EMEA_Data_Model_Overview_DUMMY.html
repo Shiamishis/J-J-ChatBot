@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaCarta EMEA &ndash; Data Model Overview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f0f2f7;color:#1e2033;min-height:100vh}
+
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:24px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header h1{font-size:20px;font-weight:600;letter-spacing:.3px}
+header .sub{font-size:12px;opacity:.65;margin-top:3px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:5px}
+.sw{width:13px;height:13px;border-radius:3px;border:1px solid rgba(255,255,255,.2)}
+
+.canvas{display:flex;justify-content:center;padding:40px 24px 60px}
+svg{display:block}
+
+#tooltip{position:fixed;background:#1e2033;color:#fff;font-size:12px;padding:8px 12px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;max-width:300px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>NovaCarta Pharma &mdash; EMEA Commercial Data Platform</h1>
+    <div class="sub">Relationship Overview &bull; Star / Snowflake Schema &bull; 6 Dimensions &middot; 8 Fact Tables &middot; 1 Bridge</div>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="sw" style="background:#4a8fe7"></span> Dimension</span>
+    <span class="legend-item"><span class="sw" style="background:#e07b38"></span> Fact</span>
+    <span class="legend-item"><span class="sw" style="background:#45a96b"></span> Bridge</span>
+    <span class="legend-item" style="opacity:.6">Arrows show N:1 relationships &middot; Hover for details</span>
+  </div>
+</header>
+
+<div class="canvas">
+<svg id="erd" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<div id="tooltip"></div>
+
+<script>
+const DIM_COLOR = '#4a8fe7', FACT_COLOR = '#e07b38', BRIDGE_COLOR = '#45a96b';
+const DIM_BG = '#dce8f9', FACT_BG = '#fce8d5', BRIDGE_BG = '#d5f0df';
+const LINE_COLOR = '#9ca3b8';
+
+// ========================================================
+//  TABLE DEFINITIONS (display-friendly names, no columns)
+// ========================================================
+const tables = [
+  // Row 1: Core dimensions
+  {id:'DIM_Geography',       label:'Geography',          type:'dim',    x:50,   y:40,  desc:'Geographic hierarchy\nEMEA > Region > Country > Territory\n287 territories'},
+  {id:'DIM_Employee',        label:'Employees',          type:'dim',    x:290,  y:40,  desc:'Sales reps & medical staff\n588 employees\nManager hierarchy'},
+  {id:'DIM_Time',            label:'Time Periods',       type:'dim',    x:530,  y:40,  desc:'Calendar & fiscal time\nJan 2023 - Dec 2025\n36 monthly periods'},
+  {id:'DIM_Brand',           label:'Brands',             type:'dim',    x:770,  y:40,  desc:'Pharmaceutical brands\n15 brands across 4 therapeutic areas\nLifecycle tracking'},
+  {id:'DIM_Brand_Indication',label:'Brand Indications',  type:'bridge', x:1010, y:40,  desc:'Brand-indication bridge\n20 indications\nMulti-indication support'},
+
+  // Row 2: Account dim + central facts (centered 4 items)
+  {id:'DIM_Account',         label:'Accounts (HCP/HCO)', type:'dim',   x:170,  y:180, desc:'Healthcare professionals & organizations\n1,732 accounts\nKOL tracking & consent'},
+  {id:'FACT_Interactions',   label:'Interactions',        type:'fact',  x:410,  y:180, desc:'HCP interactions\n189,953 records\nF2F, web, email, events'},
+  {id:'FACT_Sales',          label:'Sales',               type:'fact',  x:650,  y:180, desc:'Revenue & market data\n124,886 records\nRevenue, units, market share'},
+  {id:'FACT_Sample_Management',label:'Sample Management', type:'fact',  x:890,  y:180, desc:'Drug sample tracking\n13,982 records\nDelivery & signature status'},
+
+  // Row 3: Analytical facts
+  {id:'FACT_Performance',    label:'Performance',         type:'fact',  x:50,   y:320, desc:'Employee performance KPIs\n15,070 records\nField days, call plans'},
+  {id:'FACT_Coverage',       label:'Coverage',            type:'fact',  x:290,  y:320, desc:'Territory coverage metrics\n10,270 records\nF2F, digital, email reach'},
+  {id:'FACT_Account_Metrics',label:'Account Metrics',     type:'fact',  x:530,  y:320, desc:'Account-level analytics\n33,400 records\nPenetration, Rx volume, adoption'},
+  {id:'FACT_KPI_Summary',    label:'KPI Summary',         type:'fact',  x:770,  y:320, desc:'Consolidated KPI scorecard\n52,170 records\n15 KPIs with targets'},
+  {id:'FACT_Targets',        label:'Targets',             type:'fact',  x:1010, y:320, desc:'Performance targets\n14,696 records\nRevenue, units, share, coverage'},
+];
+
+const BOX_W = 200, BOX_H = 56, BOX_R = 10;
+
+// ========================================================
+//  RELATIONSHIPS
+// ========================================================
+const rels = [
+  // FACT_Interactions (central)
+  {from:'FACT_Interactions',to:'DIM_Account',fk:'account_id',label:'HCP interactions'},
+  {from:'FACT_Interactions',to:'DIM_Employee',fk:'employee_id',label:'Rep who interacted'},
+  {from:'FACT_Interactions',to:'DIM_Brand',fk:'brand_id',label:'Brand promoted'},
+  {from:'FACT_Interactions',to:'DIM_Brand_Indication',fk:'indication_id',label:'Indication discussed'},
+  {from:'FACT_Interactions',to:'DIM_Geography',fk:'geo_id',label:'Location'},
+  {from:'FACT_Interactions',to:'DIM_Time',fk:'time_id',label:'When'},
+  // FACT_Sales
+  {from:'FACT_Sales',to:'DIM_Account',fk:'account_id',label:'HCO sold to'},
+  {from:'FACT_Sales',to:'DIM_Brand',fk:'brand_id',label:'Brand sold'},
+  {from:'FACT_Sales',to:'DIM_Geography',fk:'geo_id',label:'Sales territory'},
+  {from:'FACT_Sales',to:'DIM_Time',fk:'time_id',label:'Sales period'},
+  // FACT_Coverage
+  {from:'FACT_Coverage',to:'DIM_Brand',fk:'brand_id',label:'Brand coverage'},
+  {from:'FACT_Coverage',to:'DIM_Geography',fk:'geo_id',label:'Territory covered'},
+  {from:'FACT_Coverage',to:'DIM_Time',fk:'time_id',label:'Coverage period'},
+  // FACT_Performance
+  {from:'FACT_Performance',to:'DIM_Employee',fk:'employee_id',label:'Rep measured'},
+  {from:'FACT_Performance',to:'DIM_Brand',fk:'brand_id',label:'Brand worked'},
+  {from:'FACT_Performance',to:'DIM_Geography',fk:'geo_id',label:'Territory'},
+  {from:'FACT_Performance',to:'DIM_Time',fk:'time_id',label:'Period'},
+  // FACT_Account_Metrics
+  {from:'FACT_Account_Metrics',to:'DIM_Account',fk:'account_id',label:'Account measured'},
+  {from:'FACT_Account_Metrics',to:'DIM_Brand',fk:'brand_id',label:'Brand metrics'},
+  {from:'FACT_Account_Metrics',to:'DIM_Geography',fk:'territory_id',label:'Territory'},
+  {from:'FACT_Account_Metrics',to:'DIM_Time',fk:'time_id',label:'Quarter'},
+  // FACT_KPI_Summary
+  {from:'FACT_KPI_Summary',to:'DIM_Brand',fk:'brand_id',label:'Brand KPIs'},
+  {from:'FACT_KPI_Summary',to:'DIM_Geography',fk:'geo_id',label:'Country KPIs'},
+  {from:'FACT_KPI_Summary',to:'DIM_Time',fk:'time_id',label:'KPI period'},
+  // FACT_Sample_Management
+  {from:'FACT_Sample_Management',to:'FACT_Interactions',fk:'interaction_id',label:'Sample from visit',style:'fact'},
+  {from:'FACT_Sample_Management',to:'DIM_Account',fk:'account_id',label:'HCP received'},
+  {from:'FACT_Sample_Management',to:'DIM_Employee',fk:'employee_id',label:'Rep delivered'},
+  {from:'FACT_Sample_Management',to:'DIM_Brand',fk:'brand_id',label:'Brand sampled'},
+  {from:'FACT_Sample_Management',to:'DIM_Time',fk:'time_id',label:'Delivery date'},
+  // FACT_Targets
+  {from:'FACT_Targets',to:'DIM_Brand',fk:'brand_id',label:'Brand target'},
+  {from:'FACT_Targets',to:'DIM_Geography',fk:'geo_id',label:'Country target'},
+  {from:'FACT_Targets',to:'DIM_Time',fk:'time_id',label:'Target period'},
+  // Dim → Dim
+  {from:'DIM_Brand_Indication',to:'DIM_Brand',fk:'brand_id',label:'Belongs to brand',style:'bridge'},
+  {from:'DIM_Employee',to:'DIM_Geography',fk:'territory_id',label:'Assigned territory',style:'dim'},
+  {from:'DIM_Account',to:'DIM_Geography',fk:'territory_id',label:'Located in',style:'dim'},
+];
+
+// ========================================================
+//  RENDER
+// ========================================================
+function el(tag,attrs){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  if(attrs)Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  return e;
+}
+function tColor(t){return t==='dim'?DIM_COLOR:t==='fact'?FACT_COLOR:BRIDGE_COLOR}
+function tBg(t){return t==='dim'?DIM_BG:t==='fact'?FACT_BG:BRIDGE_BG}
+
+const svgEl = document.getElementById('erd');
+const maxX = Math.max(...tables.map(t=>t.x+BOX_W))+40;
+const maxY = Math.max(...tables.map(t=>t.y+BOX_H))+40;
+svgEl.setAttribute('width',maxX);
+svgEl.setAttribute('height',maxY);
+svgEl.setAttribute('viewBox',`0 0 ${maxX} ${maxY}`);
+
+// Defs
+const defs=el('defs');
+const marker=el('marker',{id:'arrow',viewBox:'0 0 10 6',refX:'10',refY:'3',markerWidth:'7',markerHeight:'5',orient:'auto-start-reverse'});
+marker.appendChild(el('path',{d:'M0,0 L10,3 L0,6 Z',fill:LINE_COLOR}));
+defs.appendChild(marker);
+const filter=el('filter',{id:'shadow',x:'-4%',y:'-4%',width:'108%',height:'115%'});
+filter.innerHTML='<feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.10"/>';
+defs.appendChild(filter);
+svgEl.appendChild(defs);
+
+// ---- Relationships ----
+const relG=el('g');
+svgEl.appendChild(relG);
+
+function center(t){return{x:t.x+BOX_W/2,y:t.y+BOX_H/2}}
+function edgePoint(tbl,target){
+  const cx=tbl.x+BOX_W/2,cy=tbl.y+BOX_H/2;
+  const dx=target.x-cx,dy=target.y-cy;
+  const ax=Math.abs(dx),ay=Math.abs(dy);
+  if(ax*(BOX_H)>ay*(BOX_W)){
+    const edgeX=dx>0?tbl.x+BOX_W:tbl.x;
+    return{x:edgeX,y:cy+dy/ax*(BOX_W/2)*0.3};
+  }else{
+    const edgeY=dy>0?tbl.y+BOX_H:tbl.y;
+    return{x:cx+dx/ay*(BOX_H/2)*0.3,y:edgeY};
+  }
+}
+
+// Store rendered paths for highlight lookup
+const pathData = [];
+
+rels.forEach(r=>{
+  const from=tables.find(t=>t.id===r.from);
+  const to=tables.find(t=>t.id===r.to);
+  if(!from||!to)return;
+  const fc=center(to),tc=center(from);
+  const fp=edgePoint(from,fc);
+  const tp=edgePoint(to,tc);
+  const color=r.style==='bridge'?BRIDGE_COLOR:r.style==='dim'?'#6fa3d6':r.style==='fact'?FACT_COLOR:LINE_COLOR;
+  const dx=tp.x-fp.x,dy=tp.y-fp.y;
+
+  const path=el('path',{
+    d:`M${fp.x},${fp.y} C${fp.x+dx*.4},${fp.y} ${tp.x-dx*.4},${tp.y} ${tp.x},${tp.y}`,
+    fill:'none',stroke:color,'stroke-width':'1.3','stroke-opacity':'0.35',
+    'marker-end':'url(#arrow)'
+  });
+  path._color = color;
+  path.addEventListener('mouseenter',e=>{
+    path.setAttribute('stroke-opacity','1');
+    path.setAttribute('stroke-width','2.5');
+    showTip(e,`<b>${r.label}</b><br>${from.label} &rarr; ${to.label}<br><span style="opacity:.6">${r.fk} (N:1)</span>`);
+  });
+  path.addEventListener('mouseleave',()=>{
+    if(!path._boxHover){
+      path.setAttribute('stroke-opacity','0.35');
+      path.setAttribute('stroke-width','1.3');
+    }
+    hideTip();
+  });
+  path.addEventListener('mousemove',e=>moveTip(e));
+  relG.appendChild(path);
+  pathData.push({fromId:r.from, toId:r.to, path, color});
+});
+
+// Highlight helpers for box hover
+function highlightPaths(tableId){
+  pathData.forEach(p=>{
+    if(p.fromId===tableId||p.toId===tableId){
+      p.path._boxHover=true;
+      p.path.setAttribute('stroke-opacity','1');
+      p.path.setAttribute('stroke-width','2.5');
+    } else {
+      p.path.setAttribute('stroke-opacity','0.08');
+    }
+  });
+}
+function resetPaths(){
+  pathData.forEach(p=>{
+    p.path._boxHover=false;
+    p.path.setAttribute('stroke-opacity','0.35');
+    p.path.setAttribute('stroke-width','1.3');
+  });
+}
+
+// ---- Table boxes ----
+tables.forEach(t=>{
+  const g=el('g',{transform:`translate(${t.x},${t.y})`,style:'cursor:pointer'});
+
+  // shadow card
+  g.appendChild(el('rect',{x:0,y:0,width:BOX_W,height:BOX_H,rx:BOX_R,ry:BOX_R,fill:'#fff',filter:'url(#shadow)'}));
+
+  // colored left accent bar
+  g.appendChild(el('rect',{x:0,y:0,width:6,height:BOX_H,rx:'3',fill:tColor(t.type)}));
+
+  // label
+  const txt=el('text',{x:18,y:BOX_H/2+1,'dominant-baseline':'middle','font-size':'14','font-weight':'600',fill:'#1e2033','font-family':'"Segoe UI",system-ui,sans-serif'});
+  txt.textContent=t.label;
+  g.appendChild(txt);
+
+  // type badge
+  const badgeLabel=t.type==='dim'?'DIM':t.type==='fact'?'FACT':'BRIDGE';
+  const bw=t.type==='bridge'?46:36;
+  g.appendChild(el('rect',{x:BOX_W-bw-8,y:(BOX_H-18)/2,width:bw,height:18,rx:4,fill:tColor(t.type),'fill-opacity':'0.15'}));
+  const btxt=el('text',{x:BOX_W-bw/2-8,y:BOX_H/2+1,'text-anchor':'middle','dominant-baseline':'middle','font-size':'9','font-weight':'700',fill:tColor(t.type),'font-family':'"Segoe UI",system-ui,sans-serif'});
+  btxt.textContent=badgeLabel;
+  g.appendChild(btxt);
+
+  // hover: tooltip + highlight connected relationships
+  g.addEventListener('mouseenter',e=>{
+    g.querySelector('rect').setAttribute('fill',tBg(t.type));
+    highlightPaths(t.id);
+    showTip(e,t.desc.replace(/\n/g,'<br>'));
+  });
+  g.addEventListener('mouseleave',()=>{
+    g.querySelector('rect').setAttribute('fill','#fff');
+    resetPaths();
+    hideTip();
+  });
+  g.addEventListener('mousemove',e=>moveTip(e));
+
+  svgEl.appendChild(g);
+});
+
+// ---- Tooltip ----
+const tip=document.getElementById('tooltip');
+function showTip(e,html){tip.innerHTML=html;tip.style.opacity=1;moveTip(e)}
+function moveTip(e){tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-8)+'px'}
+function hideTip(){tip.style.opacity=0}
+</script>
+</body>
+</html>
