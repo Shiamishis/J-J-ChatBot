@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.RAG.agent import RAGAgent
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     agent = RAGAgent()
