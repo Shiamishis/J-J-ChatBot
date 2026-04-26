@@ -1,9 +1,8 @@
 from src.LLM.llms import get_llm
 import os
 
-DEFAULT_SYSTEM_PROMPT = "You are a helpful assistant. Use the provided SQL result/context to answer the user's question. If you don't know the answer, say you don't know."
 
-def query_llm(prompt: str, context: str, llm_name: str = "groq", system: str = DEFAULT_SYSTEM_PROMPT,  **kwargs) -> str:
+def query_llm(prompt: str, context: str, llm_name: str, system: str,  **kwargs) -> str:
     """
     Query a free-tier LLM via Groq's OpenAI-compatible endpoint.
 
