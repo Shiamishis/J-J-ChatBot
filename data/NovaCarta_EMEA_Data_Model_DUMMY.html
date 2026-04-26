@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaCarta EMEA &ndash; Logical Data Model</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f0f2f7;color:#1e2033}
+
+/* ---- HEADER ---- */
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:24px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header h1{font-size:20px;font-weight:600;letter-spacing:.3px}
+header .sub{font-size:12px;opacity:.65;margin-top:3px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:5px}
+.sw{width:13px;height:13px;border-radius:3px;border:1px solid rgba(255,255,255,.2)}
+
+/* ---- CANVAS ---- */
+.canvas{width:100%;overflow:auto;padding:28px;position:relative}
+svg{display:block}
+
+/* ---- TOOLTIP ---- */
+#tooltip{position:fixed;background:#1e2033;color:#fff;font-size:11.5px;padding:6px 10px;border-radius:5px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;max-width:260px;line-height:1.45}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>NovaCarta Pharma &mdash; EMEA Commercial Data Platform</h1>
+    <div class="sub">Logical Data Model &bull; Star / Snowflake Schema &bull; 6 Dimensions &middot; 8 Fact Tables &middot; 1 Bridge</div>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="sw" style="background:#4a8fe7"></span> Dimension</span>
+    <span class="legend-item"><span class="sw" style="background:#e07b38"></span> Fact</span>
+    <span class="legend-item"><span class="sw" style="background:#45a96b"></span> Bridge</span>
+    <span class="legend-item" style="opacity:.6">PK = Primary Key &middot; FK = Foreign Key</span>
+  </div>
+</header>
+
+<div class="canvas">
+<svg id="erd" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<div id="tooltip"></div>
+
+<script>
+// ========================================================
+//  DATA MODEL DEFINITION
+// ========================================================
+const DIM_COLOR  = '#4a8fe7';
+const FACT_COLOR = '#e07b38';
+const BRIDGE_COLOR = '#45a96b';
+const DIM_BG     = '#e9f0fb';
+const FACT_BG    = '#fdf0e6';
+const BRIDGE_BG  = '#e6f5ec';
+const LINE_COLOR = '#9ca3b8';
+const PK_COLOR   = '#c9a500';
+const FK_COLOR   = '#7a8aab';
+
+const tables = [
+  // ---- DIMENSIONS ----
+  {id:'DIM_Time', label:'DIM_Time', type:'dim', x:700, y:20,
+   cols:[
+     {n:'time_id',t:'VARCHAR',pk:true},
+     {n:'year_month',t:'INT'},{n:'year',t:'INT'},{n:'quarter',t:'VARCHAR'},
+     {n:'month',t:'INT'},{n:'month_name',t:'VARCHAR'},
+     {n:'time_period',t:'VARCHAR'},{n:'is_current_month',t:'CHAR'},
+     {n:'fiscal_year',t:'VARCHAR'},{n:'fiscal_quarter',t:'VARCHAR'}
+   ]},
+  {id:'DIM_Brand', label:'DIM_Brand', type:'dim', x:1060, y:20,
+   cols:[
+     {n:'brand_id',t:'VARCHAR',pk:true},
+     {n:'brand_name',t:'VARCHAR'},{n:'molecule_id',t:'VARCHAR'},
+     {n:'molecule_name',t:'VARCHAR'},{n:'therapeutic_area_id',t:'VARCHAR'},
+     {n:'therapeutic_area_name',t:'VARCHAR'},
+     {n:'primary_launch_date',t:'DATE'},{n:'lifecycle_stage',t:'VARCHAR'}
+   ]},
+  {id:'DIM_Brand_Indication', label:'DIM_Brand_Indication', type:'bridge', x:1370, y:20,
+   cols:[
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'indication_id',t:'VARCHAR',pk:true},
+     {n:'indication_name',t:'VARCHAR'},{n:'sub_indication_name',t:'VARCHAR'},
+     {n:'disease_group_id',t:'VARCHAR'},{n:'disease_group_name',t:'VARCHAR'},
+     {n:'indication_launch_date',t:'DATE'},{n:'indication_lifecycle_stage',t:'VARCHAR'}
+   ]},
+  {id:'DIM_Geography', label:'DIM_Geography', type:'dim', x:30, y:20,
+   cols:[
+     {n:'geo_id',t:'VARCHAR',pk:true},
+     {n:'geo_name',t:'VARCHAR'},{n:'geo_level',t:'VARCHAR'},
+     {n:'parent_geo_id',t:'VARCHAR',fk:'self'},
+     {n:'country_code',t:'CHAR'},{n:'region_name',t:'VARCHAR'},
+     {n:'cluster_name',t:'VARCHAR'},{n:'population_millions',t:'DECIMAL'}
+   ]},
+  {id:'DIM_Employee', label:'DIM_Employee', type:'dim', x:340, y:20,
+   cols:[
+     {n:'employee_id',t:'VARCHAR',pk:true},
+     {n:'employee_name',t:'VARCHAR'},{n:'employee_role',t:'VARCHAR'},
+     {n:'territory_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'is_active',t:'CHAR'},{n:'hire_date',t:'DATE'},
+     {n:'department',t:'VARCHAR'},
+     {n:'manager_id',t:'VARCHAR',fk:'self'},
+     {n:'brand_id',t:'VARCHAR'},{n:'therapeutic_area_id',t:'VARCHAR'}
+   ]},
+  {id:'DIM_Account', label:'DIM_Account', type:'dim', x:30, y:380,
+   cols:[
+     {n:'account_id',t:'VARCHAR',pk:true},
+     {n:'account_name',t:'VARCHAR'},{n:'account_type',t:'VARCHAR'},
+     {n:'specialty',t:'VARCHAR'},{n:'sub_specialty',t:'VARCHAR'},
+     {n:'territory_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'country_code',t:'CHAR'},{n:'consent_status',t:'VARCHAR'},
+     {n:'is_key_opinion_leader',t:'CHAR'},
+     {n:'institution_name',t:'VARCHAR'},
+     {n:'institution_id',t:'VARCHAR',fk:'self'},
+     {n:'prescriber_volume',t:'VARCHAR'}
+   ]},
+  // ---- FACTS ----
+  {id:'FACT_Interactions', label:'FACT_Interactions', type:'fact', x:430, y:380,
+   cols:[
+     {n:'interaction_id',t:'VARCHAR',pk:true},
+     {n:'account_id',t:'VARCHAR',fk:'DIM_Account'},
+     {n:'employee_id',t:'VARCHAR',fk:'DIM_Employee'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'indication_id',t:'VARCHAR',fk:'DIM_Brand_Indication'},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'interaction_type',t:'VARCHAR'},{n:'interaction_channel',t:'VARCHAR'},
+     {n:'is_f2f_flag',t:'INT'},{n:'is_web_call_flag',t:'INT'},
+     {n:'is_email_flag',t:'INT'},{n:'is_event_flag',t:'INT'},
+     {n:'is_promotional_flag',t:'INT'},{n:'interaction_duration_min',t:'INT'},
+     {n:'call_status',t:'VARCHAR'},{n:'kpi_multichannel_score',t:'INT'}
+   ]},
+  {id:'FACT_Sales', label:'FACT_Sales', type:'fact', x:830, y:380,
+   cols:[
+     {n:'sales_id',t:'VARCHAR',pk:true},
+     {n:'account_id',t:'VARCHAR',fk:'DIM_Account'},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'net_revenue_eur',t:'DECIMAL'},{n:'units_sold',t:'INT'},
+     {n:'market_share_pct',t:'DECIMAL'},{n:'market_size_eur',t:'DECIMAL'},
+     {n:'yoy_growth_pct',t:'DECIMAL'},{n:'price_per_unit_eur',t:'DECIMAL'},
+     {n:'new_patient_starts',t:'INT'},{n:'total_patients_on_therapy',t:'INT'}
+   ]},
+  {id:'FACT_Sample_Management', label:'FACT_Sample_Mgmt', type:'fact', x:1230, y:380,
+   cols:[
+     {n:'sample_id',t:'VARCHAR',pk:true},
+     {n:'interaction_id',t:'VARCHAR',fk:'FACT_Interactions'},
+     {n:'account_id',t:'VARCHAR',fk:'DIM_Account'},
+     {n:'employee_id',t:'VARCHAR',fk:'DIM_Employee'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'sample_quantity',t:'INT'},{n:'lot_number',t:'VARCHAR'},
+     {n:'sample_status',t:'VARCHAR'},
+     {n:'requires_signature',t:'CHAR'},{n:'signature_collected',t:'CHAR'}
+   ]},
+  {id:'FACT_Performance', label:'FACT_Performance', type:'fact', x:30, y:760,
+   cols:[
+     {n:'performance_id',t:'VARCHAR',pk:true},
+     {n:'employee_id',t:'VARCHAR',fk:'DIM_Employee'},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'time_period',t:'VARCHAR'},
+     {n:'field_days',t:'INT'},{n:'total_working_days',t:'INT'},
+     {n:'coaching_days',t:'INT'},{n:'interaction_count',t:'INT'},
+     {n:'planned_calls',t:'INT'},{n:'actual_calls',t:'INT'},
+     {n:'kpi_field_day_pct',t:'DECIMAL'},
+     {n:'kpi_call_plan_adherence',t:'DECIMAL'},
+     {n:'kpi_daily_interaction_rate',t:'DECIMAL'}
+   ]},
+  {id:'FACT_Coverage', label:'FACT_Coverage', type:'fact', x:340, y:760,
+   cols:[
+     {n:'coverage_id',t:'VARCHAR',pk:true},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'time_period',t:'VARCHAR'},
+     {n:'target_universe_count',t:'INT'},
+     {n:'covered_accounts_count',t:'INT'},
+     {n:'kpi_target_coverage_pct',t:'DECIMAL'},
+     {n:'kpi_f2f_coverage_pct',t:'DECIMAL'},
+     {n:'kpi_digital_coverage_pct',t:'DECIMAL'},
+     {n:'kpi_email_util_pct',t:'DECIMAL'},
+     {n:'kpi_ls_coverage_pct',t:'DECIMAL'}
+   ]},
+  {id:'FACT_Account_Metrics', label:'FACT_Account_Metrics', type:'fact', x:640, y:760,
+   cols:[
+     {n:'account_metric_id',t:'VARCHAR',pk:true},
+     {n:'account_id',t:'VARCHAR',fk:'DIM_Account'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'territory_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'fiscal_quarter',t:'VARCHAR'},
+     {n:'penetration_pct',t:'DECIMAL'},{n:'potential_score',t:'INT'},
+     {n:'potential_tier',t:'VARCHAR'},{n:'target_class',t:'VARCHAR'},
+     {n:'rx_volume_monthly',t:'INT'},
+     {n:'share_of_voice_pct',t:'DECIMAL'},{n:'adoption_stage',t:'VARCHAR'}
+   ]},
+  {id:'FACT_KPI_Summary', label:'FACT_KPI_Summary', type:'fact', x:950, y:760,
+   cols:[
+     {n:'kpi_summary_id',t:'VARCHAR',pk:true},
+     {n:'kpi_id',t:'VARCHAR'},{n:'kpi_name',t:'VARCHAR'},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'time_period',t:'VARCHAR'},
+     {n:'numerator_value',t:'INT'},{n:'denominator_value',t:'INT'},
+     {n:'kpi_value',t:'DECIMAL'},{n:'unit',t:'VARCHAR'},
+     {n:'target_value',t:'DECIMAL'}
+   ]},
+  {id:'FACT_Targets', label:'FACT_Targets', type:'fact', x:1240, y:760,
+   cols:[
+     {n:'target_id',t:'VARCHAR',pk:true},
+     {n:'geo_id',t:'VARCHAR',fk:'DIM_Geography'},
+     {n:'brand_id',t:'VARCHAR',fk:'DIM_Brand'},
+     {n:'time_id',t:'VARCHAR',fk:'DIM_Time'},
+     {n:'target_type',t:'VARCHAR'},{n:'target_value',t:'DECIMAL'},
+     {n:'unit',t:'VARCHAR'},{n:'fiscal_year',t:'VARCHAR'},
+     {n:'approved_date',t:'DATE'}
+   ]}
+];
+
+// ========================================================
+//  RELATIONSHIPS
+// ========================================================
+const rels = [
+  // Fact → Dim
+  {from:'FACT_Interactions',to:'DIM_Account',fk:'account_id'},
+  {from:'FACT_Interactions',to:'DIM_Employee',fk:'employee_id'},
+  {from:'FACT_Interactions',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Interactions',to:'DIM_Brand_Indication',fk:'indication_id'},
+  {from:'FACT_Interactions',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_Interactions',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Sales',to:'DIM_Account',fk:'account_id'},
+  {from:'FACT_Sales',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Sales',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_Sales',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Coverage',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Coverage',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_Coverage',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Performance',to:'DIM_Employee',fk:'employee_id'},
+  {from:'FACT_Performance',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Performance',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_Performance',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Account_Metrics',to:'DIM_Account',fk:'account_id'},
+  {from:'FACT_Account_Metrics',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Account_Metrics',to:'DIM_Geography',fk:'territory_id'},
+  {from:'FACT_Account_Metrics',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_KPI_Summary',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_KPI_Summary',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_KPI_Summary',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Sample_Management',to:'DIM_Account',fk:'account_id'},
+  {from:'FACT_Sample_Management',to:'DIM_Employee',fk:'employee_id'},
+  {from:'FACT_Sample_Management',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Sample_Management',to:'DIM_Time',fk:'time_id'},
+  {from:'FACT_Targets',to:'DIM_Brand',fk:'brand_id'},
+  {from:'FACT_Targets',to:'DIM_Geography',fk:'geo_id'},
+  {from:'FACT_Targets',to:'DIM_Time',fk:'time_id'},
+  // Fact → Fact
+  {from:'FACT_Sample_Management',to:'FACT_Interactions',fk:'interaction_id',style:'fact'},
+  // Dim → Dim
+  {from:'DIM_Brand_Indication',to:'DIM_Brand',fk:'brand_id',style:'bridge'},
+  {from:'DIM_Employee',to:'DIM_Geography',fk:'territory_id',style:'dim'},
+  {from:'DIM_Account',to:'DIM_Geography',fk:'territory_id',style:'dim'},
+];
+
+// ========================================================
+//  RENDER
+// ========================================================
+const COL_W = 270;
+const ROW_H = 18;
+const HDR_H = 28;
+const PAD = 8;
+const FONT = '12px "Segoe UI",system-ui,sans-serif';
+const FONT_SM = '10.5px "Segoe UI",system-ui,sans-serif';
+
+function tColor(t){return t==='dim'?DIM_COLOR:t==='fact'?FACT_COLOR:BRIDGE_COLOR}
+function tBg(t){return t==='dim'?DIM_BG:t==='fact'?FACT_BG:BRIDGE_BG}
+
+// compute bounding boxes
+tables.forEach(t=>{
+  t.w = COL_W;
+  t.h = HDR_H + t.cols.length * ROW_H + PAD;
+});
+
+// svg setup
+const svg = document.getElementById('erd');
+const maxX = Math.max(...tables.map(t=>t.x+t.w)) + 40;
+const maxY = Math.max(...tables.map(t=>t.y+t.h)) + 40;
+svg.setAttribute('width', maxX);
+svg.setAttribute('height', maxY);
+svg.setAttribute('viewBox', `0 0 ${maxX} ${maxY}`);
+
+// Defs
+const defs = el('defs');
+// arrowhead
+const marker = el('marker',{id:'arrow',viewBox:'0 0 10 6',refX:'10',refY:'3',markerWidth:'8',markerHeight:'6',orient:'auto-start-reverse'});
+marker.appendChild(el('path',{d:'M0,0 L10,3 L0,6 Z',fill:LINE_COLOR}));
+defs.appendChild(marker);
+// drop shadow
+const filter = el('filter',{id:'shadow',x:'-4%',y:'-4%',width:'108%',height:'112%'});
+filter.innerHTML = '<feDropShadow dx="0" dy="1" stdDeviation="2.5" flood-opacity="0.1"/>';
+defs.appendChild(filter);
+svg.appendChild(defs);
+
+function el(tag,attrs){
+  const e = document.createElementNS('http://www.w3.org/2000/svg',tag);
+  if(attrs) Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  return e;
+}
+
+// ---- Draw relationships first (behind) ----
+const relGroup = el('g',{class:'relationships'});
+svg.appendChild(relGroup);
+
+// Store rendered paths for highlight lookup
+const pathData = [];
+
+rels.forEach(r=>{
+  const from = tables.find(t=>t.id===r.from);
+  const to   = tables.find(t=>t.id===r.to);
+  if(!from||!to) return;
+
+  const fc = {x:from.x+from.w/2, y:from.y+from.h/2};
+  const tc = {x:to.x+to.w/2, y:to.y+to.h/2};
+
+  let fp, tp;
+  fp = bestEdgePoint(from, tc);
+  tp = bestEdgePoint(to, fc);
+
+  const color = r.style==='bridge'?BRIDGE_COLOR : r.style==='dim'?'#6fa3d6' : r.style==='fact'?FACT_COLOR : LINE_COLOR;
+
+  const dx = tp.x - fp.x;
+  const dy = tp.y - fp.y;
+  const cx1 = fp.x + dx*0.4;
+  const cy1 = fp.y;
+  const cx2 = tp.x - dx*0.4;
+  const cy2 = tp.y;
+
+  const path = el('path',{
+    d: `M${fp.x},${fp.y} C${cx1},${cy1} ${cx2},${cy2} ${tp.x},${tp.y}`,
+    fill:'none', stroke:color, 'stroke-width':'1.2', 'stroke-opacity':'0.5',
+    'marker-end': 'url(#arrow)'
+  });
+  path.addEventListener('mouseenter',e=>{
+    path.setAttribute('stroke-opacity','1');
+    path.setAttribute('stroke-width','2.5');
+    showTooltip(e, `${r.from} → ${r.to}<br><b>${r.fk}</b> (N:1)`);
+  });
+  path.addEventListener('mouseleave',()=>{
+    if(!path._boxHover){
+      path.setAttribute('stroke-opacity','0.5');
+      path.setAttribute('stroke-width','1.2');
+    }
+    hideTooltip();
+  });
+  path.addEventListener('mousemove',e=>moveTooltip(e));
+  relGroup.appendChild(path);
+  pathData.push({fromId:r.from, toId:r.to, path, color});
+});
+
+// Highlight helpers for table hover
+function highlightPaths(tableId){
+  pathData.forEach(p=>{
+    if(p.fromId===tableId||p.toId===tableId){
+      p.path._boxHover=true;
+      p.path.setAttribute('stroke-opacity','1');
+      p.path.setAttribute('stroke-width','2.5');
+    } else {
+      p.path.setAttribute('stroke-opacity','0.08');
+    }
+  });
+}
+function resetPaths(){
+  pathData.forEach(p=>{
+    p.path._boxHover=false;
+    p.path.setAttribute('stroke-opacity','0.5');
+    p.path.setAttribute('stroke-width','1.2');
+  });
+}
+
+function bestEdgePoint(tbl, target){
+  const cx = tbl.x + tbl.w/2;
+  const cy = tbl.y + tbl.h/2;
+  const dx = target.x - cx;
+  const dy = target.y - cy;
+  // which edge is closest to target direction
+  const absDx = Math.abs(dx), absDy = Math.abs(dy);
+  if(absDx * tbl.h > absDy * tbl.w){
+    // left or right
+    return dx > 0
+      ? {x:tbl.x+tbl.w, y:cy + (dy/absDx)*(tbl.w/2)*0.5}
+      : {x:tbl.x,       y:cy + (dy/absDx)*(tbl.w/2)*0.5};
+  } else {
+    return dy > 0
+      ? {x:cx + (dx/absDy)*(tbl.h/2)*0.5, y:tbl.y+tbl.h}
+      : {x:cx + (dx/absDy)*(tbl.h/2)*0.5, y:tbl.y};
+  }
+}
+
+// ---- Draw tables ----
+tables.forEach(t=>{
+  const g = el('g',{transform:`translate(${t.x},${t.y})`});
+
+  // card shadow + bg
+  g.appendChild(el('rect',{x:0,y:0,width:t.w,height:t.h,rx:6,ry:6,fill:'#fff',filter:'url(#shadow)'}));
+
+  // header
+  g.appendChild(el('rect',{x:0,y:0,width:t.w,height:HDR_H,rx:6,ry:6,fill:tColor(t.type)}));
+  // flat bottom on header
+  g.appendChild(el('rect',{x:0,y:HDR_H-6,width:t.w,height:6,fill:tColor(t.type)}));
+
+  const hlabel = el('text',{x:t.w/2, y:18, 'text-anchor':'middle', fill:'#fff', 'font-size':'12.5', 'font-weight':'600', 'font-family':'"Segoe UI",system-ui,sans-serif'});
+  hlabel.textContent = t.label;
+  g.appendChild(hlabel);
+
+  // record count badge
+  const counts = {DIM_Geography:287,DIM_Brand:15,DIM_Brand_Indication:20,DIM_Time:36,DIM_Employee:588,DIM_Account:1732,FACT_Interactions:189953,FACT_Coverage:10270,FACT_Performance:15070,FACT_Sales:124886,FACT_Account_Metrics:33400,FACT_KPI_Summary:52170,FACT_Sample_Management:13982,FACT_Targets:14696};
+  const cnt = counts[t.id];
+  if(cnt){
+    const ctext = cnt.toLocaleString()+ ' rows';
+    const badge = el('text',{x:t.w-8, y:18, 'text-anchor':'end', fill:'rgba(255,255,255,0.7)', 'font-size':'9.5', 'font-family':'"Segoe UI",system-ui,sans-serif'});
+    badge.textContent = ctext;
+    g.appendChild(badge);
+  }
+
+  // columns
+  t.cols.forEach((c,i)=>{
+    const cy = HDR_H + i*ROW_H;
+    // zebra
+    if(i%2===0){
+      g.appendChild(el('rect',{x:1,y:cy,width:t.w-2,height:ROW_H,fill:tBg(t.type),
+        rx: i===t.cols.length-1?'0 0 5 5':'0'}));
+    }
+
+    // PK / FK icon
+    let prefix = '';
+    let prefixColor = '#888';
+    if(c.pk){prefix='PK';prefixColor=PK_COLOR;}
+    else if(c.fk){prefix='FK';prefixColor=FK_COLOR;}
+
+    if(prefix){
+      const ptxt = el('text',{x:6,y:cy+13,'font-size':'9','font-weight':'700',fill:prefixColor,'font-family':'"Segoe UI",system-ui,sans-serif'});
+      ptxt.textContent = prefix;
+      g.appendChild(ptxt);
+    }
+
+    // column name
+    const ntxt = el('text',{x:28,y:cy+13,'font-size':'11',fill:'#2a2d3e','font-family':'"Segoe UI Semibold","Segoe UI",system-ui,sans-serif'});
+    ntxt.textContent = c.n;
+    g.appendChild(ntxt);
+
+    // data type
+    const ttxt = el('text',{x:t.w-8,y:cy+13,'text-anchor':'end','font-size':'9.5',fill:'#8a8fa6','font-family':'"Segoe UI",system-ui,sans-serif'});
+    ttxt.textContent = c.t;
+    g.appendChild(ttxt);
+  });
+
+  // border
+  const border = el('rect',{x:0,y:0,width:t.w,height:t.h,rx:6,ry:6,fill:'none',stroke:tColor(t.type),'stroke-width':'1.5','stroke-opacity':'0.4'});
+  g.appendChild(border);
+
+  // hover: highlight connected relationships
+  g.style.cursor = 'pointer';
+  g.addEventListener('mouseenter',()=>{
+    border.setAttribute('stroke-width','2.5');
+    border.setAttribute('stroke-opacity','1');
+    highlightPaths(t.id);
+  });
+  g.addEventListener('mouseleave',()=>{
+    border.setAttribute('stroke-width','1.5');
+    border.setAttribute('stroke-opacity','0.4');
+    resetPaths();
+  });
+
+  svg.appendChild(g);
+});
+
+// ---- Tooltip helpers ----
+const tip = document.getElementById('tooltip');
+function showTooltip(e,html){tip.innerHTML=html;tip.style.opacity=1;moveTooltip(e);}
+function moveTooltip(e){tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-10)+'px';}
+function hideTooltip(){tip.style.opacity=0;}
+</script>
+</body>
+</html>

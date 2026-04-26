@@ -1,0 +1,141 @@
+// Generated from metadata_graph_manual.json
+// Format: DBML (https://dbml.dbdiagram.io/)
+
+Table "DIM_Account" {
+  account_id text [pk]
+  territory_id text
+  Note: "dimension"
+}
+
+Table "DIM_Brand" {
+  brand_id text [pk]
+  Note: "dimension"
+}
+
+Table "DIM_Brand_Indication" {
+  brand_id text
+  indication_id text [pk]
+  Note: "dimension"
+}
+
+Table "DIM_Employee" {
+  employee_id text [pk]
+  manager_id text
+  territory_id text
+  Note: "dimension"
+}
+
+Table "DIM_Geography" {
+  geo_id text [pk]
+  parent_geo_id text
+  Note: "dimension"
+}
+
+Table "DIM_Time" {
+  time_id text [pk]
+  Note: "dimension"
+}
+
+Table "FACT_Account_Metrics" {
+  account_id text
+  brand_id text
+  territory_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Coverage" {
+  brand_id text
+  geo_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Interactions" {
+  account_id text
+  brand_id text
+  employee_id text
+  geo_id text
+  indication_id text
+  interaction_id text [pk]
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_KPI_Summary" {
+  brand_id text
+  geo_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Performance" {
+  brand_id text
+  employee_id text
+  geo_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Sales" {
+  account_id text
+  brand_id text
+  geo_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Sample_Management" {
+  account_id text
+  brand_id text
+  employee_id text
+  interaction_id text
+  time_id text
+  Note: "fact"
+}
+
+Table "FACT_Targets" {
+  brand_id text
+  geo_id text
+  time_id text
+  Note: "fact"
+}
+
+// Foreign-key style relationships
+Ref: "DIM_Account"."territory_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "DIM_Brand_Indication"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "DIM_Employee"."manager_id" > "DIM_Employee"."employee_id" // documented_self_fk, confidence=0.95
+Ref: "DIM_Employee"."territory_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "DIM_Geography"."parent_geo_id" > "DIM_Geography"."geo_id" // documented_self_fk, confidence=0.95
+Ref: "FACT_Account_Metrics"."account_id" > "DIM_Account"."account_id" // documented_fk, confidence=1.0
+Ref: "FACT_Account_Metrics"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Account_Metrics"."territory_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Account_Metrics"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Coverage"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Coverage"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Coverage"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."account_id" > "DIM_Account"."account_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."employee_id" > "DIM_Employee"."employee_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."indication_id" > "DIM_Brand_Indication"."indication_id" // documented_fk, confidence=1.0
+Ref: "FACT_Interactions"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_KPI_Summary"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_KPI_Summary"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_KPI_Summary"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Performance"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Performance"."employee_id" > "DIM_Employee"."employee_id" // documented_fk, confidence=1.0
+Ref: "FACT_Performance"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Performance"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sales"."account_id" > "DIM_Account"."account_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sales"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sales"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sales"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sample_Management"."account_id" > "DIM_Account"."account_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sample_Management"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sample_Management"."employee_id" > "DIM_Employee"."employee_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sample_Management"."interaction_id" > "FACT_Interactions"."interaction_id" // documented_fk, confidence=1.0
+Ref: "FACT_Sample_Management"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0
+Ref: "FACT_Targets"."brand_id" > "DIM_Brand"."brand_id" // documented_fk, confidence=1.0
+Ref: "FACT_Targets"."geo_id" > "DIM_Geography"."geo_id" // documented_fk, confidence=1.0
+Ref: "FACT_Targets"."time_id" > "DIM_Time"."time_id" // documented_fk, confidence=1.0

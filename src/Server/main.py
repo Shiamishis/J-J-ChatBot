@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
     await orchestrator.close()
 
 app = FastAPI(lifespan=lifespan)
+
 @app.get("/prompt/{prompt}")
 async def prompt_endpoint(prompt: str):
     """

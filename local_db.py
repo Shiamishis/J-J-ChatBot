@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import sqlite3
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Iterable, Sequence
 
 
@@ -15,7 +16,8 @@ class LocalDBConfig:
     db_path: str
 
 
-DEFAULT_DB_PATH = os.environ.get("JJC_DB_PATH", "./local.db")
+PROJECT_ROOT = Path(__file__).resolve().parent
+DEFAULT_DB_PATH = os.environ.get("JJC_DB_PATH", str(PROJECT_ROOT / "local.db"))
 
 
 SCHEMA_SQL = [

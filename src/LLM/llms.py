@@ -1,7 +1,8 @@
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
 from typing import Type, Dict
+from typing import Type, Dict, Any
+from openai import OpenAI
+
 
 class LLM(ABC):
     _registry: Dict[str, Type["LLM"]] = {}
@@ -60,6 +61,32 @@ class GroqLLM(LLM):
         from groq import Groq
         super().__init__()
         self.client = Groq(api_key=api_key)
+        self.model = model
+
+    def _query(
+        self,
+        prompt: str,
+        context: str,
+        system: str,
+        history: list[dict] | None = None
+    ) -> str:
+        messages = self._build_messages(prompt, context, system, history)
+        response = self.client.chat.completions.create(
+            messages=messages,
+            model=self.model
+        )
+        return response.choices[0].message.content
+
+class SwissAILLM(LLM):
+    provider_name = "swissai"
+
+    def __init__(self, api_key: str, model: str = "meta-llama/Llama-3.3-70B-Instruct"):
+        # We use the standard openai package, just pointing it to the Swiss AI endpoint
+        super().__init__()
+        self.client = OpenAI(
+            base_url="https://api.swissai.cscs.ch/v1", # The standard OpenAI compatible suffix
+            api_key=api_key
+        )
         self.model = model
 
     def _query(

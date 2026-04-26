@@ -1,0 +1,312 @@
+DATABASE SCHEMA CONTEXT
+Use only the tables/columns shown below.
+
+Table: DIM_Account (type: dimension)
+Columns:
+- account_id: TEXT
+- account_name: TEXT
+- account_type: TEXT
+- specialty: TEXT
+- sub_specialty: TEXT
+- territory_id: TEXT
+- country_code: TEXT
+- consent_status: TEXT
+- is_key_opinion_leader: INTEGER
+- institution_name: TEXT
+- institution_id: TEXT
+- prescriber_volume: TEXT
+Foreign Keys:
+- territory_id -> DIM_Geography.geo_id
+Sample Rows:
+- {'account_id': 'ACC00001', 'account_name': 'Helmstedt General Hospital', 'account_type': 'HCO', 'specialty': 'General Hospital', 'sub_specialty': None, 'territory_id': 'GEO_0004', 'country_code': 'DE', 'consent_status': 'CONSENTED', 'is_key_opinion_leader': 0, 'institution_name': 'Helmstedt General Hospital', 'institution_id': None, 'prescriber_volume': 'MEDIUM'}
+- {'account_id': 'ACC00002', 'account_name': 'Rottweil Outpatient Center', 'account_type': 'HCO', 'specialty': 'Outpatient Center', 'sub_specialty': None, 'territory_id': 'GEO_0004', 'country_code': 'DE', 'consent_status': 'CONSENTED', 'is_key_opinion_leader': 0, 'institution_name': 'Rottweil Outpatient Center', 'institution_id': None, 'prescriber_volume': 'MEDIUM'}
+
+Table: DIM_Brand (type: dimension)
+Columns:
+- brand_id: TEXT
+- brand_name: TEXT
+- molecule_id: TEXT
+- molecule_name: TEXT
+- therapeutic_area_id: TEXT
+- therapeutic_area_name: TEXT
+- primary_launch_date: TEXT
+- lifecycle_stage: TEXT
+Foreign Keys:
+- (none)
+Sample Rows:
+- {'brand_id': 'BRD001', 'brand_name': 'LUNARA', 'molecule_id': 'MOL001', 'molecule_name': 'lunarexib', 'therapeutic_area_id': 'TA01', 'therapeutic_area_name': 'Solid Tumors', 'primary_launch_date': '2019-03-01', 'lifecycle_stage': 'GROWTH'}
+- {'brand_id': 'BRD002', 'brand_name': 'ONCOBREAST', 'molecule_id': 'MOL002', 'molecule_name': 'trastamira', 'therapeutic_area_id': 'TA01', 'therapeutic_area_name': 'Solid Tumors', 'primary_launch_date': '2015-06-01', 'lifecycle_stage': 'MATURE'}
+
+Table: DIM_Brand_Indication (type: dimension)
+Columns:
+- brand_id: TEXT
+- indication_id: TEXT
+- indication_name: TEXT
+- sub_indication_name: TEXT
+- disease_group_id: TEXT
+- disease_group_name: TEXT
+- indication_launch_date: TEXT
+- indication_lifecycle_stage: TEXT
+Foreign Keys:
+- brand_id -> DIM_Brand.brand_id
+Sample Rows:
+- {'brand_id': 'BRD001', 'indication_id': 'IND001', 'indication_name': 'NSCLC First-Line', 'sub_indication_name': 'NSCLC EGFR+ 1L', 'disease_group_id': 'DG001', 'disease_group_name': 'Lung Cancer', 'indication_launch_date': '2019-03-01', 'indication_lifecycle_stage': 'GROWTH'}
+- {'brand_id': 'BRD001', 'indication_id': 'IND002', 'indication_name': 'NSCLC Second-Line', 'sub_indication_name': 'NSCLC Post-Progression 2L', 'disease_group_id': 'DG001', 'disease_group_name': 'Lung Cancer', 'indication_launch_date': '2021-01-01', 'indication_lifecycle_stage': 'GROWTH'}
+
+Table: DIM_Employee (type: dimension)
+Columns:
+- employee_id: TEXT
+- employee_name: TEXT
+- employee_role: TEXT
+- territory_id: TEXT
+- is_active: INTEGER
+- hire_date: TEXT
+- department: TEXT
+- manager_id: TEXT
+- brand_id: TEXT
+- therapeutic_area_id: TEXT
+Foreign Keys:
+- manager_id -> DIM_Employee.employee_id
+- territory_id -> DIM_Geography.geo_id
+Sample Rows:
+- {'employee_id': 'EMP0001', 'employee_name': 'Alice Steinmann', 'employee_role': 'EMEA_VP', 'territory_id': 'GEO_0001', 'is_active': 1, 'hire_date': '2010-03-15', 'department': 'Executive', 'manager_id': None, 'brand_id': None, 'therapeutic_area_id': None}
+- {'employee_id': 'EMP0002', 'employee_name': 'Sinan Schweizer', 'employee_role': 'BU_Head', 'territory_id': 'GEO_0001', 'is_active': 1, 'hire_date': '2015-02-01', 'department': 'Executive', 'manager_id': 'EMP0001', 'brand_id': None, 'therapeutic_area_id': 'TA01'}
+
+Table: DIM_Geography (type: dimension)
+Columns:
+- geo_id: TEXT
+- geo_name: TEXT
+- geo_level: TEXT
+- parent_geo_id: TEXT
+- country_code: TEXT
+- region_name: TEXT
+- cluster_name: TEXT
+- population_millions: INTEGER
+Foreign Keys:
+- parent_geo_id -> DIM_Geography.geo_id
+Sample Rows:
+- {'geo_id': 'GEO_0001', 'geo_name': 'EMEA', 'geo_level': 'REGION', 'parent_geo_id': None, 'country_code': None, 'region_name': 'EMEA', 'cluster_name': None, 'population_millions': 750}
+- {'geo_id': 'GEO_0002', 'geo_name': 'Western Europe', 'geo_level': 'CLUSTER', 'parent_geo_id': 'GEO_0001', 'country_code': None, 'region_name': 'EMEA', 'cluster_name': 'Western Europe', 'population_millions': None}
+
+Table: DIM_Time (type: dimension)
+Columns:
+- time_id: TEXT
+- year_month: INTEGER
+- year: INTEGER
+- quarter: TEXT
+- month: INTEGER
+- month_name: TEXT
+- time_period: TEXT
+- is_current_month: INTEGER
+- fiscal_year: TEXT
+- fiscal_quarter: TEXT
+Foreign Keys:
+- (none)
+Sample Rows:
+- {'time_id': 'T202301', 'year_month': 202301, 'year': 2023, 'quarter': 'Q1', 'month': 1, 'month_name': 'January', 'time_period': 'YTD', 'is_current_month': 0, 'fiscal_year': 'FY2023', 'fiscal_quarter': 'FY2023-Q1'}
+- {'time_id': 'T202302', 'year_month': 202302, 'year': 2023, 'quarter': 'Q1', 'month': 2, 'month_name': 'February', 'time_period': 'YTD', 'is_current_month': 0, 'fiscal_year': 'FY2023', 'fiscal_quarter': 'FY2023-Q1'}
+
+Table: FACT_Account_Metrics (type: fact)
+Columns:
+- account_metric_id: TEXT
+- account_id: TEXT
+- brand_id: TEXT
+- territory_id: TEXT
+- time_id: TEXT
+- fiscal_quarter: TEXT
+- penetration_pct: REAL
+- potential_score: INTEGER
+- potential_tier: TEXT
+- target_class: TEXT
+- rx_volume_monthly: INTEGER
+- rx_volume_change_pct: REAL
+- share_of_voice_pct: REAL
+- adoption_stage: TEXT
+Foreign Keys:
+- account_id -> DIM_Account.account_id
+- brand_id -> DIM_Brand.brand_id
+- territory_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'account_metric_id': 'AM0000001', 'account_id': 'ACC00530', 'brand_id': 'BRD001', 'territory_id': 'GEO_0028', 'time_id': 'T202303', 'fiscal_quarter': 'FY2023-Q1', 'penetration_pct': 17.1, 'potential_score': 68, 'potential_tier': 'MEDIUM', 'target_class': 'TC2', 'rx_volume_monthly': 4, 'rx_volume_change_pct': -1.1, 'share_of_voice_pct': 15.9, 'adoption_stage': 'TRIALER'}
+- {'account_metric_id': 'AM0000002', 'account_id': 'ACC01284', 'brand_id': 'BRD001', 'territory_id': 'GEO_0154', 'time_id': 'T202303', 'fiscal_quarter': 'FY2023-Q1', 'penetration_pct': 26.0, 'potential_score': 67, 'potential_tier': 'MEDIUM', 'target_class': 'TC2', 'rx_volume_monthly': 5, 'rx_volume_change_pct': 9.9, 'share_of_voice_pct': 25.2, 'adoption_stage': 'TRIALER'}
+
+Table: FACT_Coverage (type: fact)
+Columns:
+- coverage_id: TEXT
+- geo_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- time_period: TEXT
+- target_universe_count: INTEGER
+- covered_accounts_count: INTEGER
+- f2f_covered_count: INTEGER
+- web_covered_count: INTEGER
+- email_covered_count: INTEGER
+- event_covered_count: INTEGER
+- total_hcp_count: INTEGER
+- leading_specialist_count: INTEGER
+- kpi002_target_coverage_pct: REAL
+- kpi005_f2f_coverage_pct: REAL
+- kpi006_digital_coverage_pct: REAL
+- kpi007_email_util_pct: REAL
+- kpi011_ls_coverage_pct: REAL
+Foreign Keys:
+- brand_id -> DIM_Brand.brand_id
+- geo_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'coverage_id': 'COV000001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'time_period': 'YTD', 'target_universe_count': 118, 'covered_accounts_count': 54, 'f2f_covered_count': 33, 'web_covered_count': 14, 'email_covered_count': 6, 'event_covered_count': 13, 'total_hcp_count': 118, 'leading_specialist_count': 17, 'kpi002_target_coverage_pct': 45.8, 'kpi005_f2f_coverage_pct': 28.0, 'kpi006_digital_coverage_pct': 16.9, 'kpi007_email_util_pct': 5.1, 'kpi011_ls_coverage_pct': 64.7}
+- {'coverage_id': 'COV000002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202302', 'time_period': 'YTD', 'target_universe_count': 118, 'covered_accounts_count': 51, 'f2f_covered_count': 24, 'web_covered_count': 16, 'email_covered_count': 11, 'event_covered_count': 16, 'total_hcp_count': 118, 'leading_specialist_count': 17, 'kpi002_target_coverage_pct': 43.2, 'kpi005_f2f_coverage_pct': 20.3, 'kpi006_digital_coverage_pct': 22.9, 'kpi007_email_util_pct': 9.3, 'kpi011_ls_coverage_pct': 64.7}
+
+Table: FACT_Interactions (type: fact)
+Columns:
+- interaction_id: TEXT
+- account_id: TEXT
+- employee_id: TEXT
+- brand_id: TEXT
+- indication_id: TEXT
+- geo_id: TEXT
+- time_id: TEXT
+- interaction_type: TEXT
+- interaction_channel: TEXT
+- is_f2f_flag: INTEGER
+- is_web_call_flag: INTEGER
+- is_email_flag: INTEGER
+- is_event_flag: INTEGER
+- is_promotional_flag: INTEGER
+- interaction_duration_min: INTEGER
+- call_status: TEXT
+- kpi008_event_followup_flag: INTEGER
+- kpi012_tc1_interaction_flag: INTEGER
+- kpi013_tc2_interaction_flag: INTEGER
+- kpi014_promo_email_flag: INTEGER
+- kpi015_multichannel_score: INTEGER
+Foreign Keys:
+- account_id -> DIM_Account.account_id
+- brand_id -> DIM_Brand.brand_id
+- employee_id -> DIM_Employee.employee_id
+- geo_id -> DIM_Geography.geo_id
+- indication_id -> DIM_Brand_Indication.indication_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'interaction_id': 'INT0000001', 'account_id': 'ACC00282', 'employee_id': 'EMP0120', 'brand_id': 'BRD002', 'indication_id': 'IND004', 'geo_id': 'GEO_0003', 'time_id': 'T202301', 'interaction_type': 'EMAIL', 'interaction_channel': 'APPROVED_EMAIL', 'is_f2f_flag': 0, 'is_web_call_flag': 0, 'is_email_flag': 1, 'is_event_flag': 0, 'is_promotional_flag': 1, 'interaction_duration_min': 0, 'call_status': 'OPENED', 'kpi008_event_followup_flag': 0, 'kpi012_tc1_interaction_flag': 1, 'kpi013_tc2_interaction_flag': 0, 'kpi014_promo_email_flag': 1, 'kpi015_multichannel_score': 1}
+- {'interaction_id': 'INT0000002', 'account_id': 'ACC00288', 'employee_id': 'EMP0120', 'brand_id': 'BRD003', 'indication_id': 'IND006', 'geo_id': 'GEO_0003', 'time_id': 'T202301', 'interaction_type': 'CALL', 'interaction_channel': 'F2F', 'is_f2f_flag': 1, 'is_web_call_flag': 0, 'is_email_flag': 0, 'is_event_flag': 0, 'is_promotional_flag': 1, 'interaction_duration_min': 25, 'call_status': 'NO_SHOW', 'kpi008_event_followup_flag': 0, 'kpi012_tc1_interaction_flag': 0, 'kpi013_tc2_interaction_flag': 1, 'kpi014_promo_email_flag': 0, 'kpi015_multichannel_score': 3}
+
+Table: FACT_KPI_Summary (type: fact)
+Columns:
+- kpi_summary_id: TEXT
+- kpi_id: TEXT
+- kpi_name: TEXT
+- geo_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- time_period: TEXT
+- numerator_value: INTEGER
+- denominator_value: INTEGER
+- kpi_value: REAL
+- unit: TEXT
+- target_value: REAL
+Foreign Keys:
+- brand_id -> DIM_Brand.brand_id
+- geo_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'kpi_summary_id': 'KPIS000001', 'kpi_id': 'KPI001', 'kpi_name': 'Field Day Percentage', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'time_period': 'FY2023-Q1', 'numerator_value': 152, 'denominator_value': 207, 'kpi_value': 73.4, 'unit': '%', 'target_value': 75.0}
+- {'kpi_summary_id': 'KPIS000002', 'kpi_id': 'KPI002', 'kpi_name': 'Target Coverage Rate', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'time_period': 'FY2023-Q1', 'numerator_value': 153, 'denominator_value': 354, 'kpi_value': 43.2, 'unit': '%', 'target_value': 80.0}
+
+Table: FACT_Performance (type: fact)
+Columns:
+- performance_id: TEXT
+- employee_id: TEXT
+- geo_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- time_period: TEXT
+- field_days: INTEGER
+- total_working_days: INTEGER
+- coaching_days: INTEGER
+- interaction_count: INTEGER
+- planned_calls: INTEGER
+- actual_calls: INTEGER
+- target_adherence_pct: REAL
+- email_utilization_pct: REAL
+- event_followup_count: INTEGER
+- kpi001_field_day_pct: REAL
+- kpi003_call_plan_adherence_pct: REAL
+- kpi004_daily_interaction_rate: REAL
+- kpi009_coaching_days: INTEGER
+Foreign Keys:
+- brand_id -> DIM_Brand.brand_id
+- employee_id -> DIM_Employee.employee_id
+- geo_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'performance_id': 'PERF000001', 'employee_id': 'EMP0120', 'geo_id': 'GEO_0003', 'brand_id': 'BRD002', 'time_id': 'T202301', 'time_period': 'YTD', 'field_days': 17, 'total_working_days': 23, 'coaching_days': 2, 'interaction_count': 19, 'planned_calls': 65, 'actual_calls': 14, 'target_adherence_pct': 21.5, 'email_utilization_pct': 4.6, 'event_followup_count': 0, 'kpi001_field_day_pct': 73.9, 'kpi003_call_plan_adherence_pct': 21.5, 'kpi004_daily_interaction_rate': 1.12, 'kpi009_coaching_days': 2}
+- {'performance_id': 'PERF000002', 'employee_id': 'EMP0120', 'geo_id': 'GEO_0003', 'brand_id': 'BRD002', 'time_id': 'T202302', 'time_period': 'YTD', 'field_days': 17, 'total_working_days': 22, 'coaching_days': 0, 'interaction_count': 17, 'planned_calls': 56, 'actual_calls': 15, 'target_adherence_pct': 26.8, 'email_utilization_pct': 3.6, 'event_followup_count': 0, 'kpi001_field_day_pct': 77.3, 'kpi003_call_plan_adherence_pct': 26.8, 'kpi004_daily_interaction_rate': 1.0, 'kpi009_coaching_days': 0}
+
+Table: FACT_Sales (type: fact)
+Columns:
+- sales_id: TEXT
+- account_id: TEXT
+- geo_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- net_revenue_eur: REAL
+- units_sold: INTEGER
+- market_share_pct: REAL
+- market_size_eur: REAL
+- yoy_growth_pct: REAL
+- price_per_unit_eur: REAL
+- new_patient_starts: INTEGER
+- total_patients_on_therapy: INTEGER
+Foreign Keys:
+- account_id -> DIM_Account.account_id
+- brand_id -> DIM_Brand.brand_id
+- geo_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'sales_id': 'SAL000001', 'account_id': 'ACC00001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'net_revenue_eur': 2040436.05, 'units_sold': 737, 'market_share_pct': 21.48, 'market_size_eur': 9497189.46, 'yoy_growth_pct': 29.88, 'price_per_unit_eur': 2765.01, 'new_patient_starts': 43, 'total_patients_on_therapy': 750}
+- {'sales_id': 'SAL000002', 'account_id': 'ACC00002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'net_revenue_eur': 29478.58, 'units_sold': 8, 'market_share_pct': 16.16, 'market_size_eur': 182407.17, 'yoy_growth_pct': 20.51, 'price_per_unit_eur': 3443.77, 'new_patient_starts': 1, 'total_patients_on_therapy': 9}
+
+Table: FACT_Sample_Management (type: fact)
+Columns:
+- sample_id: TEXT
+- interaction_id: TEXT
+- account_id: TEXT
+- employee_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- sample_quantity: INTEGER
+- lot_number: TEXT
+- sample_status: TEXT
+- requires_signature: INTEGER
+- signature_collected: INTEGER
+Foreign Keys:
+- account_id -> DIM_Account.account_id
+- brand_id -> DIM_Brand.brand_id
+- employee_id -> DIM_Employee.employee_id
+- interaction_id -> FACT_Interactions.interaction_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'sample_id': 'SMP000001', 'interaction_id': 'INT0042329', 'account_id': 'ACC00798', 'employee_id': 'EMP0219', 'brand_id': 'BRD006', 'time_id': 'T202305', 'sample_quantity': 2, 'lot_number': 'LOT2024163', 'sample_status': 'DELIVERED', 'requires_signature': 1, 'signature_collected': 1}
+- {'sample_id': 'SMP000002', 'interaction_id': 'INT0078368', 'account_id': 'ACC01045', 'employee_id': 'EMP0311', 'brand_id': 'BRD003', 'time_id': 'T202307', 'sample_quantity': 2, 'lot_number': 'LOT2023814', 'sample_status': 'ACKNOWLEDGED', 'requires_signature': 1, 'signature_collected': 1}
+
+Table: FACT_Targets (type: fact)
+Columns:
+- target_id: TEXT
+- geo_id: TEXT
+- brand_id: TEXT
+- time_id: TEXT
+- target_type: TEXT
+- target_value: REAL
+- unit: TEXT
+- fiscal_year: TEXT
+- approved_date: TEXT
+Foreign Keys:
+- brand_id -> DIM_Brand.brand_id
+- geo_id -> DIM_Geography.geo_id
+- time_id -> DIM_Time.time_id
+Sample Rows:
+- {'target_id': 'TGT000001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'target_type': 'REVENUE_TARGET', 'target_value': 234365130.15, 'unit': 'EUR', 'fiscal_year': 'FY2023', 'approved_date': '2022-11-15'}
+- {'target_id': 'TGT000002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'target_type': 'UNIT_TARGET', 'target_value': 93746.0, 'unit': 'Units', 'fiscal_year': 'FY2023', 'approved_date': '2022-11-15'}
