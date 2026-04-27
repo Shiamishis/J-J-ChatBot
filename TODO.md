@@ -14,6 +14,17 @@ Who does what:
 2. Andrei: Dashboard and integration of LLM within it (powerapp to create the chatbot interface, power automate backend of powerapp, hierarchy: Powerautomate -> Powerapp -> PowerBI)
 
 
+
+
+Frontend: make pretty, add context awareness, history
+Backend: handlers, session 
+
+Microsoft Questions:
+1. How to make the app context aware?
+2. How to integrate best a power app within power bi so it is pretty
+3. How to publish a power app within a company
+
+
 Common Questions:
 Below are the categories of questions we most commonly see, with examples phrased the way users naturally ask them. 
 
