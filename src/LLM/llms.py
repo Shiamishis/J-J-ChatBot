@@ -51,6 +51,9 @@ class LLM(ABC):
         """Subclasses must implement this."""
         pass
 
+    def close(self):
+        """Override if the LLM requires cleanup."""
+        pass
 
 # --- PROVIDERS ---
 

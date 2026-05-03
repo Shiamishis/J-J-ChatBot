@@ -1,0 +1,36 @@
+from src.LLM.llms import get_llm
+from src.RAG.databaseservice import DatabaseService
+from src.RAG.graph import Graph
+
+
+class Resources:
+    def __init__(self, api_key: str):
+        self.small_llm = get_llm("groq", api_key=api_key, model="llama-3.1-8b-instant")
+        self.large_llm = get_llm("groq", api_key=api_key, model="llama-3.3-70b-versatile")
+        self.database_service = DatabaseService()
+        nodes, edges = self.database_service.get_schema_metadata()
+        self.graph = Graph(nodes, edges)
+        self.schema_context = self.database_service.load_schema_context_file()
+        print("Resources initialized with small LLM, large LLM, database service, graph, and schema context.")
+
+    def get_small_llm(self):
+        return self.small_llm
+
+    def get_large_llm(self):
+        return self.large_llm
+
+    def get_database_service(self):
+        return self.database_service
+
+    def get_graph(self):
+        return self.graph
+
+    def get_schema_context(self):
+        return self.schema_context
+
+    def close(self):
+        # If any of the resources require cleanup, do it here
+        print("Closing resources...")
+        self.small_llm.close()
+        self.large_llm.close()
+        print("Resources closed.")

@@ -1,5 +1,4 @@
 # src/RAG/utils/router.py
-from src.LLM.query import query_llm
 
 def route_intent(prompt: str, schema_context: str, orchestrator) -> str:
     """
@@ -24,7 +23,7 @@ def route_intent(prompt: str, schema_context: str, orchestrator) -> str:
     )
 
     # We call the LLM directly here
-    intent = orchestrator.small_llm.query(
+    intent = orchestrator.resources.small_llm.query(
         prompt=prompt,
         context=schema_context,
         system=system_prompt

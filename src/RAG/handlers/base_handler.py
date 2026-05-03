@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from src.RAG.agent import RAGOrchestrator
+from abc import ABC
+
 from src.RAG.handlers.registry import register_handler
-from src.LLM.query import query_llm
+from src.RAG.resources import Resources
+
 
 @register_handler("base_handler")
 class Handler(ABC):
     description = "Base handler - should not be used directly."
-    def __init__(self, orchestrator: RAGOrchestrator):
+    def __init__(self, resources: Resources):
         # Handlers get access to the agent's shared resources
-        self.orchestrator = orchestrator
+        self.resources = resources
 
     def handle(self, prompt: str) -> str:
         pass
