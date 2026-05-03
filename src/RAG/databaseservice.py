@@ -3,7 +3,9 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 from typing import Any
+
 from local_db import DEFAULT_DB_PATH
+
 
 class DatabaseService:
     def __init__(self, db_path: str = DEFAULT_DB_PATH):
