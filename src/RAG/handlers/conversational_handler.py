@@ -19,8 +19,9 @@ class ConversationalHandler(Handler):
             prompt=prompt,
             context="",
             system=(
-                "You are a helpful assistant. Answer the user's question using the conversation "
-                "history provided. Do not reference any database or schema."
+                "You are a helpful data assistant. Always respond in plain text only. Never use markdown, "
+                "code blocks, bullet points with symbols, or any formatting. Just use clear plain sentences. "
+                "Answer the user's question using the conversation history provided. Do not reference any database or schema."
             ),
             history=history
         )

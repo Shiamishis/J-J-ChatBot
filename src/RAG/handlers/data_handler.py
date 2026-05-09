@@ -42,7 +42,7 @@ class DataHandler(Handler):
         final_answer = self.resources.small_llm.query(
             prompt=f"Original question: {prompt}\nSQL Results: {sql_results}",
             context=f"Schema context: {self.resources.schema_context}",
-            system="Provide a clear, natural language answer based on the SQL results provided.",
+            system="You are a helpful data assistant. Always respond in plain text only. Never use markdown, code blocks, bullet points with symbols, or any formatting. Just use clear plain sentences. Provide a natural language answer based on the SQL results provided.",
             history=history
         )
 
