@@ -14,7 +14,7 @@ def query_llm(prompt: str, context: str, llm_name: str = "swissai", system: str 
     - `SWISSAI_API_KEY`
     """
     # It's best practice to grab this from os.getenv rather than hardcoding!
-    api_key = os.environ.get("GROQ_API_KEY")
+    api_key = "sk-rc-kF1nREHl1k6nRH1qTbn2Bw"
 
     if not api_key or api_key == "your_actual_swiss_ai_key_here":
         return (
