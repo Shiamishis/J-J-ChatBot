@@ -15,14 +15,14 @@ class RAGOrchestrator:
     async def close(self) -> None:
         pass
 
-    def prompt(self, prompt: str) -> str:
+    def prompt(self, prompt: str, history: list | None = None) -> str:
         intent = route_intent(prompt, self.resources.schema_context, self)
         print(f"Determined intent: {intent}")
 
         from src.RAG.handlers.registry import get_handler
         handler = get_handler(intent, self.resources)
         print("Instantiated handler:", handler.__class__.__name__)
-        response = handler.handle(prompt)
+        response = handler.handle(prompt, history or [])
         print(f"Handler response: {response}")
 
         return response

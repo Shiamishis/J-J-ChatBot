@@ -8,7 +8,6 @@ from src.RAG.resources import Resources
 class SessionManager:
     def __init__(self):
         self.sessions = {}
-        self.sessions = {"1": Session("1", Resources("dummy_api_key"))}
         print("SessionManager initialized, ready to manage sessions.")
 
     def create_session(self, resources: Resources):
@@ -38,7 +37,8 @@ class Session:
         self.orchestrator.initialize()
 
     def prompt(self, prompt: str):
-        response = self.orchestrator.prompt(prompt)
+        history = self.history.get_history()
+        response = self.orchestrator.prompt(prompt, history)
         self.history.add_message("user", prompt)
         self.history.add_message("assistant", response)
         return response
