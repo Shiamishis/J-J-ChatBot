@@ -11,5 +11,5 @@ class Handler(ABC):
         # Handlers get access to the agent's shared resources
         self.resources = resources
 
-    def handle(self, prompt: str) -> str:
+    def handle(self, prompt: str, history: list | None = None) -> str:
         pass
