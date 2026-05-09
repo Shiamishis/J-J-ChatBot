@@ -18,7 +18,7 @@ class MetaDataHandler(Handler):
         """
         response = self.resources.large_llm.query(
             prompt=f"Given the question: '{prompt}', provide relevant metadata information about the database schema.",
-            context="Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.schema_context}",
+            context=f"Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.schema_context}",
             system="Provide a clear and concise answer based on the database schema information provided.",
             history=history
         )
