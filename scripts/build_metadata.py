@@ -6,102 +6,125 @@ import json
 import sqlite3
 from pathlib import Path
 
+from docx import Document
+
 ROOT = Path(__file__).resolve().parents[1]
 
-# Based on NovaCarta EMEA data model overview + logical model HTML
-TABLE_ROLES = {
-    "DIM_Geography": "dimension",
-    "DIM_Brand": "dimension",
-    "DIM_Brand_Indication": "bridge",
-    "DIM_Time": "dimension",
-    "DIM_Employee": "dimension",
-    "DIM_Account": "dimension",
-    "FACT_Interactions": "fact",
-    "FACT_Coverage": "fact",
-    "FACT_Performance": "fact",
-    "FACT_Sales": "fact",
-    "FACT_Account_Metrics": "fact",
-    "FACT_KPI_Summary": "fact",
-    "FACT_Sample_Management": "fact",
-    "FACT_Targets": "fact",
-}
+# ---------------------------------------------------------------------------
+# Documentation parsing
+# ---------------------------------------------------------------------------
 
-PRIMARY_KEYS = {
-    "DIM_Geography": "geo_id",
-    "DIM_Brand": "brand_id",
-    "DIM_Brand_Indication": "indication_id",
-    "DIM_Time": "time_id",
-    "DIM_Employee": "employee_id",
-    "DIM_Account": "account_id",
-    "FACT_Interactions": "interaction_id",
-    "FACT_Coverage": "coverage_id",
-    "FACT_Performance": "performance_id",
-    "FACT_Sales": "sales_id",
-    "FACT_Account_Metrics": "account_metric_id",
-    "FACT_KPI_Summary": "kpi_summary_id",
-    "FACT_Sample_Management": "sample_id",
-    "FACT_Targets": "target_id",
-}
+# Table indices inside the Word document (0-based).
+# Table 1  → Section 1.1 inventory  (Table | Type | Primary Key | Records | Description)
+# Table 16 → Section 3 relationships (From Table | From Col | To Table | To Col | ...)
+_INVENTORY_TABLE_INDEX = 1
+_RELATIONSHIPS_TABLE_INDEX = 16
 
-# (source_table, source_column, target_table, target_column, relation_type, confidence)
-EDGES = [
-    # FACT_Interactions
-    ("FACT_Interactions", "account_id", "DIM_Account", "account_id", "documented_fk", 1.0),
-    ("FACT_Interactions", "employee_id", "DIM_Employee", "employee_id", "documented_fk", 1.0),
-    ("FACT_Interactions", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Interactions", "indication_id", "DIM_Brand_Indication", "indication_id", "documented_fk", 1.0),
-    ("FACT_Interactions", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Interactions", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
 
-    # FACT_Sales
-    ("FACT_Sales", "account_id", "DIM_Account", "account_id", "documented_fk", 1.0),
-    ("FACT_Sales", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Sales", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Sales", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+def get_table_roles(documentation_file: Path) -> dict[str, str]:
+    """
+    Parse the Section 1.1 inventory table and return:
+        {table_name: role}   where role ∈ {"dimension", "fact", "bridge"}
 
-    # FACT_Coverage
-    ("FACT_Coverage", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Coverage", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Coverage", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+    A row whose Description contains "bridge" is classified as "bridge"
+    regardless of what the Type column says (catches DIM_Brand_Indication).
+    """
+    doc = Document(str(documentation_file))
+    table = doc.tables[_INVENTORY_TABLE_INDEX]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
 
-    # FACT_Performance
-    ("FACT_Performance", "employee_id", "DIM_Employee", "employee_id", "documented_fk", 1.0),
-    ("FACT_Performance", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Performance", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Performance", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+    header = [col.lower() for col in rows[0]]
+    col_table = header.index("table")
+    col_type  = header.index("type")
+    col_desc  = header.index("description")
 
-    # FACT_Account_Metrics
-    ("FACT_Account_Metrics", "account_id", "DIM_Account", "account_id", "documented_fk", 1.0),
-    ("FACT_Account_Metrics", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Account_Metrics", "territory_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Account_Metrics", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+    roles: dict[str, str] = {}
+    for row in rows[1:]:
+        name = row[col_table]
+        if not name:
+            continue
+        if "bridge" in row[col_desc].lower():
+            roles[name] = "bridge"
+        elif row[col_type].lower().startswith("fact"):
+            roles[name] = "fact"
+        else:
+            roles[name] = "dimension"
 
-    # FACT_KPI_Summary
-    ("FACT_KPI_Summary", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_KPI_Summary", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_KPI_Summary", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+    return roles
 
-    # FACT_Sample_Management
-    ("FACT_Sample_Management", "interaction_id", "FACT_Interactions", "interaction_id", "documented_fk", 1.0),
-    ("FACT_Sample_Management", "account_id", "DIM_Account", "account_id", "documented_fk", 1.0),
-    ("FACT_Sample_Management", "employee_id", "DIM_Employee", "employee_id", "documented_fk", 1.0),
-    ("FACT_Sample_Management", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Sample_Management", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
 
-    # FACT_Targets
-    ("FACT_Targets", "geo_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("FACT_Targets", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("FACT_Targets", "time_id", "DIM_Time", "time_id", "documented_fk", 1.0),
+def get_primary_keys(documentation_file: Path) -> dict[str, str]:
+    """
+    Parse the Section 1.1 inventory table and return:
+        {table_name: pk_column}
 
-    # DIM->DIM / hierarchy
-    ("DIM_Brand_Indication", "brand_id", "DIM_Brand", "brand_id", "documented_fk", 1.0),
-    ("DIM_Employee", "territory_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
-    ("DIM_Account", "territory_id", "DIM_Geography", "geo_id", "documented_fk", 1.0),
+    For composite PKs (e.g. "brand_id + indication_id") only the *last*
+    component is returned, matching the convention used in rebuild_metadata
+    where a single primary_key_column string is stored.
+    """
+    doc = Document(str(documentation_file))
+    table = doc.tables[_INVENTORY_TABLE_INDEX]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
 
-    # optional self-hierarchies from logical model
-    ("DIM_Geography", "parent_geo_id", "DIM_Geography", "geo_id", "documented_self_fk", 0.95),
-    ("DIM_Employee", "manager_id", "DIM_Employee", "employee_id", "documented_self_fk", 0.95),
-]
+    header = [col.lower() for col in rows[0]]
+    col_table = header.index("table")
+    col_pk    = header.index("primary key")
+
+    pks: dict[str, str] = {}
+    for row in rows[1:]:
+        name = row[col_table]
+        if not name:
+            continue
+        pk_raw = row[col_pk]
+        # "brand_id + indication_id" → "indication_id"
+        pk_col = pk_raw.split("+")[-1].strip() if "+" in pk_raw else pk_raw
+        pks[name] = pk_col
+
+    return pks
+
+
+def get_edges(
+    documentation_file: Path,
+) -> list[tuple[str, str, str, str, str, float]]:
+    """
+    Parse the Section 3 relationships table and return a list of tuples:
+        (source_table, source_column, target_table, target_column,
+         relation_type, confidence)
+
+    relation_type is:
+      - "documented_self_fk"  when source_table == target_table  (confidence 0.95)
+      - "documented_fk"       for all other FK relationships      (confidence 1.0)
+    """
+    doc = Document(str(documentation_file))
+    table = doc.tables[_RELATIONSHIPS_TABLE_INDEX]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
+
+    header = [col.lower() for col in rows[0]]
+    col_src_table = header.index("from table")
+    col_src_col   = header.index("from column")
+    col_tgt_table = header.index("to table")
+    col_tgt_col   = header.index("to column")
+
+    edges: list[tuple[str, str, str, str, str, float]] = []
+    for row in rows[1:]:
+        src_table = row[col_src_table]
+        if not src_table:
+            continue
+        src_col   = row[col_src_col]
+        tgt_table = row[col_tgt_table]
+        tgt_col   = row[col_tgt_col]
+
+        if src_table == tgt_table:
+            edges.append((src_table, src_col, tgt_table, tgt_col, "documented_self_fk", 0.95))
+        else:
+            edges.append((src_table, src_col, tgt_table, tgt_col, "documented_fk", 1.0))
+
+    return edges
+
+
+# ---------------------------------------------------------------------------
+# DB helpers
+# ---------------------------------------------------------------------------
 
 def existing_tables(conn: sqlite3.Connection) -> set[str]:
     rows = conn.execute("""
@@ -165,7 +188,7 @@ def semantic_role(column: str) -> str:
         return "metric"
     return "dimension_attr"
 
-def rebuild_metadata(conn: sqlite3.Connection) -> dict:
+def rebuild_metadata(conn: sqlite3.Connection, table_roles: dict, primary_keys: dict, edges: list) -> dict:
     create_metadata_schema(conn)
 
     conn.execute("DELETE FROM _metadata_tables")
@@ -174,17 +197,17 @@ def rebuild_metadata(conn: sqlite3.Connection) -> dict:
     conn.execute("DELETE FROM _metadata_semantic_columns")
 
     tables_in_db = existing_tables(conn)
-    managed_tables = sorted([t for t in TABLE_ROLES if t in tables_in_db])
+    managed_tables = sorted([t for t in table_roles if t in tables_in_db])
 
     for table in managed_tables:
         cols_info = conn.execute(f'PRAGMA table_info("{table}")').fetchall()
         row_count = conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
-        pk_col = PRIMARY_KEYS.get(table)
+        pk_col = primary_keys.get(table)
 
         conn.execute("""
             INSERT INTO _metadata_tables(table_name, table_role, row_count, column_count, primary_key_column)
             VALUES (?, ?, ?, ?, ?)
-        """, (table, TABLE_ROLES.get(table), row_count, len(cols_info), pk_col))
+        """, (table, table_roles.get(table), row_count, len(cols_info), pk_col))
 
         for col in cols_info:
             cid, name, col_type, notnull, _default, _pk_flag = col
@@ -200,7 +223,7 @@ def rebuild_metadata(conn: sqlite3.Connection) -> dict:
 
     inserted_edges = 0
     skipped_edges = []
-    for s_table, s_col, t_table, t_col, rel_type, conf in EDGES:
+    for s_table, s_col, t_table, t_col, rel_type, conf in edges:
         if s_table not in tables_in_db or t_table not in tables_in_db:
             skipped_edges.append((s_table, s_col, t_table, t_col, "table_missing"))
             continue
@@ -262,8 +285,21 @@ def main() -> None:
     if not db_path.exists():
         raise FileNotFoundError(f"DB not found: {db_path}")
 
+    data_folder_path = ROOT / "data"
+    documentation_file = None
+    for file in data_folder_path.iterdir():
+        if file.is_file() and file.suffix == ".docx" and "Technical_Documentation" in file.name:
+            documentation_file = file
+            break
+    if not documentation_file:
+        raise FileNotFoundError(f"Documentation file not found in {data_folder_path}")
+
+    table_roles = get_table_roles(documentation_file)
+    primary_keys = get_primary_keys(documentation_file)
+    edges = get_edges(documentation_file)
+
     with sqlite3.connect(str(db_path)) as conn:
-        summary = rebuild_metadata(conn)
+        summary = rebuild_metadata(conn, table_roles, primary_keys, edges)
         export_json(conn, Path(args.out).resolve())
 
     print(f"Metadata built for {len(summary['managed_tables'])} managed tables")
