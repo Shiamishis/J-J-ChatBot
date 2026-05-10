@@ -12,7 +12,7 @@ class DataHandler(Handler):
     def __init__(self, resources: Resources):
         super().__init__(resources)
 
-    def handle(self, prompt: str) -> str:
+    def handle(self, prompt: str, history: list | None = None) -> str:
         """
         Executes the Text-to-SQL pipeline by calling LLMs directly
         from the Resources.
@@ -39,11 +39,11 @@ class DataHandler(Handler):
             return f"Error executing database query: {e}"
 
         # 4. Generate final answer (Formatting task -> Small LLM)
-        # Directly calling agent.small_llm.query
         final_answer = self.resources.small_llm.query(
             prompt=f"Original question: {prompt}\nSQL Results: {sql_results}",
             context=f"Schema context: {self.resources.schema_context}",
-            system="Provide a clear, natural language answer based on the SQL results provided."
+            system="You are a helpful data assistant. Always respond in plain text only. Never use markdown, code blocks, bullet points with symbols, or any formatting. Just use clear plain sentences. Provide a natural language answer based on the SQL results provided.",
+            history=history
         )
 
         return final_answer

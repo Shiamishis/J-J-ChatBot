@@ -12,13 +12,14 @@ class MetaDataHandler(Handler):
     def __init__(self, resources: Resources):
         super().__init__(resources)
 
-    def handle(self, prompt: str) -> str:
+    def handle(self, prompt: str, history: list | None = None) -> str:
         """
         Handles prompts that ask for metadata information about the database schema.
         """
         response = self.resources.large_llm.query(
             prompt=f"Given the question: '{prompt}', provide relevant metadata information about the database schema.",
-            context="Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.schema_context}",
-            system="Provide a clear and concise answer based on the database schema information provided."
+            context=f"Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.schema_context}",
+            system="You are a helpful data assistant. Always respond in plain text only. Never use markdown, code blocks, bullet points with symbols, or any formatting. Just use clear plain sentences. Answer based on the database schema information provided.",
+            history=history
         )
         return response

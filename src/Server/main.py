@@ -2,9 +2,17 @@ import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
+from pydantic import BaseModel
 
 from src.RAG.resources import Resources
 from src.Server.session_manager import SessionManager
+
+class ChatMessage(BaseModel):
+    session_id: str
+    prompt: str
+
+class EndChat(BaseModel):
+    session_id: str
 
 
 # lifespan — composition root, owns all config and instantiation
@@ -29,16 +37,17 @@ async def create_chat_endpoint():
     session_id = app.state.session_manager.create_session(app.state.resources)
     return {"session_id": session_id}
 
+
 @app.post("/chat/message")
-async def chat_endpoint(request: Request):
+async def chat_endpoint(data: ChatMessage):
     """
     The endpoint to perform RAG and query the LLM with a prompt.
-    :param prompt: The user's query to the LLM.
-    :return: The response of the LLM using the context given by RAG.
     """
-    data = await request.json()
-    prompt = data.get("prompt")
-    session_id = data.get("session_id")
+    # Notice we don't need `await request.json()` anymore!
+    # FastAPI parses and validates it automatically.
+    prompt = data.prompt
+    session_id = data.session_id
+
     try:
         session = app.state.session_manager.get_session(session_id)
         response = session.prompt(prompt)
@@ -48,10 +57,10 @@ async def chat_endpoint(request: Request):
     except Exception as e:
         return {"error": str(e)}, 500
 
+
 @app.post("/chat/end")
-async def end_chat_endpoint(request: Request):
-    data = await request.json()
-    session_id = data.get("session_id")
+async def end_chat_endpoint(data: EndChat):
+    session_id = data.session_id
     try:
         session = app.state.session_manager.get_session(session_id)
         session.end()

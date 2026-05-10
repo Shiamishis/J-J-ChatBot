@@ -10,7 +10,7 @@ class WebHandler(Handler):
             'It can fetch real-time information, perform searches, and integrate data from the web to provide '
             'up-to-date responses.'
         )
-    def handle(self, prompt: str) -> str:
+    def handle(self, prompt: str, history: list | None = None) -> str:
         """
         Handles prompts that require web search or external API calls.
         """

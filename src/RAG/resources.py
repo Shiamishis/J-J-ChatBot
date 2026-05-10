@@ -5,8 +5,10 @@ from src.RAG.graph import Graph
 
 class Resources:
     def __init__(self, api_key: str):
-        self.small_llm = get_llm("groq", api_key=api_key, model="llama-3.1-8b-instant")
-        self.large_llm = get_llm("groq", api_key=api_key, model="llama-3.3-70b-versatile")
+        # self.small_llm = get_llm("groq", api_key=api_key, model="llama-3.1-8b-instant")
+        # self.large_llm = get_llm("groq", api_key=api_key, model="llama-3.3-70b-versatile")
+        self.small_llm = get_llm("swissai", api_key=api_key, model="swiss-ai/Apertus-8B-Instruct-2509")
+        self.large_llm = get_llm("swissai", api_key=api_key, model="meta-llama/Llama-3.3-70B-Instruct")
         self.database_service = DatabaseService()
         nodes, edges = self.database_service.get_schema_metadata()
         self.graph = Graph(nodes, edges)
