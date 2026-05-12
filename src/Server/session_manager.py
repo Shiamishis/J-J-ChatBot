@@ -4,10 +4,14 @@ from src.LLM.history import ConversationHistory
 from src.RAG.orchestrator import RAGOrchestrator
 from src.RAG.resources import Resources
 
+from src.RAG.handlers.registry import _autodiscover
+
+
 
 class SessionManager:
     def __init__(self):
         self.sessions = {}
+        _autodiscover()  # Ensure handlers are registered before any sessions are created
         print("SessionManager initialized, ready to manage sessions.")
 
     def create_session(self, resources: Resources):

@@ -3,6 +3,8 @@ from __future__ import annotations
 from src.RAG.resources import Resources
 from src.RAG.router.intent_router import route_intent
 
+from src.RAG.handlers.registry import get_handler
+
 
 class RAGOrchestrator:
 
@@ -19,7 +21,6 @@ class RAGOrchestrator:
         intent = route_intent(prompt, self.resources.schema_context, self)
         print(f"Determined intent: {intent}")
 
-        from src.RAG.handlers.registry import get_handler
         handler = get_handler(intent, self.resources)
         print("Instantiated handler:", handler.__class__.__name__)
         response = handler.handle(prompt, history or [])

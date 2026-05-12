@@ -4,6 +4,8 @@ def route_intent(prompt: str, schema_context: str, orchestrator) -> str:
     """
     Analyzes the prompt and returns the intent name.
     """
+    if "create ticket" in prompt.lower():
+        return "ticket_handler"
     from src.RAG.handlers.registry import get_all_handlers, get_all_handler_names
     handlers = get_all_handlers()
     handler_names = get_all_handler_names()

@@ -3,9 +3,6 @@ import pkgutil
 from pathlib import Path
 from typing import Any, Dict, Type
 
-# REMOVE: from src.RAG.handlers.base_handler import Handler
-
-# Use "Any" or a string "Handler" for typing to break the cycle
 HANDLER_REGISTRY: Dict[str, Any] = {}
 
 def get_all_handlers() -> list[Any]:
@@ -52,5 +49,5 @@ def _autodiscover():
         importlib.import_module(module_path)
 
 
-# RUN DISCOVERY
-_autodiscover()
+# # RUN DISCOVERY
+# _autodiscover()

@@ -18,11 +18,11 @@
   "edges": [
     {
       "source_table": "DIM_Account",
-      "source_column": "territory_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
+      "source_column": "institution_id",
+      "target_table": "DIM_Account",
+      "target_column": "account_id",
+      "relation_type": "documented_self_fk",
+      "confidence": 0.95
     },
     {
       "source_table": "DIM_Brand_Indication",
@@ -39,14 +39,6 @@
       "target_column": "employee_id",
       "relation_type": "documented_self_fk",
       "confidence": 0.95
-    },
-    {
-      "source_table": "DIM_Employee",
-      "source_column": "territory_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
     },
     {
       "source_table": "DIM_Geography",
@@ -73,42 +65,10 @@
       "confidence": 1.0
     },
     {
-      "source_table": "FACT_Account_Metrics",
-      "source_column": "territory_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Account_Metrics",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
       "source_table": "FACT_Coverage",
       "source_column": "brand_id",
       "target_table": "DIM_Brand",
       "target_column": "brand_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Coverage",
-      "source_column": "geo_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Coverage",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
       "relation_type": "documented_fk",
       "confidence": 1.0
     },
@@ -161,58 +121,10 @@
       "confidence": 1.0
     },
     {
-      "source_table": "FACT_KPI_Summary",
-      "source_column": "brand_id",
-      "target_table": "DIM_Brand",
-      "target_column": "brand_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_KPI_Summary",
-      "source_column": "geo_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_KPI_Summary",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Performance",
-      "source_column": "brand_id",
-      "target_table": "DIM_Brand",
-      "target_column": "brand_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
       "source_table": "FACT_Performance",
       "source_column": "employee_id",
       "target_table": "DIM_Employee",
       "target_column": "employee_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Performance",
-      "source_column": "geo_id",
-      "target_table": "DIM_Geography",
-      "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Performance",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
       "relation_type": "documented_fk",
       "confidence": 1.0
     },
@@ -237,38 +149,6 @@
       "source_column": "geo_id",
       "target_table": "DIM_Geography",
       "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Sales",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Sample_Management",
-      "source_column": "account_id",
-      "target_table": "DIM_Account",
-      "target_column": "account_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Sample_Management",
-      "source_column": "brand_id",
-      "target_table": "DIM_Brand",
-      "target_column": "brand_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Sample_Management",
-      "source_column": "employee_id",
-      "target_table": "DIM_Employee",
-      "target_column": "employee_id",
       "relation_type": "documented_fk",
       "confidence": 1.0
     },
@@ -281,14 +161,6 @@
       "confidence": 1.0
     },
     {
-      "source_table": "FACT_Sample_Management",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
       "source_table": "FACT_Targets",
       "source_column": "brand_id",
       "target_table": "DIM_Brand",
@@ -301,14 +173,6 @@
       "source_column": "geo_id",
       "target_table": "DIM_Geography",
       "target_column": "geo_id",
-      "relation_type": "documented_fk",
-      "confidence": 1.0
-    },
-    {
-      "source_table": "FACT_Targets",
-      "source_column": "time_id",
-      "target_table": "DIM_Time",
-      "target_column": "time_id",
       "relation_type": "documented_fk",
       "confidence": 1.0
     }
