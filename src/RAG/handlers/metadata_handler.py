@@ -2,6 +2,11 @@ from src.RAG.handlers.base_handler import Handler
 from src.RAG.handlers.registry import register_handler
 from src.RAG.resources import Resources
 
+import os
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DOCUMENTATION_PATH = os.path.join(PROJECT_ROOT, "data", "documentation.txt")
+
 @register_handler("metadata_handler")
 class MetaDataHandler(Handler):
     description = (

@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "question": "top5 products by sales in 2025 with their respective sales",
+        "sql": "SELECT b.brand_name, SUM(s.net_revenue_eur) AS total_sales_eur FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_sales_eur DESC LIMIT 5;"
+    },
+    {
+        "id": 2,
+        "question": "total revenue by country in 2025",
+        "sql": "SELECT g.geo_name, SUM(s.net_revenue_eur) AS total_revenue FROM FACT_Sales s JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name;"
+    }
+]

@@ -1,0 +1,3 @@
+test_file,accuracy,average_response_time_sec,count_pass,count_partial,count_fail,total_errors
+reference_answers_data.json,,6.780853629112244,2.0,0.0,0.0,0.0
+reference_answers_metadata.json,,2.5879447187696183,20.0,7.0,8.0,0.0

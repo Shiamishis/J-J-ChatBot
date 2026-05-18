@@ -5,38 +5,49 @@ import argparse
 import json
 import sqlite3
 from pathlib import Path
+from typing import Any
 
 from docx import Document
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
 # ---------------------------------------------------------------------------
-# Documentation parsing
+# Documentation parsing (Robust Table Discovery)
 # ---------------------------------------------------------------------------
 
-# Table indices inside the Word document (0-based).
-# Table 1  → Section 1.1 inventory  (Table | Type | Primary Key | Records | Description)
-# Table 16 → Section 3 relationships (From Table | From Col | To Table | To Col | ...)
-_INVENTORY_TABLE_INDEX = 1
-_RELATIONSHIPS_TABLE_INDEX = 16
+def find_table_by_headers(doc: Document, required_headers: list[str]) -> tuple[Any, list[str]]:
+    """
+    Scans all tables in the document. Returns the first table that contains
+    all the required_headers (case-insensitive) in its first row.
+    """
+    for table in doc.tables:
+        if not table.rows:
+            continue
+
+        # Get text from the first row and normalize it
+        header_cells = [cell.text.strip().lower() for cell in table.rows[0].cells]
+
+        # Check if all required keywords are present in the header
+        if all(any(req.lower() in h for h in header_cells) for req in required_headers):
+            return table, header_cells
+
+    req_str = ", ".join(required_headers)
+    raise ValueError(f"Could not find a table containing headers: [{req_str}]")
 
 
 def get_table_roles(documentation_file: Path) -> dict[str, str]:
     """
-    Parse the Section 1.1 inventory table and return:
-        {table_name: role}   where role ∈ {"dimension", "fact", "bridge"}
-
-    A row whose Description contains "bridge" is classified as "bridge"
-    regardless of what the Type column says (catches DIM_Brand_Indication).
+    Identifies the Inventory table and returns {table_name: role}.
     """
     doc = Document(str(documentation_file))
-    table = doc.tables[_INVENTORY_TABLE_INDEX]
-    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
+    # Requirement: The Inventory table must have "Table", "Type", and "Description"
+    table, header = find_table_by_headers(doc, ["table", "type", "description"])
 
-    header = [col.lower() for col in rows[0]]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
     col_table = header.index("table")
-    col_type  = header.index("type")
-    col_desc  = header.index("description")
+    col_type = header.index("type")
+    col_desc = header.index("description")
 
     roles: dict[str, str] = {}
     for row in rows[1:]:
@@ -49,26 +60,20 @@ def get_table_roles(documentation_file: Path) -> dict[str, str]:
             roles[name] = "fact"
         else:
             roles[name] = "dimension"
-
     return roles
 
 
 def get_primary_keys(documentation_file: Path) -> dict[str, str]:
     """
-    Parse the Section 1.1 inventory table and return:
-        {table_name: pk_column}
-
-    For composite PKs (e.g. "brand_id + indication_id") only the *last*
-    component is returned, matching the convention used in rebuild_metadata
-    where a single primary_key_column string is stored.
+    Identifies the Inventory table and returns {table_name: pk_column}.
     """
     doc = Document(str(documentation_file))
-    table = doc.tables[_INVENTORY_TABLE_INDEX]
-    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
+    # Requirement: The Inventory table must have "Table" and "Primary Key"
+    table, header = find_table_by_headers(doc, ["table", "primary key"])
 
-    header = [col.lower() for col in rows[0]]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
     col_table = header.index("table")
-    col_pk    = header.index("primary key")
+    col_pk = header.index("primary key")
 
     pks: dict[str, str] = {}
     for row in rows[1:]:
@@ -76,67 +81,54 @@ def get_primary_keys(documentation_file: Path) -> dict[str, str]:
         if not name:
             continue
         pk_raw = row[col_pk]
-        # "brand_id + indication_id" → "indication_id"
         pk_col = pk_raw.split("+")[-1].strip() if "+" in pk_raw else pk_raw
         pks[name] = pk_col
-
     return pks
 
 
-def get_edges(
-    documentation_file: Path,
-) -> list[tuple[str, str, str, str, str, float]]:
+def get_edges(documentation_file: Path) -> list[tuple[str, str, str, str, str, float]]:
     """
-    Parse the Section 3 relationships table and return a list of tuples:
-        (source_table, source_column, target_table, target_column,
-         relation_type, confidence)
-
-    relation_type is:
-      - "documented_self_fk"  when source_table == target_table  (confidence 0.95)
-      - "documented_fk"       for all other FK relationships      (confidence 1.0)
+    Identifies the Relationships table and returns a list of edge tuples.
     """
     doc = Document(str(documentation_file))
-    table = doc.tables[_RELATIONSHIPS_TABLE_INDEX]
-    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
+    # Requirement: The Relationships table must have "From Table" and "To Table"
+    table, header = find_table_by_headers(doc, ["from table", "from column", "to table", "to column"])
 
-    header = [col.lower() for col in rows[0]]
+    rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
     col_src_table = header.index("from table")
-    col_src_col   = header.index("from column")
+    col_src_col = header.index("from column")
     col_tgt_table = header.index("to table")
-    col_tgt_col   = header.index("to column")
+    col_tgt_col = header.index("to column")
 
     edges: list[tuple[str, str, str, str, str, float]] = []
     for row in rows[1:]:
         src_table = row[col_src_table]
         if not src_table:
             continue
-        src_col   = row[col_src_col]
+        src_col = row[col_src_col]
         tgt_table = row[col_tgt_table]
-        tgt_col   = row[col_tgt_col]
+        tgt_col = row[col_tgt_col]
 
         if src_table == tgt_table:
             edges.append((src_table, src_col, tgt_table, tgt_col, "documented_self_fk", 0.95))
         else:
             edges.append((src_table, src_col, tgt_table, tgt_col, "documented_fk", 1.0))
-
     return edges
 
 
 # ---------------------------------------------------------------------------
-# DB helpers
+# DB helpers & Metadata Logic (Unchanged from original structure)
 # ---------------------------------------------------------------------------
 
 def existing_tables(conn: sqlite3.Connection) -> set[str]:
-    rows = conn.execute("""
-        SELECT name
-        FROM sqlite_master
-        WHERE type='table' AND name NOT LIKE 'sqlite_%'
-    """).fetchall()
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").fetchall()
     return {r[0] for r in rows}
+
 
 def table_columns(conn: sqlite3.Connection, table: str) -> set[str]:
     rows = conn.execute(f'PRAGMA table_info("{table}")').fetchall()
     return {r[1] for r in rows}
+
 
 def create_metadata_schema(conn: sqlite3.Connection) -> None:
     conn.executescript("""
@@ -147,7 +139,6 @@ def create_metadata_schema(conn: sqlite3.Connection) -> None:
         column_count INTEGER NOT NULL DEFAULT 0,
         primary_key_column TEXT
     );
-
     CREATE TABLE IF NOT EXISTS _metadata_columns (
         table_name TEXT NOT NULL,
         column_name TEXT NOT NULL,
@@ -157,7 +148,6 @@ def create_metadata_schema(conn: sqlite3.Connection) -> None:
         ordinal_position INTEGER NOT NULL,
         PRIMARY KEY (table_name, column_name)
     );
-
     CREATE TABLE IF NOT EXISTS _metadata_foreign_keys (
         source_table TEXT NOT NULL,
         source_column TEXT NOT NULL,
@@ -167,133 +157,207 @@ def create_metadata_schema(conn: sqlite3.Connection) -> None:
         confidence REAL NOT NULL,
         PRIMARY KEY (source_table, source_column, target_table, target_column)
     );
-
     CREATE TABLE IF NOT EXISTS _metadata_semantic_columns (
         table_name TEXT NOT NULL,
         column_name TEXT NOT NULL,
-        semantic_role TEXT NOT NULL, -- metric | dimension_attr | time | id | flag
+        semantic_role TEXT NOT NULL,
         PRIMARY KEY (table_name, column_name, semantic_role)
     );
     """)
 
+
 def semantic_role(column: str) -> str:
     c = column.lower()
-    if c.endswith("_id") or c == "id":
-        return "id"
-    if "time" in c or c in {"year", "quarter", "month", "fiscal_year", "fiscal_quarter", "year_month"}:
-        return "time"
-    if c.startswith("is_") or c.endswith("_flag"):
-        return "flag"
-    if c.endswith("_pct") or "revenue" in c or "units" in c or "count" in c or "value" in c or "score" in c or "volume" in c:
-        return "metric"
+    if c.endswith("_id") or c == "id": return "id"
+    if "time" in c or c in {"year", "quarter", "month", "fiscal_year"}: return "time"
+    if c.startswith("is_") or c.endswith("_flag"): return "flag"
+    if any(m in c for m in ["revenue", "units", "count", "value", "score", "volume", "pct"]): return "metric"
     return "dimension_attr"
+
+
+# def rebuild_metadata(conn: sqlite3.Connection, table_roles: dict, primary_keys: dict, edges: list) -> dict:
+#     create_metadata_schema(conn)
+#     conn.execute("DELETE FROM _metadata_tables")
+#     conn.execute("DELETE FROM _metadata_columns")
+#     conn.execute("DELETE FROM _metadata_foreign_keys")
+#     conn.execute("DELETE FROM _metadata_semantic_columns")
+#
+#     tables_in_db = existing_tables(conn)
+#     managed_tables = sorted([t for t in table_roles if t in tables_in_db])
+#
+#     for table in managed_tables:
+#         cols_info = conn.execute(f'PRAGMA table_info("{table}")').fetchall()
+#         row_count = conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
+#         pk_col = primary_keys.get(table)
+#
+#         conn.execute("INSERT INTO _metadata_tables VALUES (?, ?, ?, ?, ?)",
+#                      (table, table_roles.get(table), row_count, len(cols_info), pk_col))
+#
+#         for col in cols_info:
+#             cid, name, col_type, notnull, _, _ = col
+#             is_pk = 1 if name == pk_col else 0
+#             conn.execute("INSERT INTO _metadata_columns VALUES (?, ?, ?, ?, ?, ?)",
+#                          (table, name, col_type or "", is_pk, int(bool(notnull)), cid))
+#             conn.execute("INSERT INTO _metadata_semantic_columns VALUES (?, ?, ?)", (table, name, semantic_role(name)))
+#
+#     inserted_edges = 0
+#     skipped_edges = []
+#     for s_table, s_col, t_table, t_col, rel_type, conf in edges:
+#         if s_table not in tables_in_db or t_table not in tables_in_db:
+#             skipped_edges.append((s_table, s_col, t_table, t_col, "table_missing"))
+#             continue
+#         if s_col not in table_columns(conn, s_table) or t_col not in table_columns(conn, t_table):
+#             skipped_edges.append((s_table, s_col, t_table, t_col, "column_missing"))
+#             continue
+#
+#         conn.execute("INSERT OR REPLACE INTO _metadata_foreign_keys VALUES (?, ?, ?, ?, ?, ?)",
+#                      (s_table, s_col, t_table, t_col, rel_type, conf))
+#         inserted_edges += 1
+#
+#     conn.commit()
+#     return {"managed_tables": managed_tables, "inserted_edges": inserted_edges, "skipped_edges": skipped_edges}
+
+import networkx as nx
+import warnings
+
 
 def rebuild_metadata(conn: sqlite3.Connection, table_roles: dict, primary_keys: dict, edges: list) -> dict:
     create_metadata_schema(conn)
-
+    # ... (standard DELETEs) ...
     conn.execute("DELETE FROM _metadata_tables")
     conn.execute("DELETE FROM _metadata_columns")
     conn.execute("DELETE FROM _metadata_foreign_keys")
     conn.execute("DELETE FROM _metadata_semantic_columns")
 
     tables_in_db = existing_tables(conn)
-    managed_tables = sorted([t for t in table_roles if t in tables_in_db])
 
+    # 1. First, identify ALL potential valid edges
+    valid_edges = []
+    active_tables_in_edges = set()
+
+    for s_table, s_col, t_table, t_col, rel_type, conf in edges:
+        if s_table in tables_in_db and t_table in tables_in_db:
+            s_cols = table_columns(conn, s_table)
+            t_cols = table_columns(conn, t_table)
+            if s_col in s_cols and t_col in t_cols:
+                valid_edges.append({
+                    "source_table": s_table, "source_column": s_col,
+                    "target_table": t_table, "target_column": t_col,
+                    "relation_type": rel_type, "confidence": conf
+                })
+                active_tables_in_edges.add(s_table)
+                active_tables_in_edges.add(t_table)
+
+    # 2. Generalizable Filtering: Only manage tables that have at least one edge
+    # This automatically excludes FACT_KPI_Summary or any other "orphans"
+    managed_tables = sorted([t for t in table_roles if t in tables_in_db and t in active_tables_in_edges])
+
+    # 3. Connectivity Analysis (The "Island" Warning)
+    G = nx.Graph()
+    G.add_nodes_from(managed_tables)
+    for e in valid_edges:
+        G.add_edge(e["source_table"], e["target_table"])
+
+    components = list(nx.connected_components(G))
+    large_clusters = [c for c in components if len(c) > 1]
+
+    if len(large_clusters) > 1:
+        print("\n" + "!" * 60)
+        print("WARNING: DISCONNECTED SCHEMA DETECTED")
+        print(f"Found {len(large_clusters)} separate clusters of connected tables.")
+        for i, cluster in enumerate(large_clusters, 1):
+            print(f"  Cluster {i}: {cluster}")
+        print("This may cause the LLM to fail when joining across these clusters.")
+        print("!" * 60 + "\n")
+
+    # 4. Proceed with DB insertion for managed tables only
     for table in managed_tables:
         cols_info = conn.execute(f'PRAGMA table_info("{table}")').fetchall()
         row_count = conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
         pk_col = primary_keys.get(table)
 
-        conn.execute("""
-            INSERT INTO _metadata_tables(table_name, table_role, row_count, column_count, primary_key_column)
-            VALUES (?, ?, ?, ?, ?)
-        """, (table, table_roles.get(table), row_count, len(cols_info), pk_col))
+        conn.execute("INSERT INTO _metadata_tables VALUES (?, ?, ?, ?, ?)",
+                     (table, table_roles.get(table), row_count, len(cols_info), pk_col))
 
         for col in cols_info:
-            cid, name, col_type, notnull, _default, _pk_flag = col
+            cid, name, col_type, notnull, _, _ = col
             is_pk = 1 if name == pk_col else 0
-            conn.execute("""
-                INSERT INTO _metadata_columns(table_name, column_name, sqlite_type, is_pk, is_not_null, ordinal_position)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (table, name, col_type or "", is_pk, int(bool(notnull)), cid))
-            conn.execute("""
-                INSERT INTO _metadata_semantic_columns(table_name, column_name, semantic_role)
-                VALUES (?, ?, ?)
-            """, (table, name, semantic_role(name)))
+            conn.execute("INSERT INTO _metadata_columns VALUES (?, ?, ?, ?, ?, ?)",
+                         (table, name, col_type or "", is_pk, int(bool(notnull)), cid))
+            conn.execute("INSERT INTO _metadata_semantic_columns VALUES (?, ?, ?)",
+                         (table, name, semantic_role(name)))
 
-    inserted_edges = 0
-    skipped_edges = []
-    for s_table, s_col, t_table, t_col, rel_type, conf in edges:
-        if s_table not in tables_in_db or t_table not in tables_in_db:
-            skipped_edges.append((s_table, s_col, t_table, t_col, "table_missing"))
-            continue
-        s_cols = table_columns(conn, s_table)
-        t_cols = table_columns(conn, t_table)
-        if s_col not in s_cols or t_col not in t_cols:
-            skipped_edges.append((s_table, s_col, t_table, t_col, "column_missing"))
-            continue
-
-        conn.execute("""
-            INSERT OR REPLACE INTO _metadata_foreign_keys(
-                source_table, source_column, target_table, target_column, relation_type, confidence
-            ) VALUES (?, ?, ?, ?, ?, ?)
-        """, (s_table, s_col, t_table, t_col, rel_type, conf))
-        inserted_edges += 1
+    # 5. Insert valid edges into DB
+    for e in valid_edges:
+        conn.execute("INSERT OR REPLACE INTO _metadata_foreign_keys VALUES (?, ?, ?, ?, ?, ?)",
+                     (e["source_table"], e["source_column"], e["target_table"], e["target_column"],
+                      e["relation_type"], e["confidence"]))
 
     conn.commit()
 
     return {
         "managed_tables": managed_tables,
-        "inserted_edges": inserted_edges,
-        "skipped_edges": skipped_edges,
+        "valid_edges": valid_edges,
+        "skipped_edges": [e for e in edges if e[0] not in active_tables_in_edges and e[2] not in active_tables_in_edges]
     }
 
 def export_json(conn: sqlite3.Connection, path: Path) -> None:
-    nodes = [r[0] for r in conn.execute(
-        "SELECT table_name FROM _metadata_tables ORDER BY table_name"
-    ).fetchall()]
-    edges = conn.execute("""
-        SELECT source_table, source_column, target_table, target_column, relation_type, confidence
-        FROM _metadata_foreign_keys
-        ORDER BY source_table, source_column, target_table
-    """).fetchall()
+    nodes = [r[0] for r in conn.execute("SELECT table_name FROM _metadata_tables ORDER BY table_name").fetchall()]
+    edges = conn.execute(
+        "SELECT source_table, source_column, target_table, target_column, relation_type, confidence FROM _metadata_foreign_keys ORDER BY source_table, source_column, target_table").fetchall()
 
     payload = {
         "nodes": nodes,
-        "edges": [
-            {
-                "source_table": r[0],
-                "source_column": r[1],
-                "target_table": r[2],
-                "target_column": r[3],
-                "relation_type": r[4],
-                "confidence": r[5],
-            }
-            for r in edges
-        ],
+        "edges": [{"source_table": r[0], "source_column": r[1], "target_table": r[2], "target_column": r[3],
+                   "relation_type": r[4], "confidence": r[5]} for r in edges],
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
+def export_documentation_txt(documentation_file: Path) -> Path:
+    """
+    Converts the technical documentation .docx to plain text and saves it
+    under the data folder alongside the source file.
+    """
+    doc = Document(str(documentation_file))
+    lines = []
+
+    for block in doc.element.body:
+        tag = block.tag.split("}")[-1] if "}" in block.tag else block.tag
+
+        if tag == "p":
+            from docx.text.paragraph import Paragraph
+            text = Paragraph(block, doc).text.strip()
+            if text:
+                lines.append(text)
+
+        elif tag == "tbl":
+            from docx.table import Table
+            for row in Table(block, doc).rows:
+                cells = [c.text.strip().replace("\n", " ") for c in row.cells]
+                lines.append("\t".join(cells))
+            lines.append("")  # blank line after each table
+
+    out_path = documentation_file.parent / "documentation.txt"
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+    return out_path
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Manual metadata + graph edge bootstrap for NovaCarta SQLite DB.")
+    parser = argparse.ArgumentParser(description="Automated metadata bootstrap for NovaCarta SQLite DB.")
     parser.add_argument("--db", default=str(ROOT / "local.db"), help="Path to SQLite DB")
     parser.add_argument("--out", default=str(ROOT / "data" / "metadata_graph_manual.json"), help="Output graph JSON")
     args = parser.parse_args()
 
     db_path = Path(args.db).resolve()
-    if not db_path.exists():
-        raise FileNotFoundError(f"DB not found: {db_path}")
-
     data_folder_path = ROOT / "data"
-    documentation_file = None
-    for file in data_folder_path.iterdir():
-        if file.is_file() and file.suffix == ".docx" and "Technical_Documentation" in file.name:
-            documentation_file = file
-            break
-    if not documentation_file:
-        raise FileNotFoundError(f"Documentation file not found in {data_folder_path}")
 
+    # Auto-find documentation file
+    documentation_file = next(
+        (f for f in data_folder_path.iterdir() if f.suffix == ".docx" and "Technical_Documentation" in f.name), None)
+    if not documentation_file:
+        raise FileNotFoundError(f"Technical_Documentation .docx not found in {data_folder_path}")
+
+    # Perform Extraction using new robust methods
     table_roles = get_table_roles(documentation_file)
     primary_keys = get_primary_keys(documentation_file)
     edges = get_edges(documentation_file)
@@ -302,13 +366,11 @@ def main() -> None:
         summary = rebuild_metadata(conn, table_roles, primary_keys, edges)
         export_json(conn, Path(args.out).resolve())
 
-    print(f"Metadata built for {len(summary['managed_tables'])} managed tables")
-    print(f"Inserted edges: {summary['inserted_edges']}")
-    print(f"Skipped edges: {len(summary['skipped_edges'])}")
-    if summary["skipped_edges"]:
-        print("First skipped edge examples:")
-        for item in summary["skipped_edges"][:10]:
-            print("  ", item)
+    export_documentation_txt(documentation_file)
+
+    print(f"Success! Metadata built for {len(summary['managed_tables'])} tables.")
+    print(f"Edges: {summary['valid_edges']} inserted, {len(summary['skipped_edges'])} skipped.")
+
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,136 @@
+[
+    {
+        "id": 1,
+        "question": "top5 products by sales in 2025 with their respective sales",
+        "sql": "SELECT b.brand_name, SUM(s.net_revenue_eur) AS total_sales_eur FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_sales_eur DESC LIMIT 5;",
+        "answer": {
+            "columns": [
+                "brand_name",
+                "total_sales_eur"
+            ],
+            "rows": [
+                [
+                    "DERMASHIELD",
+                    797154879.01
+                ],
+                [
+                    "HEMAVEX",
+                    2971923120.52
+                ],
+                [
+                    "LUNARA",
+                    5461474279.82
+                ],
+                [
+                    "MIGRANOVA",
+                    727435032.67
+                ],
+                [
+                    "ONCOBREAST",
+                    1148691329.32
+                ]
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "question": "total revenue by country in 2025",
+        "sql": "SELECT g.geo_name, SUM(s.net_revenue_eur) AS total_revenue FROM FACT_Sales s JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name;",
+        "answer": {
+            "columns": [
+                "geo_name",
+                "total_revenue"
+            ],
+            "rows": [
+                [
+                    "Austria",
+                    435207651.04
+                ],
+                [
+                    "Belgium",
+                    305647091.78000003
+                ],
+                [
+                    "Bulgaria",
+                    89028147.94
+                ],
+                [
+                    "Croatia",
+                    88034300.4
+                ],
+                [
+                    "Czech Republic",
+                    221201316.85
+                ],
+                [
+                    "Denmark",
+                    261731157.73
+                ],
+                [
+                    "Finland",
+                    219602471.12
+                ],
+                [
+                    "France",
+                    1890049076.54
+                ],
+                [
+                    "Germany",
+                    2232658060.23
+                ],
+                [
+                    "Greece",
+                    177162765.06
+                ],
+                [
+                    "Hungary",
+                    173123680.26
+                ],
+                [
+                    "Ireland",
+                    173227668.35
+                ],
+                [
+                    "Italy",
+                    1527078738.31
+                ],
+                [
+                    "Netherlands",
+                    396806709.92
+                ],
+                [
+                    "Norway",
+                    264077816.57
+                ],
+                [
+                    "Poland",
+                    558461204.75
+                ],
+                [
+                    "Portugal",
+                    265870255.82
+                ],
+                [
+                    "Romania",
+                    260424910.43
+                ],
+                [
+                    "Spain",
+                    1335295263.01
+                ],
+                [
+                    "Sweden",
+                    396354954.51
+                ],
+                [
+                    "Switzerland",
+                    542209554.82
+                ],
+                [
+                    "United Kingdom",
+                    1680026483.17
+                ]
+            ]
+        }
+    }
+]

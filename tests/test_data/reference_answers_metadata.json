@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "category": "schema_overview",
+    "question": "What schema pattern does the NovaCarta EMEA CDP use and how many tables does it have?",
+    "answer": "The platform implements a star schema with 6 dimension tables and 8 fact tables (14 tables total), plus 1 bridge table (DIM_Brand_Indication). FACT_Interactions is the central fact table."
+  },
+  {
+    "id": 2,
+    "category": "schema_overview",
+    "question": "What are the 6 dimension tables in the data model?",
+    "answer": "The 6 dimension tables are: DIM_Geography, DIM_Brand, DIM_Brand_Indication (bridge), DIM_Time, DIM_Employee, and DIM_Account."
+  },
+  {
+    "id": 3,
+    "category": "schema_overview",
+    "question": "What are the 8 fact tables in the data model?",
+    "answer": "The 8 fact tables are: FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets."
+  },
+  {
+    "id": 4,
+    "category": "schema_overview",
+    "question": "What time range does the DIM_Time table cover?",
+    "answer": "DIM_Time covers January 2023 to December 2025, spanning 36 monthly periods. The primary key format is TYYYYMM (e.g., T202501 for January 2025)."
+  },
+  {
+    "id": 5,
+    "category": "schema_overview",
+    "question": "How many records does each table contain?",
+    "answer": "Record counts by table: DIM_Geography (287), DIM_Brand (15), DIM_Brand_Indication (20), DIM_Time (36), DIM_Employee (588), DIM_Account (1,732), FACT_Interactions (189,953), FACT_Coverage (10,270), FACT_Performance (15,070), FACT_Sales (124,886), FACT_Account_Metrics (33,400), FACT_KPI_Summary (52,170), FACT_Sample_Management (13,982), FACT_Targets (14,696)."
+  },
+  {
+    "id": 6,
+    "category": "table_design",
+    "question": "What is the purpose of DIM_Brand_Indication and why is it a bridge table?",
+    "answer": "DIM_Brand_Indication is a bridge table enabling multi-indication support: a single brand can be associated with multiple therapeutic indications. It has a composite primary key of brand_id + indication_id, and stores 20 indications. This design allows FACT_Interactions to track which specific indication a rep discussed during a visit, while still being able to aggregate sales at the brand level."
+  },
+  {
+    "id": 7,
+    "category": "table_design",
+    "question": "What is the difference between FACT_Interactions and FACT_Coverage?",
+    "answer": "FACT_Interactions is a transaction fact table capturing individual HCP interaction events (189,953 records), including interaction type, channel, duration, and indication-level flags. FACT_Coverage is a snapshot fact table (10,270 records) that stores monthly aggregated HCP coverage metrics per country and brand, such as coverage percentages across channels (F2F, digital, email, events)."
+  },
+  {
+    "id": 8,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_Sales?",
+    "answer": "FACT_Sales is a monthly transaction fact table at HCO (Healthcare Organization) level, with 124,886 records. Each record represents monthly sales for a specific account (HCO), brand, and country combination. It does not track sales at the HCP level."
+  },
+  {
+    "id": 9,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_Account_Metrics?",
+    "answer": "FACT_Account_Metrics is a quarterly snapshot fact table (33,400 records) at the individual account level, capturing account-level analytics per brand and territory per quarter. It includes metrics like penetration percentage, potential score, potential tier, target class, Rx volume, share of voice, and adoption stage."
+  },
+  {
+    "id": 10,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_KPI_Summary?",
+    "answer": "FACT_KPI_Summary is a quarterly snapshot with 52,170 records, aggregated at the country and brand level. Each record corresponds to one KPI, one country, one brand, and one quarter. It stores the numerator, denominator, calculated KPI value, target value, and unit."
+  },
+  {
+    "id": 11,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_Targets?",
+    "answer": "FACT_Targets is a periodic snapshot fact table (14,696 records) at the country-brand-quarter level. Each record represents a single target type (e.g., REVENUE_TARGET, UNIT_TARGET, MARKET_SHARE_TARGET, COVERAGE_TARGET) for a given brand, country, and fiscal quarter."
+  },
+  {
+    "id": 12,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_Performance?",
+    "answer": "FACT_Performance is a monthly snapshot fact table (15,070 records) at the individual employee level, tracking sales rep performance per brand and country per month. Metrics include field days, call plan adherence, interaction counts, and pre-computed KPI values."
+  },
+  {
+    "id": 13,
+    "category": "table_design",
+    "question": "What is the granularity of FACT_Sample_Management?",
+    "answer": "FACT_Sample_Management is a transaction fact table (13,982 records) that tracks individual drug sample delivery events. It is linked to FACT_Interactions via interaction_id, meaning each sample record corresponds to a specific HCP visit. It records sample quantity, lot number, delivery status, and signature collection."
+  },
+  {
+    "id": 14,
+    "category": "column_definitions",
+    "question": "What does the target_class column in FACT_Account_Metrics represent?",
+    "answer": "target_class is a computed field in FACT_Account_Metrics representing the account's targeting classification: TC1 (high-potential), TC2 (medium-potential), or TC3 (low-potential). It is not stored in DIM_Account — it lives in FACT_Account_Metrics because it is derived analytically per brand-quarter."
+  },
+  {
+    "id": 15,
+    "category": "column_definitions",
+    "question": "Why is target_class not in DIM_Account?",
+    "answer": "target_class is not in DIM_Account because it is a brand-specific and time-specific computed attribute, not a static account property. The same account may be TC1 for one brand and TC2 for another, or change tier across quarters. It belongs in FACT_Account_Metrics where it is calculated per account-brand-quarter combination."
+  },
+  {
+    "id": 16,
+    "category": "column_definitions",
+    "question": "What does the consent_status field in DIM_Account represent and what values can it take?",
+    "answer": "consent_status in DIM_Account tracks the HCP's or HCO's regulatory consent status for marketing and communication activities. The sample value shown in the documentation is 'CONSENTED', indicating the account has provided consent."
+  },
+  {
+    "id": 17,
+    "category": "column_definitions",
+    "question": "What does the lifecycle_stage field in DIM_Brand represent?",
+    "answer": "lifecycle_stage in DIM_Brand indicates the current commercial lifecycle stage of the brand (e.g., GROWTH). It tracks where a brand sits in its product lifecycle, which is relevant for target-setting and coverage strategy."
+  },
+  {
+    "id": 18,
+    "category": "column_definitions",
+    "question": "What interaction channel types are captured in FACT_Interactions?",
+    "answer": "FACT_Interactions tracks four channel types via binary flag columns: F2F (is_f2f_flag), web call (is_web_call_flag), email (is_email_flag), and event (is_event_flag). The interaction_channel column stores the channel label (e.g., F2F), and interaction_type stores the activity type (CALL, EMAIL, EVENT)."
+  },
+  {
+    "id": 19,
+    "category": "column_definitions",
+    "question": "What does the kpi015_multichannel_score column in FACT_Interactions represent?",
+    "answer": "kpi015_multichannel_score is an integer column in FACT_Interactions that stores a weighted engagement score measuring how many different communication channels were used in an interaction. It directly feeds KPI015 (Multi-Channel Engagement Score), which has a target of 7.5."
+  },
+  {
+    "id": 20,
+    "category": "column_definitions",
+    "question": "What does the time_period column represent in FACT_Coverage and FACT_Performance?",
+    "answer": "time_period in FACT_Coverage and FACT_Performance stores a rolling period label (e.g., R3M for rolling 3 months). It allows metrics to be computed over a sliding window rather than calendar periods, which is important for smoothing monthly fluctuations in coverage and activity data."
+  },
+  {
+    "id": 21,
+    "category": "column_definitions",
+    "question": "What does the is_key_opinion_leader field in DIM_Account represent?",
+    "answer": "is_key_opinion_leader is a Y/N flag in DIM_Account indicating whether the HCP is considered a Key Opinion Leader (KOL). KOL status is significant for targeting strategy, particularly for KPI010 (Key Opinion Leader Reach), which has a target of 90%."
+  },
+  {
+    "id": 22,
+    "category": "column_definitions",
+    "question": "What does the prescriber_volume field in DIM_Account represent?",
+    "answer": "prescriber_volume in DIM_Account is a categorical field (HIGH, MEDIUM, LOW) that classifies how much the HCP prescribes. It is used to weight interaction generation and is one of the factors that informs potential_tier and target_class in FACT_Account_Metrics."
+  },
+  {
+    "id": 23,
+    "category": "column_definitions",
+    "question": "What is the purpose of the institution_id field in DIM_Account?",
+    "answer": "institution_id in DIM_Account is a self-referencing foreign key used for HCP records to link them to their parent HCO (Healthcare Organization). For HCO records, institution_name stores the organization name. This creates an HCP-HCO affiliation hierarchy within the same dimension table."
+  },
+  {
+    "id": 24,
+    "category": "column_definitions",
+    "question": "What does the manager_id field in DIM_Employee represent?",
+    "answer": "manager_id in DIM_Employee is a self-referencing foreign key pointing back to employee_id in the same table. It represents the organizational hierarchy — a sales rep's record references their manager's employee_id, enabling hierarchical rollups. The brand_id field is NULL for managers."
+  },
+  {
+    "id": 25,
+    "category": "column_definitions",
+    "question": "What are the columns in DIM_Geography and what geographic levels does it support?",
+    "answer": "DIM_Geography has columns: geo_id (PK), geo_name, geo_level, parent_geo_id (self-ref FK), country_code (ISO-2), region_name, cluster_name, and population_millions. The geo_level field supports five levels: REGION, CLUSTER, COUNTRY, TERRITORY, and DISTRICT, forming a five-level geographic hierarchy."
+  },
+  {
+    "id": 26,
+    "category": "column_definitions",
+    "question": "What does the fiscal_year and fiscal_quarter format look like in the data model?",
+    "answer": "In DIM_Time, fiscal_year uses the format FY{YYYY} (e.g., FY2025) and fiscal_quarter uses the format FY{YYYY}-Q{N} (e.g., FY2025-Q1). These same formats appear in FACT_Account_Metrics and FACT_Targets for denormalized fiscal period references."
+  },
+  {
+    "id": 27,
+    "category": "relationships",
+    "question": "Which fact table has a foreign key to another fact table, and what is the relationship?",
+    "answer": "FACT_Sample_Management has a foreign key interaction_id referencing FACT_Interactions. This N:1 relationship means each sample delivery event is linked to a specific HCP interaction (visit). This is an intentional fact-to-fact relationship, as samples are typically dispensed during a rep's call."
+  },
+  {
+    "id": 28,
+    "category": "relationships",
+    "question": "What dimensions does FACT_Interactions connect to?",
+    "answer": "FACT_Interactions connects to six dimensions: DIM_Account (via account_id), DIM_Employee (via employee_id), DIM_Brand (via brand_id), DIM_Brand_Indication (via indication_id), DIM_Geography (via geo_id), and DIM_Time (via time_id). It is the most connected fact table in the schema."
+  },
+  {
+    "id": 29,
+    "category": "relationships",
+    "question": "Which dimensions does FACT_Sales connect to?",
+    "answer": "FACT_Sales connects to four dimensions: DIM_Account (via account_id, at HCO level), DIM_Brand (via brand_id), DIM_Geography (via geo_id), and DIM_Time (via time_id)."
+  },
+  {
+    "id": 30,
+    "category": "relationships",
+    "question": "Does FACT_Sales connect to DIM_Employee?",
+    "answer": "No, FACT_Sales does not connect to DIM_Employee. Sales in this model are recorded at the HCO account level per brand and country, not attributed to individual sales reps. Employee-level performance is tracked separately in FACT_Performance."
+  },
+  {
+    "id": 31,
+    "category": "relationships",
+    "question": "How is the geographic hierarchy modeled in DIM_Geography?",
+    "answer": "DIM_Geography uses a self-referencing parent_geo_id foreign key to represent a five-level hierarchy: REGION > CLUSTER > COUNTRY > TERRITORY > DISTRICT, with 287 total records. This single-table approach (adjacency list pattern) allows any level to be queried by filtering on geo_level and traversing parent_geo_id."
+  },
+  {
+    "id": 32,
+    "category": "relationships",
+    "question": "What is the cardinality of the relationship between DIM_Brand_Indication and DIM_Brand?",
+    "answer": "The relationship is N:1 — many indication records belong to one brand. This is expressed via a foreign key brand_id in DIM_Brand_Indication pointing to DIM_Brand. With 15 brands and 20 indications, some brands have multiple indications."
+  },
+  {
+    "id": 33,
+    "category": "relationships",
+    "question": "Which dimensions does FACT_Coverage join to?",
+    "answer": "FACT_Coverage joins to three dimensions: DIM_Geography (via geo_id, at country level), DIM_Brand (via brand_id), and DIM_Time (via time_id). It does not link to DIM_Employee or DIM_Account."
+  },
+  {
+    "id": 34,
+    "category": "kpi_definitions",
+    "question": "What does KPI001 measure and what is its target?",
+    "answer": "KPI001 is Field Day Percentage, measuring the proportion of working days a sales rep spent in the field. Its target is 75%, it is expressed as a percentage, and it is sourced from FACT_Performance (column: kpi001_field_day_pct)."
+  },
+  {
+    "id": 35,
+    "category": "kpi_definitions",
+    "question": "What does KPI002 measure and what is its target?",
+    "answer": "KPI002 is Target Coverage Rate, measuring the percentage of target HCPs who were reached. Its target is 80%, expressed as a percentage, and it is sourced from FACT_Coverage (column: kpi002_target_coverage_pct)."
+  }
+]
