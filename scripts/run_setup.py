@@ -10,6 +10,7 @@ SCRIPT_ORDER = [
     "build_schema_context.py",
     "build_metadata.py",
     "metadata_graph_to_dbml.py",
+    "parse_training_materials.py",
 ]
 
 

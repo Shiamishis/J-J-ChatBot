@@ -19,9 +19,9 @@ class EndChat(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # TODO change this to load from a config file or secret manager
-    api_key = os.environ.get("GROQ_API_KEY")
+    api_key = os.environ.get("SWISSAI_API_KEY")
     if not api_key:
-        raise RuntimeError("GROQ_API_KEY not set")
+        raise RuntimeError("SWISSAI_API_KEY not set")
     app.state.api_key = api_key
     app.state.resources = Resources(app.state.api_key)
     app.state.session_manager = SessionManager()
