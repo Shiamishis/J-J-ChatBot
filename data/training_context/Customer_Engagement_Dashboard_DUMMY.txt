@@ -1,0 +1,210 @@
+=== File: Customer_Engagement_Dashboard_Decision_Playbook.pdf ===
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 1
+ Customer Engagement Dashboard Training |
+ Decision-Making Playbook
+How to move from a weak engagement page to a prioritized action plan using filters, drilldowns, and
+ KPI interpretation.
+This guide is designed for realistic end-user enablement on the Customer Engagement Dashboard in the NovaCarta EMEA
+dummy dataset. It follows the same training intent as the Executive Decision Playbook: help users move from a red dashboard
+signal to a focused, practical response. The examples are grounded in the customer-engagement KPI set, where Digital Channel
+Coverage can be on or near target while Event Follow-up, Promotional Email Effectiveness, Interaction Frequency, or
+Multi-Channel Engagement Score reveal where value is actually leaking.
+
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 2
+1. First five clicks: a disciplined start to analysis
+1. Set the fiscal quarter. 2. Read the KPI strip. 3. Check digital coverage by market. 4. Read the multi-channel score
+trend. 5. Open the scorecard only after the top-line engagement story is clear.
+Starting with one market, one event, or one email campaign too early can lead to random hunting. Starting with the engagement
+cards and the top-line visuals preserves leadership discipline: first size the problem, then isolate the type of engagement
+weakness, then localize ownership.
+
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 3
+2. Decision pattern: reach is healthy, but orchestration is weak
+In the FY2025 Q4 slice, Digital Channel Coverage is above target at 51.2% versus a 50.0% target, but Multi-Channel
+Engagement Score is only 2.3 against a 7.5 target. This is the classic signal that the organization is achieving reach
+but not enough coordinated depth across channels.
+1. Look for KPIs that are green. 2. Look for KPIs that are red but strategically important. 3. Compare one red KPI with
+one near-target or over-target KPI to determine whether the next action should increase activity volume or improve
+orchestration quality.
+When reach is healthy but orchestration is weak, do not ask teams to 'just do more touches'. Improve sequencing, tighten
+follow-up rules, and redesign priority-account journeys so channels work together rather than as disconnected touchpoints.
+
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 4
+3. Decision pattern: value leaks after the touchpoint
+Event Follow-up Rate and Promotional Email Effectiveness are process-discipline KPIs. They reveal whether
+engagement is carried forward after the moment of contact. In this slice, follow-up hovers around target in the largest
+markets but drops materially in the lower-performing markets, while promotional email effectiveness remains below its
+target almost everywhere.
+1. Open the event follow-up visual first and check whether low follow-up is broad-based or market-specific. 2. Compare
+it with promotional email effectiveness. 3. If both are weak, the problem is not only attendance or send volume; it is the
+quality of post-touch execution.
+Treat this pattern as a value-leakage problem. The right response is tighter event-close workflows, better next-best-action rules
+after attendance, and stronger linkage between event activity and approved digital follow-up.
+
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 5
+4. Decision pattern: high touch pressure, weak engagement
+quality
+Interaction Frequency tells you whether the team is showing up often enough. Multi-Channel Engagement Score tells
+you whether those interactions are working together. When interaction frequency is close to plan but the multi-channel
+score remains weak, leadership should resist the temptation to push even more volume.
+Questions to ask: Are TC1 accounts receiving repetitive touches through the same channel? Are channels sequenced
+intentionally, or are they simply accumulating activity? Does the follow-up flow convert one interaction into the next, or
+are customers experiencing isolated contacts?
+Treat this pattern as an orchestration problem, not automatically as an access problem. The corrective lever is better journey
+design: which channel comes first, what should follow, and how quickly should the next touch happen for priority accounts.
+
+NovaCarta Pharma | Customer Engagement Dashboard Decision Playbook
+Page 6
+5. Decision pattern: prioritize markets with both size and
+underperformance
+Engagement leaders should not chase the reddest KPI alone. The correct approach is to combine market size with the
+type of engagement weakness. Germany and France, for example, may have acceptable digital reach but still weak
+orchestration scores. Smaller markets may be redder, but they do not always deserve first intervention if the
+commercial impact is lower.
+1. Sort markets by engagement-relevant scale, such as target universe, interaction volume, or priority-account count.
+2. Select the first large market with weak engagement quality. 3. Check whether the same weakness repeats across
+multiple major markets. 4. Escalate only after confirming that the issue is strategic, not just local noise.
+By the end of the review, the user should be able to name the top two engagement weaknesses, the top three markets to
+prioritize, and the two levers most likely to improve the next quarter: for example, stronger event follow-up and better
+multi-channel choreography.
+
+=== File: Customer_Engagement_Dashboard_KPI_Calculations_Training.pdf ===
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 1
+ Customer Engagement Dashboard Training | KPI
+ Definitions & Calculations
+ The KPI logic behind the engagement cards and scorecard, with dataset-specific formulas, worked
+ examples, and plain-language interpretation.
+Document purpose
+This guide is designed for realistic end-user enablement on the Customer Engagement Dashboard in the NovaCarta EMEA
+dummy dataset. It explains what the core engagement KPIs mean, how they are calculated, how to interpret them in human
+terms, and how to use them together rather than in isolation. The KPI set is grounded in the NovaCarta business and technical
+documentation, where Digital Channel Coverage, Email Utilization Rate, Event Follow-up Rate, Interaction Frequency TC1 and
+TC2, Promotional Email Effectiveness, and Multi-Channel Engagement Score are defined as the core customer-engagement
+measures.
+
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 2
+1. Digital Channel Coverage
+Digital Channel Coverage measures how much of the target HCP universe is reached through digital channels. In the
+NovaCarta framework, digital means web calls plus approved email activity. It is a breadth KPI: it answers whether
+digital reach exists at all, not whether the interaction was deep or compelling.
+Business definition
+Percentage of target universe reached via digital channels (web + email).
+Digital Channel Coverage = DIVIDE(Distinct HCPs reached by WEB or APPROVED_EMAIL, Total target HCP
+universe)
+Worked example
+If 512 target HCPs were reached digitally out of a target universe of 1,000, the result is 512 ÷ 1,000 = 51.2%. That
+mirrors the FY2025 Q4 reference value used in the Executive materials.
+Human-friendly interpretation
+This KPI answers the question: did our digital channels actually reach the people we intended to reach? A value above target is
+reassuring, but it should never be confused with engagement quality. A team can hit digital reach and still perform poorly on
+orchestration and follow-up.
+
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 3
+2. Email Utilization Rate
+Email Utilization Rate focuses on the proportion of consented HCPs who actually receive an approved email. It sits
+inside the digital category, but it is narrower than Digital Channel Coverage because it depends on consent status and
+approved-email execution.
+Business definition
+Percentage of consented HCPs receiving at least one approved email.
+Email Utilization Rate = DIVIDE(Consented HCPs with at least one APPROVED_EMAIL interaction, Total
+consented HCPs)
+Worked example
+If 448 consented HCPs receive at least one approved email out of 1,000 consented HCPs, the result is 44.8%. Against a
+70.0% target, that means the channel is under-used even before engagement quality is assessed.
+Human-friendly interpretation
+This KPI tells you whether the team is using the approved-email capability enough. A low value does not automatically mean the
+emails are ineffective. It often means the emails are simply not being deployed widely enough among consented accounts.
+
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 4
+3. Event Follow-up Rate and Promotional Email Effectiveness
+These two KPIs are often read together because they both test whether engagement continues after an outreach
+moment. Event Follow-up Rate checks whether event attendance is converted into post-event action. Promotional Email
+Effectiveness checks whether emails generate documented engagement after delivery.
+Business definitions
+ Event Follow-up Rate = percentage of event attendees receiving follow-up within 14 days.
+ Promotional Email Effectiveness = percentage of promotional emails with documented engagement.
+Event Follow-up Rate = DIVIDE(Event attendees receiving follow-up within 14 days, Total event
+attendees)
+Promotional Email Effectiveness = DIVIDE(Promotional emails with documented engagement, Total
+promotional emails sent)
+Worked example
+If 593 of 1,000 event attendees receive follow-up, the follow-up rate is 59.3%. If 187 promotional emails out of 1,000
+sent show documented engagement, effectiveness is 18.7%. Both examples show a common pattern: activity exists,
+but value leaks after the touchpoint.
+Human-friendly interpretation
+These KPIs answer whether the team is closing the loop. Good events with weak follow-up waste momentum. High email sends
+with low effectiveness create noise rather than progression. In customer engagement reviews, these are classic
+process-discipline indicators.
+
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 5
+4. Interaction Frequency and Multi-Channel Engagement Score
+Interaction Frequency is the simplest intensity KPI: how often are priority accounts actually engaged? The
+Multi-Channel Engagement Score is the more sophisticated partner metric: how well are different touchpoints combined
+into a meaningful engagement pattern?
+Business definitions
+ Interaction Frequency TC1 = average interactions per high-potential account in the reporting period.
+ Interaction Frequency TC2 = average interactions per medium-potential account in the reporting period.
+ Multi-Channel Engagement Score = weighted composite score of multi-channel touchpoints per HCP.
+Interaction Frequency TC1 = DIVIDE(Total TC1 interactions, Distinct TC1 accounts)
+Interaction Frequency TC2 = DIVIDE(Total TC2 interactions, Distinct TC2 accounts)
+Multi-Channel Engagement Score = Weighted composite of distinct channels, touchpoint sequence, and
+recency per HCP
+Worked example
+If 520 interactions are delivered to 100 TC1 accounts, the average interaction frequency is 5.2. If the engagement model
+scores each HCP across channel diversity and sequencing and the resulting average is 2.3 against a 7.5 target, the
+organization is touching accounts often enough to register activity but not coordinating those touches well enough to
+create depth.
+Human-friendly interpretation
+Interaction Frequency tells you whether teams are showing up. Multi-Channel Engagement Score tells you whether those
+interactions feel connected. A strong customer-engagement dashboard needs both, because frequency without orchestration
+often becomes over-contacting with limited impact.
+
+NovaCarta Pharma | Customer Engagement Dashboard KPI Definitions & Calculations
+Page 6
+5. Customer engagement KPI scorecard metrics
+The customer-engagement scorecard is where the dashboard shifts from observation to diagnosis. Each KPI is read
+with its target so leaders can separate a simple execution shortfall from a deeper orchestration problem.
+KPI Value = AVERAGE(FACT_KPI_Summary[kpi_value]) or KPI-specific aggregate from the source fact table
+KPI Target = AVERAGE(FACT_KPI_Summary[target_value]) or configured target from KPI framework
+KPI % Attainment = DIVIDE([KPI Value], [KPI Target])
+How to read the scorecard
+ Digital Channel Coverage at 102.4% attainment means reach is slightly above target.
+ Event Follow-up Rate at 98.8% attainment is close to target, but still leaking value after events.
+ Interaction Frequency TC1 at 86.7% attainment and TC2 at 90.0% attainment mean account pressure is present, but
+not fully at plan.
+ Promotional Email Effectiveness at 74.8% attainment shows the team is generating less documented email
+engagement than needed.
+ Multi-Channel Engagement Score at 30.7% attainment is the standout warning signal: channels are being used, but
+not orchestrated well enough to create meaningful depth.
+Human-friendly interpretation
+This scorecard should stop managers from asking only 'are we active enough?' It pushes them to ask the better question: 'are our
+touchpoints combining into a coherent customer journey?' When reach is green but orchestration is red, the correct response is
+not more volume. It is better sequencing, stronger follow-up, and sharper account planning.
+
+=== File: Customer_Engagement_KPI_Master_Table.docx ===
+Customer Engagement Dashboard
+KPI Master Table
+Business definitions, calculations, and data sources for the NovaCarta customer engagement KPI set
+Use this file as the Word equivalent of the KPI spreadsheet: one place to see what each KPI means, how it is calculated, and which dataset elements support it.
+Customer Engagement KPI Reference
+The table below follows the same logic as the spreadsheet version, but is formatted for human-readable training and documentation. Definitions are written in business language first, calculations are written in dashboard-friendly terms, and the data-source column shows where the KPI is sourced in the NovaCarta model.
+Reference scope
+This document summarizes the core customer-engagement KPIs used in the NovaCarta training materials. It is designed as a quick-reference companion for dashboard users, analysts, and enablement teams.
+KPI Name | KPI Definition | KPI Calculation | Data Source
+Digital Channel Coverage | Percentage of the target HCP universe reached through digital channels. In this dashboard, digital reach combines approved email and web-based interactions. | Digital HCPs Reached ÷ Total Target HCP Universe | FACT_Coverage (kpi006_digital_coverage_pct) derived from FACT_Interactions flags for web and email, plus target universe fields in FACT_Coverage.
+Email Utilization Rate | Percentage of consented HCPs who received at least one approved promotional or informational email in the selected period. | Consented HCPs with ≥1 approved email ÷ Total Consented HCPs | FACT_Interactions (is_email_flag / kpi014_promo_email_flag), filtered by consent logic from DIM_Account[consent_status].
+Event Follow-up Rate | Percentage of HCPs who attended an event and then received a documented follow-up interaction within the expected follow-up window. | Event Attendees with Follow-up ÷ Total Event Attendees | FACT_Interactions using is_event_flag and kpi008_event_followup_flag.
+Interaction Frequency TC1 | Average number of completed interactions delivered to high-priority target-class-1 accounts during the selected period. | Total TC1 Interactions ÷ Distinct TC1 Accounts | FACT_Interactions using kpi012_tc1_interaction_flag; target class sourced from FACT_Account_Metrics[target_class].
+Interaction Frequency TC2 | Average number of completed interactions delivered to medium-priority target-class-2 accounts during the selected period. | Total TC2 Interactions ÷ Distinct TC2 Accounts | FACT_Interactions using kpi013_tc2_interaction_flag; target class sourced from FACT_Account_Metrics[target_class].
+Promotional Email Effectiveness | Share of promotional emails that generated a documented engagement signal, such as interaction continuation, click-through proxy, or follow-up outcome. | Promotional Emails with Engagement ÷ Total Promotional Emails Sent | FACT_Interactions using kpi014_promo_email_flag and related email / follow-up engagement markers.
+Multi-Channel Engagement Score | Weighted score that reflects how well multiple engagement channels are combined for the same HCP or account. This KPI is intended to measure orchestration quality, not just channel volume. | Weighted Composite of Channel Diversity, Sequence, and Recency | FACT_Interactions using kpi015_multichannel_score, supported by channel flags (F2F, web, email, event).

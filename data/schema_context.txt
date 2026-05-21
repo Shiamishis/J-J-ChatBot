@@ -16,7 +16,7 @@ Columns:
 - institution_id: TEXT
 - prescriber_volume: TEXT
 Foreign Keys:
-- territory_id -> DIM_Geography.geo_id
+- institution_id -> DIM_Account.account_id
 Sample Rows:
 - {'account_id': 'ACC00001', 'account_name': 'Helmstedt General Hospital', 'account_type': 'HCO', 'specialty': 'General Hospital', 'sub_specialty': None, 'territory_id': 'GEO_0004', 'country_code': 'DE', 'consent_status': 'CONSENTED', 'is_key_opinion_leader': 0, 'institution_name': 'Helmstedt General Hospital', 'institution_id': None, 'prescriber_volume': 'MEDIUM'}
 - {'account_id': 'ACC00002', 'account_name': 'Rottweil Outpatient Center', 'account_type': 'HCO', 'specialty': 'Outpatient Center', 'sub_specialty': None, 'territory_id': 'GEO_0004', 'country_code': 'DE', 'consent_status': 'CONSENTED', 'is_key_opinion_leader': 0, 'institution_name': 'Rottweil Outpatient Center', 'institution_id': None, 'prescriber_volume': 'MEDIUM'}
@@ -67,7 +67,6 @@ Columns:
 - therapeutic_area_id: TEXT
 Foreign Keys:
 - manager_id -> DIM_Employee.employee_id
-- territory_id -> DIM_Geography.geo_id
 Sample Rows:
 - {'employee_id': 'EMP0001', 'employee_name': 'Alice Steinmann', 'employee_role': 'EMEA_VP', 'territory_id': 'GEO_0001', 'is_active': 1, 'hire_date': '2010-03-15', 'department': 'Executive', 'manager_id': None, 'brand_id': None, 'therapeutic_area_id': None}
 - {'employee_id': 'EMP0002', 'employee_name': 'Sinan Schweizer', 'employee_role': 'BU_Head', 'territory_id': 'GEO_0001', 'is_active': 1, 'hire_date': '2015-02-01', 'department': 'Executive', 'manager_id': 'EMP0001', 'brand_id': None, 'therapeutic_area_id': 'TA01'}
@@ -125,8 +124,6 @@ Columns:
 Foreign Keys:
 - account_id -> DIM_Account.account_id
 - brand_id -> DIM_Brand.brand_id
-- territory_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'account_metric_id': 'AM0000001', 'account_id': 'ACC00530', 'brand_id': 'BRD001', 'territory_id': 'GEO_0028', 'time_id': 'T202303', 'fiscal_quarter': 'FY2023-Q1', 'penetration_pct': 17.1, 'potential_score': 68, 'potential_tier': 'MEDIUM', 'target_class': 'TC2', 'rx_volume_monthly': 4, 'rx_volume_change_pct': -1.1, 'share_of_voice_pct': 15.9, 'adoption_stage': 'TRIALER'}
 - {'account_metric_id': 'AM0000002', 'account_id': 'ACC01284', 'brand_id': 'BRD001', 'territory_id': 'GEO_0154', 'time_id': 'T202303', 'fiscal_quarter': 'FY2023-Q1', 'penetration_pct': 26.0, 'potential_score': 67, 'potential_tier': 'MEDIUM', 'target_class': 'TC2', 'rx_volume_monthly': 5, 'rx_volume_change_pct': 9.9, 'share_of_voice_pct': 25.2, 'adoption_stage': 'TRIALER'}
@@ -153,8 +150,6 @@ Columns:
 - kpi011_ls_coverage_pct: REAL
 Foreign Keys:
 - brand_id -> DIM_Brand.brand_id
-- geo_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'coverage_id': 'COV000001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'time_period': 'YTD', 'target_universe_count': 118, 'covered_accounts_count': 54, 'f2f_covered_count': 33, 'web_covered_count': 14, 'email_covered_count': 6, 'event_covered_count': 13, 'total_hcp_count': 118, 'leading_specialist_count': 17, 'kpi002_target_coverage_pct': 45.8, 'kpi005_f2f_coverage_pct': 28.0, 'kpi006_digital_coverage_pct': 16.9, 'kpi007_email_util_pct': 5.1, 'kpi011_ls_coverage_pct': 64.7}
 - {'coverage_id': 'COV000002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202302', 'time_period': 'YTD', 'target_universe_count': 118, 'covered_accounts_count': 51, 'f2f_covered_count': 24, 'web_covered_count': 16, 'email_covered_count': 11, 'event_covered_count': 16, 'total_hcp_count': 118, 'leading_specialist_count': 17, 'kpi002_target_coverage_pct': 43.2, 'kpi005_f2f_coverage_pct': 20.3, 'kpi006_digital_coverage_pct': 22.9, 'kpi007_email_util_pct': 9.3, 'kpi011_ls_coverage_pct': 64.7}
@@ -208,9 +203,7 @@ Columns:
 - unit: TEXT
 - target_value: REAL
 Foreign Keys:
-- brand_id -> DIM_Brand.brand_id
-- geo_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
+- (none)
 Sample Rows:
 - {'kpi_summary_id': 'KPIS000001', 'kpi_id': 'KPI001', 'kpi_name': 'Field Day Percentage', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'time_period': 'FY2023-Q1', 'numerator_value': 152, 'denominator_value': 207, 'kpi_value': 73.4, 'unit': '%', 'target_value': 75.0}
 - {'kpi_summary_id': 'KPIS000002', 'kpi_id': 'KPI002', 'kpi_name': 'Target Coverage Rate', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'time_period': 'FY2023-Q1', 'numerator_value': 153, 'denominator_value': 354, 'kpi_value': 43.2, 'unit': '%', 'target_value': 80.0}
@@ -237,10 +230,7 @@ Columns:
 - kpi004_daily_interaction_rate: REAL
 - kpi009_coaching_days: INTEGER
 Foreign Keys:
-- brand_id -> DIM_Brand.brand_id
 - employee_id -> DIM_Employee.employee_id
-- geo_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'performance_id': 'PERF000001', 'employee_id': 'EMP0120', 'geo_id': 'GEO_0003', 'brand_id': 'BRD002', 'time_id': 'T202301', 'time_period': 'YTD', 'field_days': 17, 'total_working_days': 23, 'coaching_days': 2, 'interaction_count': 19, 'planned_calls': 65, 'actual_calls': 14, 'target_adherence_pct': 21.5, 'email_utilization_pct': 4.6, 'event_followup_count': 0, 'kpi001_field_day_pct': 73.9, 'kpi003_call_plan_adherence_pct': 21.5, 'kpi004_daily_interaction_rate': 1.12, 'kpi009_coaching_days': 2}
 - {'performance_id': 'PERF000002', 'employee_id': 'EMP0120', 'geo_id': 'GEO_0003', 'brand_id': 'BRD002', 'time_id': 'T202302', 'time_period': 'YTD', 'field_days': 17, 'total_working_days': 22, 'coaching_days': 0, 'interaction_count': 17, 'planned_calls': 56, 'actual_calls': 15, 'target_adherence_pct': 26.8, 'email_utilization_pct': 3.6, 'event_followup_count': 0, 'kpi001_field_day_pct': 77.3, 'kpi003_call_plan_adherence_pct': 26.8, 'kpi004_daily_interaction_rate': 1.0, 'kpi009_coaching_days': 0}
@@ -264,7 +254,6 @@ Foreign Keys:
 - account_id -> DIM_Account.account_id
 - brand_id -> DIM_Brand.brand_id
 - geo_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'sales_id': 'SAL000001', 'account_id': 'ACC00001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'net_revenue_eur': 2040436.05, 'units_sold': 737, 'market_share_pct': 21.48, 'market_size_eur': 9497189.46, 'yoy_growth_pct': 29.88, 'price_per_unit_eur': 2765.01, 'new_patient_starts': 43, 'total_patients_on_therapy': 750}
 - {'sales_id': 'SAL000002', 'account_id': 'ACC00002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202301', 'net_revenue_eur': 29478.58, 'units_sold': 8, 'market_share_pct': 16.16, 'market_size_eur': 182407.17, 'yoy_growth_pct': 20.51, 'price_per_unit_eur': 3443.77, 'new_patient_starts': 1, 'total_patients_on_therapy': 9}
@@ -283,11 +272,7 @@ Columns:
 - requires_signature: INTEGER
 - signature_collected: INTEGER
 Foreign Keys:
-- account_id -> DIM_Account.account_id
-- brand_id -> DIM_Brand.brand_id
-- employee_id -> DIM_Employee.employee_id
 - interaction_id -> FACT_Interactions.interaction_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'sample_id': 'SMP000001', 'interaction_id': 'INT0042329', 'account_id': 'ACC00798', 'employee_id': 'EMP0219', 'brand_id': 'BRD006', 'time_id': 'T202305', 'sample_quantity': 2, 'lot_number': 'LOT2024163', 'sample_status': 'DELIVERED', 'requires_signature': 1, 'signature_collected': 1}
 - {'sample_id': 'SMP000002', 'interaction_id': 'INT0078368', 'account_id': 'ACC01045', 'employee_id': 'EMP0311', 'brand_id': 'BRD003', 'time_id': 'T202307', 'sample_quantity': 2, 'lot_number': 'LOT2023814', 'sample_status': 'ACKNOWLEDGED', 'requires_signature': 1, 'signature_collected': 1}
@@ -306,7 +291,6 @@ Columns:
 Foreign Keys:
 - brand_id -> DIM_Brand.brand_id
 - geo_id -> DIM_Geography.geo_id
-- time_id -> DIM_Time.time_id
 Sample Rows:
 - {'target_id': 'TGT000001', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'target_type': 'REVENUE_TARGET', 'target_value': 234365130.15, 'unit': 'EUR', 'fiscal_year': 'FY2023', 'approved_date': '2022-11-15'}
 - {'target_id': 'TGT000002', 'geo_id': 'GEO_0003', 'brand_id': 'BRD001', 'time_id': 'T202303', 'target_type': 'UNIT_TARGET', 'target_value': 93746.0, 'unit': 'Units', 'fiscal_year': 'FY2023', 'approved_date': '2022-11-15'}

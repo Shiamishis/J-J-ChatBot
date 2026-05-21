@@ -1,0 +1,224 @@
+=== File: Field_Force_Dashboard_Features_Training_Refined.pdf ===
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 1
+ Field Force Dashboard Training | Features &
+ Navigation
+ How to read the dashboard, what sits in each zone, where to filter, and how to drill from regional
+ view to country, territory, and rep detail.
+Document purpose
+This guide is designed for realistic end-user enablement on the Field Force Performance Dashboard in the NovaCarta EMEA
+dummy dataset. It explains what each area of the dashboard contains, how to filter and drill into data, how the operational KPIs
+should be interpreted, and how managers should move from a page-level signal to a coaching or execution conversation.
+Reference quarter used for worked examples: FY2025 Q4. In that slice, Field Day % is 45.2%, Call Plan Adherence is 80.9%,
+Interactions / Day is 2.43, and Coaching Days are 3.29.
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 2
+1. Dashboard map: what is on the page
+The field force page is a one-screen execution summary. It is built for Country Managers, Sales Directors, and
+Commercial Excellence leads who need a quick read on field productivity before choosing a geography, brand, or
+representative to investigate.
+What is in the page
+ The top header identifies the active reporting slice. In the mockup it is set to FY2025 Q4.
+ The filter ribbon in Power BI should let the user limit the page by fiscal year, quarter, cluster, country, and brand. Those
+slicers should cross-filter every visual on the page.
+ The KPI strip shows four field-management cards: Field Day %, Call Plan Adherence, Interactions / Day, and
+Coaching Days. These are the fastest indicators of field health.
+ The left main visual is Top vs Bottom Reps. It exposes where interaction volume is concentrated and which individuals
+fall into the bottom tier.
+ The right main visual is Calls vs Adherence. It tells you whether the volume story is also a discipline story.
+ The bottom row combines the Interaction Trend and Country Drilldown. Together they answer: is the issue getting
+better or worse over time, and where should management intervene first?
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 3
+2. Filters and scope selection
+In Power BI the field page should open with global slicers at the top. Each slicer narrows the evaluation context for all
+cards and charts. A field leader normally starts with fiscal quarter, then chooses a geography, then optionally narrows to
+one brand to separate franchise effects from general execution issues.
+How to change the scope step by step
+1. Select Fiscal Quarter first. The field page is most stable when one quarter is selected, because performance KPIs
+such as adherence and coaching are reviewed in quarter context.
+2. Select a Cluster or Country only after confirming the quarter. This prevents confusion between time-driven changes
+and geography-driven differences.
+3. Select Brand when you want to isolate whether the execution issue is specific to one product focus. Once a brand is
+selected, rep ranking and trend stop behaving like cross-portfolio comparisons and become brand-specific execution
+views.
+4. If you need to compare countries, clear the old country selection before applying the next one. This avoids accidental
+multi-select context.
+5. Use the eraser icon on the slicer or the page reset button to return to the starting state after analysis.
+If multiple countries are selected, the ranking chart should remain sorted by interactions so the highest-volume reps stay visible. If
+one brand is selected, page titles should update dynamically to avoid ambiguity.
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 4
+3. KPI strip: how field leadership reads the top row
+The KPI strip is the triage layer for the field page. A manager should be able to decide within seconds whether the
+selected team has enough customer-facing capacity, enough planning discipline, and enough coaching support to
+deliver the quarter.
+How to use the cards
+ Start with Call Plan Adherence. At 80.9% versus an 85.0% target, the page immediately signals that execution
+discipline is below expected level.
+ Use Field Day % to test capacity. At 45.2% versus a 75.0% target, the selected population is spending much less time
+in the field than the operating model expects.
+ Use Interactions / Day to understand productivity inside available field time. A low number means even the field days
+that do happen are not converting into enough engagement.
+ Use Coaching Days to judge whether manager support is likely to be part of the story. A moderate average such as
+3.29 days per manager per month suggests some support exists, but not necessarily enough to offset weak execution.
+Cards themselves usually do not support drilldown. Instead, the user clicks a rep bar in the ranking chart, a point in the scatter
+plot, or a country in the drilldown chart to move from diagnosis to investigation.
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 5
+4. Main analysis visuals: rep contribution, efficiency, and
+execution rhythm
+The central work of the field page happens in three visuals. The ranking chart identifies where volume sits. The scatter
+plot places that volume in a quality context. The time trend tells you whether the issue is temporary or persistent.
+How to use the rep ranking
+Read the chart from top to bottom. The first question is not simply which rep is highest, but whether the lower tier is
+concentrated in one market, manager line, or brand focus. In the FY2025 Q4 mockup, the bottom tier includes Jonas
+Berg, Claire Martin, and Tomas Horvat, which should trigger a territory or country check.
+How to use the scatter plot
+The scatter plot is the best coaching visual on the page. Top right means high volume with good discipline. Bottom left is
+the classic coaching priority zone. Lower-right positions suggest reps are active but not converting plan into disciplined
+execution. Upper-left positions suggest planning is acceptable, but customer access or capacity may be limiting.
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 6
+5. Trend, country drilldown, and drill path
+The lower row converts the execution story into action. The trend chart shows whether the quarter is building enough
+activity over time. The country drilldown localizes where performance problems matter most. Together they answer: is
+the issue getting worse, and where should leadership intervene first?
+Reading the trend chart
+Use the trend to distinguish between one-off disruption and structural under-execution. In the mockup, actual
+interactions remain consistently below the target line through all twelve months. That means the issue is not a
+single-month anomaly; it is a recurring performance gap.
+Reading the country drilldown and following the drill path
+The country view shows where the performance problem is most material. Large markets such as Germany, France,
+Italy, and Spain combine meaningful interaction volume with mixed adherence outcomes, so they should be reviewed
+before smaller-market noise.
+Start in the country chart by selecting one underperforming market, for example Sweden or Croatia if the question is
+discipline, or Germany if the question is scale of missed execution. Then review the rep ranking under that country filter.
+Next, click a rep or drill to territory. Finally, open the rep drill table to inspect Field %, Adherence %, and IPD side by side
+before deciding on coaching, route redesign, or call-planning intervention.
+
+NovaCarta Pharma | Field Force Dashboard Features & Navigation
+Page 7
+A strong field manager does not stop at the first red signal. They use the dashboard to narrow the problem from geography to
+territory to rep, and only then decide on corrective action.
+
+=== File: Field_Force_Dashboard_KPI_Calculations_Training_Refined_v2.pdf ===
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 1
+ Field Force Dashboard Training | KPI Definitions &
+ Calculations
+ The KPI logic behind the field-force cards and scorecard, with dataset-specific formulas, worked
+ examples, and plain-language interpretation.
+Document purpose
+This guide is designed for realistic end-user enablement on the Field Force Performance Dashboard in the NovaCarta EMEA
+dummy dataset. It explains what the key execution KPIs mean, how they are calculated, how to interpret them in human terms,
+and how to use them together rather than in isolation. Reference quarter used for worked examples: FY2025 Q4. In that slice,
+Field Day % is 45.2%, Call Plan Adherence is 80.9%, Interactions / Day is 2.43, and Coaching Days are 3.29.
+
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 2
+1. Field Day %
+Field Day % measures how much of the available month is actually spent in the field rather than in internal meetings,
+administration, travel preparation, or training. It is the cleanest top-line proxy for customer-facing capacity.
+Business definition
+Percentage of total working days spent on field-based customer engagement activity.
+Field Day % = DIVIDE(SUM(FACT_Performance[field_days]), SUM(FACT_Performance[total_working_days]))
+Worked example
+If the selected team logged 10 field days out of 22 total working days, the calculation is 10 ÷ 22 = 45.5%. That aligns
+with the dashboard-style reference value of 45.2% in the FY2025 Q4 slice.
+Human-friendly interpretation
+A low value does not automatically mean reps are underperforming. It usually means the team has limited customer-facing
+capacity. The next question is therefore: is time being absorbed by internal work, or is field time available but poorly used?
+
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 3
+2. Call Plan Adherence
+Call Plan Adherence shows how reliably the team converts planned customer activity into completed calls. It is a
+discipline KPI rather than a pure productivity KPI.
+Business definition
+Percentage of planned calls that were actually completed during the selected period.
+Call Plan Adherence = DIVIDE(SUM(FACT_Performance[actual_calls]),
+SUM(FACT_Performance[planned_calls]))
+Worked example
+If a rep completed 58 calls against a plan of 76, the result is 58 ÷ 76 = 76.3%. If the selected team has strong
+performers and weak performers mixed together, the dashboard aggregate may still land at 80.9%, which is below the
+85.0% target but not in collapse territory.
+Human-friendly interpretation
+Think of adherence as a promise-kept metric. The plan says what the team intended to do; adherence shows whether they
+actually did it. Low adherence is often the first sign that execution discipline, scheduling quality, or account access is under strain.
+
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 4
+3. Interactions per Day
+Interactions per Day converts raw activity into productivity. It prevents managers from praising a team just because it
+spent many days in the field if those days produced little engagement.
+Business definition
+Average completed interactions delivered for each field day in the selected period.
+Interactions / Day = DIVIDE(SUM(FACT_Performance[interaction_count]),
+SUM(FACT_Performance[field_days]))
+Worked example
+If a rep completed 31 interactions across 10 field days, the result is 31 ÷ 10 = 3.10. If the selected FY2025 Q4
+dashboard slice shows 2.43, it means the team is converting field time into customer contact more slowly than the
+benchmark of 3.5 interactions per day.
+Human-friendly interpretation
+This KPI answers a simple question: when reps are out in the field, are those days productive? A low value can point to poor route
+planning, weak call productivity, or too much dead time between appointments.
+
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 5
+4. Coaching Days
+Coaching Days quantify how much manager attention is being invested in capability-building. It is not a commercial
+outcome by itself, but it is one of the best context variables for explaining why adherence or productivity is improving or
+stagnating.
+Business definition
+Average days per manager per month spent in formal coaching, ride-alongs, or structured rep development activity.
+Coaching Days = AVERAGE(FACT_Performance[kpi009_coaching_days])
+Worked example
+If six managers show 4.1, 3.9, 3.6, 3.3, 2.8, and 2.3 coaching days, the average is 3.33. That is close to the
+dashboard-style reference of 3.29 days per manager per month.
+Human-friendly interpretation
+Low coaching with weak adherence is a warning signal. High coaching with weak adherence suggests the support exists but may
+not be effective. High coaching with improving adherence is usually a healthy recovery pattern.
+
+NovaCarta Pharma | Field Force Dashboard KPI Definitions & Calculations
+Page 6
+5. Field KPI scorecard metrics
+The field scorecard is where the dashboard stops being a collection of numbers and starts behaving like a management
+tool. It compares KPI values with targets so leaders can distinguish between an isolated weak metric and a broader
+execution pattern.
+KPI Value = AVERAGE(FACT_KPI_Summary[kpi_value])
+KPI Target = AVERAGE(FACT_KPI_Summary[target_value])
+KPI % Attainment = DIVIDE([KPI Value], [KPI Target])
+How to read the scorecard
+- Field Day % at 60.3% attainment signals constrained customer-facing capacity.
+- Call Plan Adherence at 95.2% attainment is below target but still recoverable through planning discipline.
+- Interactions / Day at 69.4% attainment says field time is not productive enough.
+- Coaching Days at 82.3% attainment suggests development effort exists, but not yet at target level.
+- Coverage KPIs such as Target Coverage Rate and Leading Specialist Coverage help show whether weak execution is
+also limiting reach.
+Human-friendly interpretation
+The scorecard is the dashboard's reality check. One low KPI might be noise. Several weak KPIs pointing in the same direction
+usually mean the operating model needs intervention. Use the scorecard to decide whether the conversation should focus on
+capacity, discipline, productivity, or manager support.
+
+=== File: Field_Force_KPI_Master DUMMY.xlsx ===
+### Sheet: Field Force KPIs
+KPI Name | KPI Definition | KPI Calculation | Data Source
+Field Day % | Percentage of working days spent in the field engaging customers | SUM(field_days) / SUM(total_working_days) | FACT_Performance[field_days], FACT_Performance[total_working_days]
+Call Plan Adherence | Percentage of planned calls that were actually completed | SUM(actual_calls) / SUM(planned_calls) | FACT_Performance[actual_calls], FACT_Performance[planned_calls]
+Interactions per Day | Average number of interactions per field day | SUM(interaction_count) / SUM(field_days) | FACT_Performance[interaction_count], FACT_Performance[field_days]
+Coaching Days | Average number of coaching days per manager per month | AVERAGE(coaching_days) | FACT_Performance[coaching_days]
+Target Coverage Rate | Percentage of target accounts reached within a period | COUNT(distinct accounts reached) / COUNT(target accounts) | FACT_Interactions, DIM_Targets
+Leading Specialist Coverage | Percentage of priority specialists engaged | COUNT(distinct specialists reached) / COUNT(total priority specialists) | FACT_Interactions, DIM_HCP
+Total Interactions | Total number of customer interactions completed | SUM(interaction_count) | FACT_Interactions[interaction_count]
+Planned Calls | Total number of planned calls in the period | SUM(planned_calls) | FACT_Performance[planned_calls]
+Actual Calls | Total number of calls actually completed | SUM(actual_calls) | FACT_Performance[actual_calls]
+KPI Attainment % | Performance against target for each KPI | KPI Value / KPI Target | FACT_KPI_Summary[kpi_value], FACT_KPI_Summary[target_value]
+
+=== File: Navigating the Field Force Dashboard for Effective Management.mp4 ===
+[GROQ_API_KEY not set, cannot transcribe Navigating the Field Force Dashboard for Effective Management.mp4]
