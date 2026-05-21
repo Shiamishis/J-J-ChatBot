@@ -1,0 +1,1883 @@
+
+=== Running tests for reference_answers_conversational_handler.json ===
+
+[ID 1] Testing: Hello!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: It seems like you just said hello, how can I assist you today
+Judge verdict: PASS
+Reason: The chatbot responds with a friendly greeting and offers assistance as expected.
+
+[ID 2] Testing: Hi there, how are you doing today?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I am doing well, thank you for asking, I'm here to help with any questions or tasks you may have, how can I assist you today.
+Judge verdict: PASS
+Reason: The chatbot's response is warm, friendly, and clearly indicates readiness to help.
+
+[ID 3] Testing: Good morning!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: Good morning to you as well, how can I assist you today.
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveyed the expected morning greeting and offered assistance.
+
+[ID 4] Testing: What can you help me with?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I can help you with answering questions, providing information, and assisting with tasks to the best of my ability based on our conversation. If you have a specific topic or question in mind, feel free to ask and I will do my best to help.
+Judge verdict: PASS
+Reason: The chatbot's response accurately describes its general capabilities without referencing a specific database schema.
+
+[ID 5] Testing: What kind of questions are you able to answer?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I am able to answer a wide range of questions to the best of my ability, providing information and explanations on various topics, and helping with tasks such as generating text or summarizing content.
+Judge verdict: PARTIAL
+Reason: The ACTUAL mentions general capabilities, but does not explicitly state the types of questions it can handle (data/analytical/general conversational)
+
+[ID 5] Verdict: PARTIAL
+Reason: The ACTUAL mentions general capabilities, but does not explicitly state the types of questions it can handle (data/analytical/general conversational)
+
+[ID 6] Testing: Thank you, that was very helpful!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: You are welcome, I am glad I could assist you, is there anything else I can help you with now.
+Judge verdict: PASS
+Reason: The chatbot's response warmly acknowledges the thanks and offers to help further, matching the expected answer.
+
+[ID 7] Testing: Never mind, forget what I asked.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: You didn't ask a question to begin with, so there's nothing to forget or cancel. If you're ready to ask something now, I'm here to help.
+Judge verdict: PASS
+Reason: The chatbot correctly identifies no question was asked and offers help, aligning with the expected answer.
+
+[ID 8] Testing: You are doing a great job!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I am glad to hear that my efforts are being appreciated, it is nice to receive positive feedback.
+Judge verdict: PASS
+Reason: The chatbot's response is gracious and conveys appreciation, matching the expected behavior.
+
+[ID 9] Testing: What is the capital of France?
+Determined intent: web_handler
+Instantiated handler: WebHandler
+API_KEY:  c5abc28e75235affb56d040071f319214e6536d2
+<Response [200]>
+Handler response: The capital of France is Paris, which serves as the seat of the country's national government and is home to both houses of the French Parliament, as well as France's highest courts. This makes Paris not only the capital but also the center of political and judicial power in France. With a population of 2.234 million inhabitants as of 2011, Paris is a significant urban center and plays a crucial role in the country's history and development. As the largest country in Europe with an area of 550,000 km2 and a total population of 65 million inhabitants, France's importance is reflected in its capital city, Paris.
+Judge verdict: FAIL
+Reason: The response is overly verbose and contains information about Paris that is not relevant to the simple question of the capital of France.
+
+[ID 9] Verdict: FAIL
+Reference: For the question "What is the capital of France?", the expected answer is:
+  The assistant should answer that the capital of France is Paris without referencing any database or schema.
+Actual: The capital of France is Paris, which serves as the seat of the country's national government and is home to both houses of the French Parliament, as well as France's highest courts. This makes Paris not only the capital but also the center of political and judicial power in France. With a population of 2.234 million inhabitants as of 2011, Paris is a significant urban center and plays a crucial r
+Reason: The response is overly verbose and contains information about Paris that is not relevant to the simple question of the capital of France.
+
+[ID 10] Testing: What does the acronym HCP stand for?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: The acronym HCP can stand for different things depending on the context, but some common meanings include Healthcare Professional, Heavy Commercial Property, or High Conservation Priority, among others. Without more specific information, it is difficult to determine the exact meaning of HCP in this case.
+Judge verdict: PARTIAL
+Reason: The actual response is missing the primary meaning of HCP as 'Healthcare Professional' in its initial mention, only later mentioning it.
+
+[ID 10] Verdict: PARTIAL
+Reason: The actual response is missing the primary meaning of HCP as 'Healthcare Professional' in its initial mention, only later mentioning it.
+
+[ID 11] Testing: What does KPI stand for?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measurable value that demonstrates how effectively an organization is achieving key business objectives.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the exact expansion of KPI and its relevance to business objectives.
+
+[ID 12] Testing: Can you give me a quick definition of a foreign key?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field or column in a table that refers to the primary key in another table, used to link the two tables together and establish a relationship between them.
+Judge verdict: PASS
+Reason: The chatbot's response accurately conveys the definition of a foreign key despite minor differences in wording
+
+[ID 13] Testing: Can you explain what a star schema is in plain terms?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a way to organize data in a database that makes it easier to analyze and report on. It is called a star schema because it has a central table, often called the fact table, that is surrounded by other tables, called dimension tables, which provide more information about the data in the fact table. The fact table contains the main data that you want to analyze, and the dimension tables provide context and details about that data. This design makes it simple to ask questions and get answers from the data, and it is often used in data warehousing and business intelligence applications.
+Judge verdict: PASS
+Reason: The ACTUAL response accurately conveys the main concept and structure of a star schema in plain language, matching the reference description.
+
+[ID 14] Testing: What do you mean?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: There is no context provided to understand what you are referring to, could you please provide more information or clarify your question.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly acknowledges the lack of context and asks for clarification.
+
+[ID 15] Testing: Can you be more specific?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: There is no context to be more specific about, the conversation has just started.
+Judge verdict: FAIL
+Reason: The actual answer fails to ask the user to provide more detail, missing the expected next step in the conversation.
+
+[ID 15] Verdict: FAIL
+Reference: For the question "Can you be more specific?", the expected answer is:
+  The assistant should acknowledge there is no prior context and ask the user to provide more detail about what they would like to know.
+Actual: There is no context to be more specific about, the conversation has just started.
+Reason: The actual answer fails to ask the user to provide more detail, missing the expected next step in the conversation.
+
+[ID 16] Testing: That is all I needed, goodbye!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: It was nice helping you, have a great day and feel free to come back if you need anything else.
+Judge verdict: PASS
+Reason: The actual response meets all the expected criteria of a friendly farewell and an offer to help again in the future.
+
+[ID 17] Testing: Can you give me an example of one?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measure used to evaluate the success of an organization, employee, or specific activity in achieving its objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: An example of a key performance indicator is the sales revenue of a company, which is used to measure the success of its sales team and overall business performance over a certain period of time.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide a concrete example of a KPI, as suggested by the REFERENCE
+
+[ID 17] Verdict: FAIL
+Reference: For the question "Can you give me an example of one?", the expected answer is:
+  The assistant should provide a concrete example of a KPI such as a sales target coverage rate or field day percentage without referencing specific database tables.
+Actual: An example of a key performance indicator is the sales revenue of a company, which is used to measure the success of its sales team and overall business performance over a certain period of time.
+Reason: The ACTUAL response does not provide a concrete example of a KPI, as suggested by the REFERENCE
+
+[ID 18] Testing: And what sits at the center of it?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a type of database schema that is used to organize and structure data in a data warehouse. It is called a star schema because it resembles a star, with a central fact table connected to multiple dimension tables. The fact table contains the main data being analyzed, and the dimension tables provide additional information about the data in the fact table, such as time, location, or product information. The star schema is designed to make it easy to query and analyze the data, and to provide fast query performance. It is commonly used in business intelligence and data analysis applications.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: At the center of a star schema is a fact table, which contains the main data being analyzed, typically consisting of numerical or measurable data, such as sales amounts or quantities.
+Judge verdict: PASS
+Reason: Actual accurately conveys the key concept that a fact table sits at the center of a star schema.
+
+[ID 19] Testing: I did not quite follow that. Can you say it more simply?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field or column in a table that refers to the primary key of another table, used to link the two tables together and establish a relationship between them. This allows data from the two tables to be combined and used together, while also helping to maintain data consistency and prevent errors.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a way to connect two tables together by using a common piece of information that is shared between them, it's like a bridge that lets you link data from one table to data in another table.
+Judge verdict: PASS
+Reason: The ACTUAL response clearly conveys the key concept of a foreign key linking two tables through shared information.
+
+[ID 20] Testing: How is that different from an HCP?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: HCO can stand for several things depending on the context, but some common meanings include Health Care Organization, Historical Commission Office, or Hubbard Communications Office, which is associated with the Church of Scientology. Without more specific information, it is difficult to determine which definition is most relevant.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: An HCP typically stands for Health Care Provider, which refers to an individual or entity that provides medical care or services, such as a doctor, nurse, hospital, or clinic. In contrast to an HCO, which is often an organization that manages or oversees health care services, an HCP is the actual provider of those services.
+Judge verdict: FAIL
+Reason: The actual response inverts the definitions of HCO and HCP from the reference.
+
+[ID 20] Verdict: FAIL
+Reference: For the question "How is that different from an HCP?", the expected answer is:
+  The assistant should explain that an HCO is a Healthcare Organisation such as a hospital or clinic while an HCP is a Healthcare Professional such as a doctor or nurse.
+Actual: An HCP typically stands for Health Care Provider, which refers to an individual or entity that provides medical care or services, such as a doctor, nurse, hospital, or clinic. In contrast to an HCO, which is often an organization that manages or oversees health care services, an HCP is the actual provider of those services.
+Reason: The actual response inverts the definitions of HCO and HCP from the reference.
+
+[ID 21] Testing: What have we talked about so far?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measure used to evaluate the success of an organization, employee, or specific activity in achieving its objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: HCP stands for Healthcare Professional, which refers to individuals such as doctors, nurses, and other medical staff who provide healthcare services to patients.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: We have talked about what KPI stands for, which is Key Performance Indicator, and what HCP stands for, which is Healthcare Professional.
+Judge verdict: FAIL
+Reason: The ACTUAL response missed the point of summarizing the entire conversation, only listing the topics mentioned earlier.
+
+[ID 21] Verdict: FAIL
+Reference: For the question "What have we talked about so far?", the expected answer is:
+  The assistant should summarise that the conversation covered the meaning of KPI as Key Performance Indicator and HCP as Healthcare Professional.
+Actual: We have talked about what KPI stands for, which is Key Performance Indicator, and what HCP stands for, which is Healthcare Professional.
+Reason: The ACTUAL response missed the point of summarizing the entire conversation, only listing the topics mentioned earlier.
+
+[ID 22] Testing: Can you give me a quick summary of what we have discussed?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a type of database design used for data warehousing and business intelligence applications. It is called a star schema because it resembles a star, with a central fact table surrounded by dimension tables. The fact table contains the main data being analyzed, such as sales or website traffic, and the dimension tables contain descriptive information about the data, such as date, location, or product. The dimension tables are connected to the fact table through foreign keys, allowing for efficient querying and analysis of the data. This design is optimized for querying and reporting, making it a popular choice for data warehousing and business intelligence applications.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field in a database table that refers to the primary key of another table. It is a way to link data between two tables, allowing you to establish relationships between them. The foreign key in one table must match the primary key in the other table, ensuring that the data is consistent and accurate. This relationship enables you to join the two tables together, allowing you to retrieve and analyze data from both tables in a single query. For example, in a database that stores orders and customers, the order table might have a foreign key that references the customer ID in the customer table, allowing you to link each order to the customer who made it.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: We have discussed two topics so far. First, we talked about a star schema, which is a type of database design used for data warehousing and business intelligence applications. Then, we discussed foreign keys, which are fields in a database table that refer to the primary key of another table, allowing you to link data between tables.
+Judge verdict: FAIL
+Reason: The ACTUAL response discusses star schema and foreign keys, but the REFERENCE mentions a summary of the conversation, which was not provided.
+
+[ID 22] Verdict: FAIL
+Reference: For the question "Can you give me a quick summary of what we have discussed?", the expected answer is:
+  The assistant should summarise that the conversation covered the star schema pattern and the definition of foreign keys.
+Actual: We have discussed two topics so far. First, we talked about a star schema, which is a type of database design used for data warehousing and business intelligence applications. Then, we discussed foreign keys, which are fields in a database table that refer to the primary key of another table, allowing you to link data between tables.
+Reason: The ACTUAL response discusses star schema and foreign keys, but the REFERENCE mentions a summary of the conversation, which was not provided.
+
+[ID 23] Testing: Actually never mind that, can you explain what ETL means instead?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measurable value that demonstrates how effectively an organization is achieving key business objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: ETL stands for Extract, Transform, and Load, which is a process used to extract data from multiple sources, transform the data into a standardized format, and then load it into a target system, such as a database or data warehouse, for analysis and reporting.
+Judge verdict: PASS
+Reason: The actual response accurately conveys the ETL process and its definition.
+Stats for reference_answers_conversational_handler.json: {'ratio_pass': 0.6521739130434783, 'ratio_partial': 0.08695652173913043, 'ratio_fail': 0.2608695652173913, 'average_response_time_sec': 1.2087144540703816, 'ratio_errors': 0.0}
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID 1] Testing: Top 5 products by sales in 2025 with their respective sales
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_sales
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_sales DESC
+LIMIT 5;
+Handler response: Based on the SQL results, the top 5 products by sales in 2025 are:
+
+1. **LUNARA** with total sales of 5,461,474,279.82 EUR
+2. **HEMAVEX** with total sales of 2,971,923,120.52 EUR
+3. **ONCOBREAST** with total sales of 1,148,691,329.32 EUR
+4. **DERMASHIELD** with total sales of 797,154,879.01 EUR
+5. **MIGRANOVA** with total sales of 727,435,032.67 EUR
+
+These figures represent the sales of each product in the specified time frame.
+Judge verdict: PASS
+Reason: Actual response conveys all key facts and figures from the reference answer, in the correct order
+
+[ID 2] Testing: Total revenue by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'FACT_Sales', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country, 
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name
+Handler response: The total revenue by country in 2025 based on the provided data is:
+
+Germany: 2232658060.23 EUR
+France: 1890049076.54 EUR
+United Kingdom: 1680026483.17 EUR
+Judge verdict: FAIL
+Reason: Only three countries' revenue are mentioned in the ACTUAL response, whereas the REFERENCE provides revenue for all European countries.
+
+[ID 2] Verdict: FAIL
+Reference: For the question "Total revenue by country in 2025", the expected answer is:
+  - Austria: 435,207,651.04
+  - Belgium: 305,647,091.78
+  - Bulgaria: 89,028,147.94
+  - Croatia: 88,034,300.4
+  - Czech Republic: 221,201,316.85
+  - Denmark: 261,731,157.73
+  - Finland: 219,602,471.12
+  - France: 1,890,049,076.54
+  - Germany: 2,232,658,060.23
+  - Greece: 177,162,765.06
+  - Hungary: 173,123,680.26
+  - Ireland: 173,227,668.35
+  - Italy: 1,527,078,738.31
+  - Netherlands: 396,806,709.92
+  - Norway: 264,077,816.57
+  - Poland: 558,461,204.75
+  - Portugal: 265,870,255.82
+  - Romania: 260,424,910.43
+  - Spain: 1,335,295,263.01
+  - Sweden: 396,354,954.51
+  - Switzerland: 542,209,554.82
+  - United Kingdom: 1,680,026,483.17
+Actual: The total revenue by country in 2025 based on the provided data is:
+
+Germany: 2232658060.23 EUR
+France: 1890049076.54 EUR
+United Kingdom: 1680026483.17 EUR
+Reason: Only three countries' revenue are mentioned in the ACTUAL response, whereas the REFERENCE provides revenue for all European countries.
+
+[ID 3] Testing: Monthly revenue trend for 2025 across all brands
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    T1.month_name, 
+    SUM(T2.net_revenue_eur) AS monthly_revenue
+FROM 
+    DIM_Time T1
+JOIN 
+    FACT_Sales T2 ON T1.time_id = T2.time_id
+WHERE 
+    T1.year = 2025
+GROUP BY 
+    T1.month_name
+ORDER BY 
+    T1.month;
+Handler response: The monthly revenue trend for 2025 across all brands shows a fluctuating pattern. The highest revenue was recorded in October with 138,017,837.16 euros, while the lowest was in August with 60,493,335.89 euros. The revenue in each month is as follows:
+
+- January: 112,905,692.86 euros
+- February: 109,351,110.68 euros
+- March: 122,851,774.33 euros
+- April: 112,708,676.34 euros
+- May: 116,662,391.28 euros
+- June: 113,237,662.65 euros
+- July: 100,526,832.46 euros
+- August: 60,493,335.89 euros
+- September: 130,670,464.92 euros
+- October: 138,017,837.16 euros
+- November: 134,308,288.00 euros
+- December: 97,593,860.42 euros
+
+The trend indicates that sales are generally higher in the second half of the year, with a notable peak in October. The lowest revenue was observed in August, which could be attributed to various market or business factors.
+Judge verdict: PASS
+Reason: The chatbot's response includes all key monthly revenues with correct naming and ordering, and accurately describes the trend.
+
+[ID 4] Testing: Revenue by therapeutic area in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Targets', 'DIM_Brand_Indication', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    db.therapeutic_area_name, 
+    SUM(fs.net_revenue_eur) AS revenue_2025
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2025
+GROUP BY 
+    db.therapeutic_area_name
+Handler response: The revenue by therapeutic area in 2025 is as follows:
+
+- Hematology: 3,629,150,007.48 EUR
+- Immunology: 952,434,868.37 EUR
+- Neuroscience: 1,948,625,746.10 EUR
+- Solid Tumors: 6,963,068,656.66 EUR
+Judge verdict: PASS
+Reason: ACTUAL response exactly matches the reference, including numbers and currency unit.
+
+[ID 5] Testing: Average market share percentage per brand in 2025
+Determined intent: web_handler
+Instantiated handler: WebHandler
+API_KEY:  c5abc28e75235affb56d040071f319214e6536d2
+<Response [200]>
+Handler response: To provide a comprehensive answer to the question of average market share percentage per brand in 2025, we need to look at various industries and their respective market shares. According to the available data, the global advanced wound management market share in 2025 is divided among several companies, but the exact percentages are not provided in the given information. 
+
+In the plug-in electric vehicle market, the market share by manufacturer is available for 2025, but again, the specific percentages per brand are not mentioned in the provided text. It is important to note that market share is calculated by dividing a company's sales over a certain period by the industry's total sales during the same period, as explained by Investopedia.
+
+Given the lack of specific data on average market share percentages per brand across different industries in 2025, it is challenging to provide a precise average market share percentage. However, it is clear that market share varies significantly across industries, with some industries like skincare online shopping having higher conversion rates, such as 2.7%, as reported by Statista in 2025. 
+
+To get a more accurate picture of the average market share percentage per brand in 2025, it would be necessary to consult more detailed and specific market research reports or statistics that provide a breakdown of market shares for various brands across different industries.
+Judge verdict: FAIL
+Reason: The actual response fails to provide any market share percentages, contradicting the reference which provides expected average market share percentage per brand in 2025.
+
+[ID 5] Verdict: FAIL
+Reference: For the question "Average market share percentage per brand in 2025", the expected answer is:
+  - 19.48: MIGRANOVA
+  - 19.51: NEUROMYEL SPMS
+  - 19.51: MYELOGUARD
+  - 19.54: LUNARA
+  - 19.62: NEUROMYEL
+  - 19.62: DERMASHIELD
+  - 19.63: LUPINOVA
+  - 19.64: RHEUMAVEX
+  - 19.65: HEMAVEX COMBO
+  - 19.65: COGNIVEX
+  - 19.67: HEMAVEX
+  - 19.68: MIGRANOVA EP
+  - 19.68: COLONEX
+  - 19.69: ONCOBREAST
+  - 19.71: LYMPHACLEAR
+Actual: To provide a comprehensive answer to the question of average market share percentage per brand in 2025, we need to look at various industries and their respective market shares. According to the available data, the global advanced wound management market share in 2025 is divided among several companies, but the exact percentages are not provided in the given information. 
+
+In the plug-in electric 
+Reason: The actual response fails to provide any market share percentages, contradicting the reference which provides expected average market share percentage per brand in 2025.
+
+[ID 6] Testing: Year-over-year revenue growth percentage by brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name,
+    ((SUM(CASE WHEN DT.year = 2025 THEN FS.net_revenue_eur ELSE 0 END)) - 
+     (SUM(CASE WHEN DT.year = 2024 THEN FS.net_revenue_eur ELSE 0 END))) / 
+    NULLIF(SUM(CASE WHEN DT.year = 2024 THEN FS.net_revenue_eur ELSE 0 END), 0) * 100 AS yoy_growth_pct
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+GROUP BY 
+    DB.brand_name
+Handler response: The highest year-over-year revenue growth percentage for a brand in 2025 is 542.14% for the brand "HEMAVEX COMBO".
+Judge verdict: FAIL
+Reason: The actual response has 542.14% growth, which contradicts the reference of 35.11% for HEMAVEX COMBO
+
+[ID 6] Verdict: FAIL
+Reference: For the question "Year-over-year revenue growth percentage by brand in 2025", the expected answer is:
+  - -14.88: RHEUMAVEX
+  - -5.12: DERMASHIELD
+  - -2.99: LYMPHACLEAR
+  - -0.0: ONCOBREAST
+  - 0.98: NEUROMYEL
+  - 1.01: MYELOGUARD
+  - 11.87: NEUROMYEL SPMS
+  - 14.9: MIGRANOVA EP
+  - 15.02: COLONEX
+  - 19.95: MIGRANOVA
+  - 25.05: LUNARA
+  - 25.07: COGNIVEX
+  - 29.89: HEMAVEX
+  - 35.11: HEMAVEX COMBO
+  - 49.98: LUPINOVA
+Actual: The highest year-over-year revenue growth percentage for a brand in 2025 is 542.14% for the brand "HEMAVEX COMBO".
+Reason: The actual response has 542.14% growth, which contradicts the reference of 35.11% for HEMAVEX COMBO
+
+[ID 7] Testing: Total units sold per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.units_sold) AS total_units_sold
+FROM 
+    FACT_Sales FS
+INNER JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+INNER JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+Handler response: To answer the question "Total units sold per brand in 2025", we need to extract the total units sold from the FACT_Sales fact table and sum them up by brand. 
+
+The SQL query to achieve this would be:
+
+```sql
+SELECT brand_name, SUM(units_sold) AS total_units_sold
+FROM FACT_Sales
+WHERE time_id = 'T202501'
+GROUP BY brand_name;
+```
+
+However, since we don't have the actual SQL database to run this query, we can only provide the result based on the given data.
+
+Here is the result based on the given data:
+
+```sql
+COGNIVEX   | 37417
+COLONEX    | 160742
+DERMASHIELD| 368696
+HEMAVEX    | 1379626
+HEMAVEX COMBO | 39321
+LUNARA     | 2523472
+LUPINOVA   | 44269
+LYMPHACLEAR| 180300
+MIGRANOVA  | 336541
+MIGRANOVA EP| 75744
+MYELOGUARD | 83831
+NEUROMYEL  | 300393
+NEUROMYEL SPMS| 144812
+ONCOBREAST | 522235
+RHEUMAVEX  | 26575
+```
+
+Note that this result is based on the provided data and does not reflect an actual database query.
+Judge verdict: FAIL
+Reason: The actual response does not provide the exact numbers, instead, it provides a SQL query and a note that the result is based on the given data.
+
+[ID 7] Verdict: FAIL
+Reference: For the question "Total units sold per brand in 2025", the expected answer is:
+  - COGNIVEX: 37,417
+  - COLONEX: 160,742
+  - DERMASHIELD: 368,696
+  - HEMAVEX: 1,379,626
+  - HEMAVEX COMBO: 39,321
+  - LUNARA: 2,523,472
+  - LUPINOVA: 44,269
+  - LYMPHACLEAR: 180,300
+  - MIGRANOVA: 336,541
+  - MIGRANOVA EP: 75,744
+  - MYELOGUARD: 83,831
+  - NEUROMYEL: 300,393
+  - NEUROMYEL SPMS: 144,812
+  - ONCOBREAST: 522,235
+  - RHEUMAVEX: 26,575
+Actual: To answer the question "Total units sold per brand in 2025", we need to extract the total units sold from the FACT_Sales fact table and sum them up by brand. 
+
+The SQL query to achieve this would be:
+
+```sql
+SELECT brand_name, SUM(units_sold) AS total_units_sold
+FROM FACT_Sales
+WHERE time_id = 'T202501'
+GROUP BY brand_name;
+```
+
+However, since we don't have the actual SQL database to run this quer
+Reason: The actual response does not provide the exact numbers, instead, it provides a SQL query and a note that the result is based on the given data.
+
+[ID 8] Testing: Total new patient starts by brand and country in Q1 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'FACT_Sales', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+  DB.brand_name, 
+  DG.geo_name AS country, 
+  SUM(FS.new_patient_starts) AS total_new_patient_starts
+FROM 
+  FACT_Sales FS
+  JOIN DIM_Brand DB ON FS.brand_id = DB.brand_id
+  JOIN DIM_Geography DG ON FS.geo_id = DG.geo_id
+  JOIN DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+  DT.quarter = 'Q1' AND DT.year = 2025
+GROUP BY 
+  DB.brand_name, 
+  DG.geo_name
+Handler response: For Q1 2025, the total new patient starts for each brand are as follows:
+
+1. COGNIVEX: 
+   - Austria: 16
+   - Belgium: 11
+   - Bulgaria: 3
+   - Croatia: 1
+   - Czech Republic: 6
+   - Denmark: 16
+   - Finland: 6
+   - France: 113
+   - Germany: 157
+   - Greece: 7
+   - Hungary: 5
+   - Ireland: 0
+   - Italy: 147
+   - Netherlands: 11
+   - Norway: 10
+   - Poland: 24
+   - Portugal: 11
+   - Romania: 11
+   - Spain: 68
+   - Sweden: 24
+   - Switzerland: 28
+   - United Kingdom: 89
+
+2. COLONEX: 
+   - Austria: 267
+   - Belgium: 89
+   - Bulgaria: 33
+   - Croatia: 30
+   - Czech Republic: 67
+   - Denmark: 95
+   - Finland: 109
+   - France: 632
+   - Germany: 805
+   - Greece: 50
+   - Hungary: 49
+   - Ireland: 45
+   - Italy: 480
+   - Netherlands: 155
+   - Norway: 83
+   - Poland: 247
+   - Portugal: 83
+   - Romania: 93
+   - Spain: 314
+   - Sweden: 147
+   - Switzerland: 164
+   - United Kingdom: 506
+
+3. DERMASHIELD: 
+   - Austria: 351
+   - Belgium: 237
+   - Bulgaria: 76
+   - Croatia: 104
+   - Czech Republic: 250
+   - Denmark: 232
+   - Finland: 190
+   - France: 1992
+   - Germany: 2020
+   - Greece: 128
+   - Hungary: 176
+   - Ireland: 181
+   - Italy: 1424
+   - Netherlands: 330
+   - Norway: 227
+   - Poland: 583
+   - Portugal: 285
+   - Romania: 201
+   - Spain: 1112
+   - Sweden: 391
+   - Switzerland: 494
+   - United Kingdom: 1847
+
+4. HEMAVEX: 
+   - Austria: 984
+   - Belgium: 812
+   - Bulgaria: 197
+   - Croatia: 242
+   - Czech Republic: 625
+   - Denmark: 571
+   - Finland: 645
+   - France: 5049
+   - Germany: 6879
+   - Greece: 501
+   - Hungary: 505
+   - Ireland: 512
+   - Italy: 4499
+   - Netherlands: 1241
+   - Norway: 868
+   - Poland: 1718
+   - Portugal: 613
+   - Romania: 891
+   - Spain: 4850
+   - Sweden: 1095
+   - Switzerland: 1447
+   - United Kingdom: 5157
+
+5. HEMAVEX COMBO: 
+   - Austria: 11
+   - Belgium: 10
+   - Bulgaria: 0
+   - Croatia: 3
+   - Czech Republic: 13
+   - Denmark: 10
+   - Finland: 8
+   - France: 91
+   - Germany: 115
+   - Greece: 3
+   - Hungary: 2
+   - Ireland: 6
+   - Italy: 64
+   - Netherlands: 8
+   - Norway: 10
+   - Poland: 12
+   - Portugal: 9
+   - Romania: 5
+   - Spain: 53
+   - Sweden: 12
+   - Switzerland: 40
+   - United Kingdom: 68
+
+6. LUNARA: 
+   - Austria: 3312
+   - Belgium: 2242
+   - Bulgaria: 625
+   - Croatia: 535
+   - Czech Republic: 968
+   - Denmark: 1455
+   - Finland: 1817
+   - France: 11069
+   - Germany: 12163
+   - Greece: 975
+   - Hungary: 967
+   - Ireland: 1298
+   - Italy: 9929
+   - Netherlands: 2423
+   - Norway: 1617
+   - Poland: 3083
+   - Portugal: 1304
+   - Romania: 1651
+   - Spain: 7914
+   - Sweden: 2598
+   - Switzerland: 2938
+   - United Kingdom: 11490
+
+7. LUPINOVA: 
+   - Austria: 18
+   - Belgium: 13
+   - Bulgaria: 5
+   - Croatia: 3
+   - Czech Republic: 9
+   - Denmark: 11
+   - Finland: 3
+   - France: 93
+   - Germany: 146
+   - Greece: 6
+   - Hungary: 1
+   - Ireland: 6
+   - Italy: 71
+   - Netherlands: 18
+   - Norway: 8
+   - Poland: 22
+   - Portugal: 16
+   - Romania: 7
+   - Spain: 70
+   - Sweden: 15
+   - Switzerland: 20
+   - United Kingdom: 80
+
+8. LYMPHACLEAR: 
+   - Austria: 176
+   - Belgium: 155
+   - Bulgaria: 35
+   - Croatia: 25
+   - Czech Republic: 138
+   - Denmark: 139
+   - Finland: 116
+   - France: 648
+   - Germany: 1349
+   - Greece: 81
+   - Hungary: 76
+   - Ireland: 94
+   - Italy: 930
+   - Netherlands: 183
+   - Norway: 69
+   - Poland: 198
+   - Portugal: 111
+   - Romania: 83
+   - Spain: 685
+   - Sweden: 156
+   - Switzerland: 281
+   - United Kingdom: 603
+
+9. MIGRANOVA: 
+   - Austria: 433
+   - Belgium: 189
+   - Bulgaria: 66
+   - Croatia: 74
+   - Czech Republic: 146
+   - Denmark: 202
+   - Finland: 164
+   - France: 1730
+   - Germany: 1382
+   - Greece: 141
+   - Hungary: 87
+   - Ireland: 123
+   - Italy: 1080
+   - Netherlands: 321
+   - Norway: 206
+   - Poland: 482
+   - Portugal: 196
+   - Romania: 230
+   - Spain: 1121
+   - Sweden: 303
+   - Switzerland: 362
+   - United Kingdom: 1195
+
+10. MIGRANOVA EP: 
+    - Austria: 70
+    - Belgium: 35
+    - Bulgaria: 18
+    - Croatia: 14
+    - Czech Republic: 28
+    - Denmark: 37
+    - Finland: 42
+    - France: 329
+    - Germany: 296
+    - Greece: 27
+    - Hungary: 37
+    - Ireland: 24
+    - Italy: 228
+    - Netherlands: 66
+    - Norway: 50
+    - Poland: 75
+    - Portugal: 42
+    - Romania: 30
+    - Spain: 158
+    - Sweden: 36
+    - Switzerland: 95
+    - United Kingdom: 236
+
+11. MYELOGUARD: 
+    - Austria: 69
+    - Belgium: 76
+    - Bulgaria: 13
+    - Croatia: 9
+    - Czech Republic: 48
+    - Denmark: 47
+    - Finland: 46
+    - France: 320
+    - Germany: 330
+    - Greece: 47
+    - Hungary: 39
+    - Ireland: 37
+    - Italy: 243
+    - Netherlands: 73
+    - Norway: 45
+    - Poland: 111
+    - Portugal: 54
+    - Romania: 64
+    - Spain: 327
+    - Sweden: 156
+    - Switzerland: 281
+    - United Kingdom: 304
+
+12. NEUROMYEL: 
+    - Austria: 314
+    - Belgium: 244
+    - Bulgaria: 69
+    - Croatia: 59
+    - Czech Republic: 157
+    - Denmark: 229
+    - Finland: 204
+    - France: 1034
+    - Germany: 1536
+    - Greece: 138
+    - Hungary: 106
+    - Ireland: 127
+    - Italy: 1066
+    - Netherlands: 281
+    - Norway: 163
+    - Poland: 421
+    - Portugal: 193
+    - Romania: 191
+    - Spain: 1241
+    - Sweden: 244
+    - Switzerland: 404
+    - United Kingdom: 1202
+
+13. NEUROMYEL SPMS: 
+    - Austria: 124
+    - Belgium: 91
+    - Bulgaria: 25
+    - Croatia: 23
+    - Czech Republic: 66
+    - Denmark: 83
+    - Finland: 76
+    - France: 682
+    - Germany: 884
+    - Greece: 66
+    - Hungary: 49
+    - Ireland: 69
+    - Italy: 506
+    - Netherlands: 150
+    - Norway: 76
+    - Poland: 176
+    - Portugal: 105
+    - Romania: 72
+    - Spain: 418
+    - Sweden: 107
+    - Switzerland: 160
+    - United Kingdom: 557
+
+14. ONCOBREAST: 
+    - Austria: 505
+    - Belgium: 355
+    - Bulgaria: 123
+    - Croatia: 96
+    - Czech Republic: 241
+    - Denmark: 320
+    - Finland: 273
+    - France: 2476
+    - Germany: 2939
+    - Greece: 242
+    - Hungary: 220
+    - Ireland: 248
+    - Italy: 1674
+    - Netherlands: 422
+    - Norway: 282
+    - Poland: 854
+    - Portugal: 387
+    - Romania: 368
+    - Spain: 1888
+    - Sweden: 467
+    - Switzerland: 852
+    - United Kingdom: 2040
+
+15. RHEUMAVEX: 
+    - Austria: 17
+    - Belgium: 11
+    - Bulgaria: 3
+    - Croatia: 1
+    - Czech Republic: 7
+    - Denmark: 13
+    - Finland: 3
+    - France: 91
+    - Germany: 144
+    - Greece: 8
+    - Hungary: 3
+    - Ireland: 13
+    - Italy: 113
+    - Netherlands: 17
+    - Norway: 11
+    - Poland: 28
+    - Portugal: 8
+    - Romania: 13
+    - Spain: 84
+    - Sweden: 36
+    - Switzerland: 30
+    - United Kingdom: 99
+
+16. LUNARA COMBO: 
+    - Austria: 11
+    - Belgium: 10
+    - Bulgaria: 0
+    - Croatia: 3
+    - Czech Republic: 13
+    - Denmark: 10
+    - Finland: 8
+    - France: 91
+    - Germany: 115
+    - Greece: 3
+    - Hungary: 2
+    - Ireland: 6
+    - Italy: 64
+    - Netherlands: 8
+    - Norway: 10
+    - Poland: 12
+    - Portugal: 9
+    - Romania: 5
+    - Spain: 53
+    - Sweden: 12
+    - Switzerland: 40
+    - United Kingdom: 68
+
+17. MIGRANOVA EP: 
+    - Austria: 70
+    - Belgium: 35
+    - Bulgaria: 18
+    - Croatia: 14
+    - Czech Republic: 28
+    - Denmark: 37
+    - Finland: 42
+    - France: 329
+    - Germany: 296
+    - Greece: 27
+    - Hungary: 37
+    - Ireland: 24
+    - Italy: 228
+    - Netherlands: 66
+    - Norway: 50
+    - Poland: 75
+    - Portugal: 42
+    - Romania: 30
+    - Spain: 158
+    - Sweden: 36
+    - Switzerland: 95
+    - United Kingdom: 236
+
+18. MYELOGUARD COMBO: 
+    - Austria: 20
+    - Belgium: 20
+    - Bulgaria: 0
+    - Croatia: 3
+    - Czech Republic: 9
+    - Denmark: 11
+    - Finland: 3
+    - France: 93
+    - Germany: 146
+    - Greece: 6
+    - Hungary: 1
+    - Ireland: 6
+    - Italy: 71
+    - Netherlands: 18
+    - Norway: 8
+    - Poland: 22
+    - Portugal: 16
+    - Romania: 7
+    - Spain: 70
+    - Sweden: 15
+    - Switzerland: 20
+    - United Kingdom: 80
+
+19. ONCOBREAST COMBO: 
+    - Austria: 505
+    - Belgium: 355
+    - Bulgaria: 123
+    - Croatia: 96
+    - Czech Republic: 241
+    - Denmark: 320
+    - Finland: 273
+    - France: 2476
+    - Germany: 2939
+    - Greece: 242
+    - Hungary: 220
+    - Ireland: 248
+    - Italy: 1674
+    - Netherlands: 422
+    - Norway: 282
+    - Poland: 854
+    - Portugal: 387
+    - Romania: 368
+    - Spain: 1888
+    - Sweden: 467
+    - Switzerland: 852
+    - United Kingdom: 2040
+
+20. LUNARA SPMS: 
+    - Austria: 20 (not included in Q1 2025 data)
+
+21. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+22. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+23. MIGRANOVA SPMS: 
+    - Austria: 625 (not included in Q1 2025 data)
+
+24. NEUROMYEL SPMS: 
+    - Austria: 625 (not included in Q1 2025 data)
+
+25. ONCOBREAST SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+26. HEMAVEX COMBO: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+27. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+28. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+29. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+30. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+31. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+32. RHEUMAVEX COMBO: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+33. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+34. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+35. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+36. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+37. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+38. ONCOBREAST SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+39. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+40. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+41. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+42. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+43. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+44. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+45. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+46. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+47. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+48. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+49. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+50. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+51. ONCOBREAST SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+52. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+53. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+54. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+55. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+56. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+57. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+58. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+59. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+60. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+61. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+62. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+63. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+64. ONCOBREAST SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+65. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+66. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+67. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+68. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+69. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+70. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+71. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+72. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+73. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+74. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+75. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+76. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+77. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+78. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+79. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+80. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+81. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+82. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+83. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+84. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+85. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+86. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+87. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+88. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+89. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+90. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+91. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+92. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+93. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+94. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+95. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+96. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+97. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+98. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+99. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+100. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+101. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+102. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+103. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+104. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+105. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+106. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+107. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+108. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+109. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+110. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+111. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+112. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+113. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+114. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+115. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+116. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+117. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+118. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+119. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+120. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+121. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+122. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+123. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+124. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+125. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+126. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+127. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+128. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+129. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+130. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+131. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+132. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+133. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+134. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+135. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+136. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+137. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+138. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+139. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+140. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+141. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+142. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+143. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+144. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+145. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+146. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+147. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+148. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+149. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+150. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+151. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+152. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+153. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+154. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+155. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+156. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+157. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+158. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+159. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+160. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+161. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+162. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+163. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+164. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+165. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+166. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+167. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+168. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+169. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+170. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+171. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+172. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+173. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+174. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+175. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+176. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+177. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+178. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+179. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+180. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+181. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+182. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+183. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+184. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+185. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+186. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+187. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+188. RHEUMAVEX COMBO SPMS: 
+    - Austria: 17 (not included in Q1 2025 data)
+
+189. LUNARA SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+190. LUPINOVA SPMS: 
+    - Austria: 18 (not included in Q1 2025 data)
+
+191. LYMPHACLEAR SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+192. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+193. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+194. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+195. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+196. HEMAVEX COMBO SPMS: 
+    - Austria: 11 (not included in Q1 2025 data)
+
+197. LUNARA COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+198. MIGRANOVA EP SPMS: 
+    - Austria: 433 (not included in Q1 2025 data)
+
+199. MYELOGUARD COMBO SPMS: 
+    - Austria: 984 (not included in Q1 2025 data)
+
+200. ONCOBREAST COMBO SPMS: 
+    - Austria: 3312 (not included in Q1 2025 data)
+
+For each country in Q1 2025, the total new patient start for COGNIVEX, COLONEX, DERMASHIELD, HEMAVEX, LUNARA, LUPINOVA, LYMPHACLEAR, MIGRANOVA, MYELOGUARD, NEUROMYEL, ONCOBREAST, RHEUMAVEX, and other brands are as follows:
+
+1. Austria:
+   - COGNIVEX: 16
+   - COLONEX: 267
+   - DERMASHIELD: 351
+   - HEMAVEX: 984
+   - LUNARA: 3312
+   - LUPINOVA: 18
+   - LYMPHACLEAR: 176
+   - MIGRANOVA: 433
+   - MYELOGUARD: 69
+   - NEUROMYEL: 314
+   - ONCOBREAST: 505
+   - RHEUMAVEX: 17
+
+2. Belgium:
+   - COGNIVEX: 11
+   - COLONEX: 89
+   - DERMASHIELD: 237
+   - HEMAVEX: 812
+   - LUNARA: 2242
+   - LUPINOVA: 13
+   - LYMPHACLEAR: 155
+   - MIGRANOVA: 189
+   - MYELOGUARD: 76
+   - NEUROMYEL: 244
+   - ONCOBREAST: 355
+   - RHEUMAVEX: 76
+
+3. Bulgaria:
+   - COGNIVEX: 3
+   - COLONEX: 33
+   - DERMASHIELD: 76
+   - HEMAVEX: 197
+   - LUNARA: 625
+   - LUPINOVA: 5
+   - LYMPHACLEAR: 35
+   - MIGRANOVA: 66
+   - MYELOGUARD: 13
+   - NEUROMYEL: 69
+   - ONCOBREAST: 123
+   - RHEUMAVEX: 8
+
+4. Croatia:
+   - COGNIVEX: 1
+   - COLONEX: 30
+   - DERMASHIELD: 104
+   - HEMAVEX: 242
+   - LUNARA: 535
+   - LUPINOVA: 3
+   - LYMPHACLEAR: 25
+   - MIGRANOVA: 74
+   - MYELOGUARD: 138
+   - NEUROMYEL: 59
+   - ONCOBREAST: 96
+   - RHEUMAVEX: 7
+
+5. Czech Republic:
+   - COGNIVEX: 6
+   - COLONEX: 67
+   - DERMASHIELD: 250
+   - HEMAVEX: 625
+   - LUNARA: 968
+   - LUPINOVA: 9
+   - LYMPHACLEAR: 138
+   - MIGRANOVA: 146
+   - MYELOGUARD: 48
+   - NEUROMYEL: 157
+   - ONCOBREAST: 241
+   - RHEUMAVEX: 49
+
+6. Denmark:
+   - COGNIVEX: 16
+   - COLONEX: 95
+   - DERMASHIELD: 232
+   - HEMAVEX: 571
+   - LUNARA: 1455
+   - LUPINOVA: 11
+   - LYMPHACLEAR: 139
+   - MIGRANOVA: 202
+   - MYELOGUARD: 47
+   - NEUROMYEL: 229
+   - ONCOBREAST: 320
+   - RHEUMAVEX: 91
+
+7. Finland:
+   - COGNIVEX: 6
+   - COLONEX: 109
+   - DERMASHIELD: 190
+   - HEMAVEX: 645
+   - LUNARA: 1817
+   - LUPINOVA: 3
+   - LYMPHACLEAR: 116
+   - MIGRANOVA: 164
+   - MYELOGUARD: 46
+   - NEUROMYEL: 204
+   - ONCOBREAST: 273
+   - RHEUMAVEX: 64
+
+8. France:
+   - COGNIVEX: 113
+   - COLONEX: 632
+   - DERMASHIELD: 1992
+   - HEMAVEX: 5049
+   - LUNARA: 11069
+   - LUPINOVA: 93
+   - LYMPHACLEAR: 648
+   - MIGRANOVA: 1730
+   - MYELOGUARD: 320
+   - NEUROMYEL: 1034
+   - ONCOBREAST: 2476
+   - RHEUMAVEX: 682
+
+9. Germany:
+   - COGNIVEX: 157
+   - COLONEX: 805
+   - DERMASHIELD: 2020
+   - HEMAVEX: 6879
+   - LUNARA: 12163
+   - LUPINOVA: 146
+   - LYMPHACLEAR: 1349
+   - MIGRANOVA: 1382
+   - MYELOGUARD: 330
+   - NEUROMYEL: 1536
+   - ONCOBREAST: 2939
+   - RHEUMAVEX: 1349
+
+10. Greece:
+    - COGNIVEX: 7
+    - COLONEX: 50
+    - DERMASHIELD: 128
+    - HEMAVEX: 501
+    - LUNARA: 975
+    - LUPINOVA: 6
+    - LYMPHACLEAR: 81
+    - MIGRANOVA: 141
+    - MYELOGUARD: 39
+    - NEUROMYEL: 138
+    - ONCOBREAST: 242
+    - RHEUMAVEX: 66
+
+11. Hungary:
+    - COGNIVEX: 5
+    - COLONEX: 49
+    - DERMASHIELD: 176
+    - HEMAVEX: 505
+    - LUNARA: 967
+    - LUPINOVA: 1
+    - LYMPHACLEAR: 76
+    - MIGRANOVA: 87
+    - MYELOGUARD: 39
+    - NEUROMYEL: 106
+    - ONCOBREAST: 220
+    - RHEUMAVEX: 49
+
+12. Ireland:
+    - COGNIVEX: 0
+    - COLONEX: 45
+    - DERMASHIELD: 181
+    - HEMAVEX: 512
+    - LUNARA: 1298
+    - LUPINOVA: 181
+    - LYMPHACLEAR: 94
+    - MIGRANOVA: 123
+    - MYELOGUARD: 37
+    - NEUROMYEL: 127
+    - ONCOBREAST: 248
+    - RHEUMAVEX: 69
+
+13. Italy:
+    - COGNIVEX: 147
+    - COLONEX: 480
+    - DERMASHIELD: 1424
+    - HEMAVEX: 4499
+    - LUNARA: 9929
+    - LUPINOVA: 71
+    - LYMPHACLEAR: 930
+    - MIGRANOVA: 1080
+    - MYELOGUARD: 243
+    - NEUROMYEL: 1066
+    - ONCOBREAST: 1674
+    - RHEUMAVEX: 501
+
+14. Netherlands:
+    - COGNIVEX: 11
+    - COLONEX: 155
+    - DERMASHIELD: 330
+    - HEMAVEX: 1241
+    - LUNARA: 2423
+    - LUPINOVA: 18
+    - LYMPHACLEAR: 183
+    - MIGRANOVA: 321
+    - MYELOGUARD: 73
+    - NEUROMYEL: 281
+    - ONCOBREAST: 422
+    - RHEUMAVEX: 115
+
+15. Norway:
+    - COGNIVEX: 10
+    - COLONEX: 83
+    - DERMASHIELD: 227
+    - HEMAVEX: 868
+    - LUNARA: 1617
+    - LUPINOVA: 8
+    - LYMPHACLEAR: 69
+    - MIGRANOVA: 206
+    - MYELOGUARD: 45
+    - NEUROMYEL: 163
+    - ONCOBREAST: 282
+    - RHEUMAVEX: 69
+
+16. Poland:
+    - COGNIVEX: 24
+    - COLONEX: 247
+    - DERMASHIELD: 583
+    - HEMAVEX: 1718
+    - LUNARA: 3083
+    - LUPINOVA: 22
+    - LYMPHACLEAR: 198
+    - MIGRANOVA: 482
+    - MYELOGUARD: 111
+    - NEUROMYEL: 421
+    - ONCOBREAST: 854
+    - RHEUMAVEX: 83
+
+17. Portugal:
+    - COGNIVEX: 11
+    - COLONEX: 83
+    - DERMASHIELD: 285
+    - HEMAVEX: 613
+    - LUNARA: 1304
+    - LUPINOVA: 16
+    - LYMPHACLEAR: 111
+    - MIGRANOVA: 196
+    - MYELOGUARD: 54
+    - NEUROMYEL: 156
+    - ONCOBREAST: 387
+    - RHEUMAVEX: 81
+
+18. Romania:
+    - COGNIVEX: 11
+    - COLONEX: 93
+    - DERMASHIELD: 201
+    - HEMAVEX: 891
+    - LUNARA: 1651
+    - LUPINOVA: 7
+    - LYMPHACLEAR: 83
+    - MIGRANOVA: 230
+    - MYELOGUARD: 64
+    - NEUROMYEL: 191
+    - ONCOBREAST: 368
+    - RHEUMAVEX: 76
+
+19. Spain:
+    - COGNIVEX: 68
+    - COLONEX: 314
+    - DERMASHIELD: 1112
+    - HEMAVEX: 4850
+    - LUNARA: 7914
+    - LUPINOVA: 70
+    - LYMPHACLEAR: 685
+    - MIGRANOVA: 1121
+    - MYELOGUARD: 327
+    - NEUROMYEL: 1241
+    - ONCOBREAST: 1888
+    - RHEUMAVEX: 685
+
+20. Sweden:
+    - COGNIVEX: 24
+    - COLONEX: 147
+    - DERMASHIELD: 391
+    - HEMAVEX: 1095
+    - LUNARA: 2598
+    - LUPINOVA: 15
+    - LYMPHACLEAR: 156
+    - MIGRANOVA: 303
+    - MYELOGUARD: 93
+    - NEUROMYEL: 244
+    - ONCOBREAST: 467
+    - RHEUMAVEX: 164
+
+21. Switzerland:
+    - COGNIVEX: 28
+    - COLONEX: 164
+    - DERMASHIELD: 494
+    - HEMAVEX: 1447
+    - LUNARA: 2938
+    - LUPINOVA: 20
+    - LYMPHACLEAR: 281
+    - MIGRANOVA: 362
+    - MYELOGUARD: 304
+    - NEUROMYEL: 404
+    - ONCOBREAST: 852
+    - RHEUMAVEX: 281
+
+22. United Kingdom:
+    - COGNIVEX: 89
+    - COLONEX: 506
+    - DERMASHIELD: 1847
+    - HEMAVEX: 5157
+    - LUNARA: 11490
+    - LUPINOVA: 80
+    - LYMPHACLEAR: 603
+    - MIGRANOVA: 1195
+    - MYELOGUARD: 304
+    - NEUROMYEL: 1202
+    - ONCOBREAST: 2040
+    - RHEUMAVEX: 99
+
+Please note that the above totals are aggregated from the provided data and may not reflect the exact sales figures for each country and brand in Q1 2025.
+Closing resources...
+Resources closed.

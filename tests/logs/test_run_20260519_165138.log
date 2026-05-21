@@ -1,0 +1,77 @@
+
+=== Running tests for reference_answers_conversational_handler.json ===
+
+[ID 1] Testing: Hello!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The database schema provided is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The key design feature of this schema is the brand-indication bridge, which enables brand-level sales aggregation with indication-level interaction tracking. 
+
+The dimension tables are DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. These tables contain master data for geography, brands, brand indications, time, employees, and accounts.
+
+The fact tables are FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets. These tables contain transactional and snapshot data for interactions, coverage, performance, sales, account metrics, KPI summaries, sample management, and targets.
+
+The relationships between the tables are defined in the data model relationships section, which describes the cardinality and description of each relationship. The data model is designed to support various KPIs, which are listed in the KPI quick reference section along with their categories, targets, units, and source tables.
+
+The generation methodology for the data is also provided, which includes seeding, generating names, revenue, interactions, coverage, performance, and targets using parameterized trajectory functions, weighted random selection, and derived calculations. 
+
+This database schema is designed to support business intelligence and analytics for the pharmaceutical industry, specifically for sales, marketing, and performance management. It provides a comprehensive data model for tracking interactions, sales, coverage, performance, and targets, and enables the calculation of various KPIs to support business decisions. 
+
+The database schema is well-structured and follows a star schema design, which is suitable for data warehousing and business intelligence applications. The use of a brand-indication bridge enables flexible and detailed analysis of sales and interactions at the brand and indication levels. 
+
+Overall, the database schema provided is a robust and scalable design that can support the complex data analysis needs of the pharmaceutical industry.
+Judge verdict: FAIL
+Reason: The response is related to a database schema, but it doesn't address the user's simple greeting 'Hello!'
+
+[ID 1] Verdict: FAIL
+Reference: For the question "Hello!", the expected answer is:
+  The assistant should respond with a friendly greeting and offer to help with any questions.
+Actual: The database schema provided is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The key design feature of this schema is the brand-indication bridge, which enables brand-level sales aggregation with indication-level interaction tracking. 
+
+The dimension tables are DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DI
+Reason: The response is related to a database schema, but it doesn't address the user's simple greeting 'Hello!'
+
+[ID 2] Testing: Hi there, how are you doing today?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The provided database schema is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets.
+
+The question 'Hi there, how are you doing today?' does not relate to the database schema, as it appears to be a greeting rather than a query about the data. However, I can provide some general information about the database schema. The schema is designed to support the analysis of commercial data for pharmaceutical brands in the EMEA region, including sales, interactions, coverage, and performance metrics.
+
+The FACT_Interactions table is the central fact table and contains individual HCP interactions with indication-level tracking. The DIM_Brand_Indication bridge table enables multi-indication tracking for each brand. The schema also includes a number of KPIs, such as Field Day Percentage, Target Coverage Rate, and Call Plan Adherence, which are used to measure performance and activity.
+
+If you have a specific question about the database schema or would like to know more about a particular table or KPI, I would be happy to try and assist you.
+Judge verdict: FAIL
+Reason: The actual response is unrelated to the question as it is a discussion about a database schema instead of a warm and friendly greeting
+
+[ID 2] Verdict: FAIL
+Reference: For the question "Hi there, how are you doing today?", the expected answer is:
+  The assistant should respond conversationally in a warm friendly tone and express readiness to help.
+Actual: The provided database schema is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary,
+Reason: The actual response is unrelated to the question as it is a discussion about a database schema instead of a warm and friendly greeting
+
+[ID 3] Testing: Good morning!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The provided question 'Good morning!' does not contain any relevant information about the database schema, so there is no metadata information to provide. The database schema documentation includes information about the different tables, their relationships, and the data they contain, but this question does not relate to any of that information. If you have a specific question about the database schema, I would be happy to try and help.
+Judge verdict: FAIL
+Reason: The chatbot completely misses the point of the question, which is a greeting, and provides an unrelated response about database schema.
+
+[ID 3] Verdict: FAIL
+Reference: For the question "Good morning!", the expected answer is:
+  The assistant should return a morning greeting and offer its assistance.
+Actual: The provided question 'Good morning!' does not contain any relevant information about the database schema, so there is no metadata information to provide. The database schema documentation includes information about the different tables, their relationships, and the data they contain, but this question does not relate to any of that information. If you have a specific question about the database s
+Reason: The chatbot completely misses the point of the question, which is a greeting, and provides an unrelated response about database schema.
+
+[ID 4] Testing: What can you help me with?
+Determined intent: meta_data_handler
+Instantiated handler: Handler
+Handler response: None
+  [ID 4] Assertion error: [ID 4] Empty response on turn 1
+assert None
+
+[ID 5] Testing: What kind of questions are you able to answer?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: I can answer questions related to the NovaCarta EMEA Commercial Data Platform, which is based on a star schema with 6 dimension tables and 8 fact tables. The database includes information about brands, geography, time, employees, accounts, interactions, sales, coverage, performance, and targets. I can help with queries about brand-level sales aggregation, indication-level interaction tracking, and various key performance indicators such as field day percentage, target coverage rate, and digital channel coverage. I can also provide information about the relationships between different tables and fields in the database. What specific question would you like me to answer?
+Closing resources...
+Resources closed.

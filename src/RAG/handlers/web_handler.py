@@ -4,15 +4,21 @@ from src.RAG.resources import Resources
 import requests
 import os
 
+
 @register_handler("web_handler")
 class WebHandler(Handler):
+    description = (
+        "Fetches real-time, external, or world knowledge that is not contained within the internal "
+        "company database or documentation. "
+        "Use this for (Positive): External market data ('What is the current stock price of Nvidia?'), "
+        "industry benchmarks ('What is the average churn rate for SaaS?'), and current events "
+        "('Who won the Super Bowl?'). "
+        "Do NOT use this for (Negative): Internal company data ('What was our revenue?'), "
+        "internal documentation ('How do I use our internal dashboard?'), or simple conversation."
+    )
+
     def __init__(self, resources: Resources):
         super().__init__(resources)
-        self.description = (
-            'The WebHandler is responsible for processing user prompts that require web search or external API calls. '
-            'It can fetch real-time information, perform searches, and integrate data from the web to provide '
-            'up-to-date responses.'
-    )
 
     def _search(self, query):
         api_key = os.environ.get("SERPER_API_KEY")
@@ -23,6 +29,7 @@ class WebHandler(Handler):
         print(response)
         results = response.json()["organic"]
         return "\n".join([f"{r['title']}: {r['snippet']}" for r in results[:3]])
+
     def handle(self, prompt: str, history: list | None = None) -> str:
         """
         Handles prompts that require web search or external API calls.

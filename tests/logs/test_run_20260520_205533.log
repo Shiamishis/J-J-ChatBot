@@ -1,0 +1,714 @@
+
+=== Running tests for reference_answers_data_handler_easy.json ===
+
+[ID 1] Testing: Top 5 products by sales in 2025 with their respective sales
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(COALESCE(FS.net_revenue_eur, 0)) as total_sales
+FROM FACT_Sales FS
+JOIN DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN DIM_Time DT ON FS.time_id = DT.time_id
+WHERE DT.year = 2025
+GROUP BY DB.brand_name
+ORDER BY total_sales DESC
+LIMIT 5;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 2] Testing: Total revenue by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Geography', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: WITH Sales_Agg AS (
+    SELECT 
+        G.geo_name, 
+        SUM(S.net_revenue_eur) as total_revenue
+    FROM FACT_Sales S
+    JOIN DIM_Geography G ON S.geo_id = G.geo_id
+    JOIN DIM_Time T ON S.time_id = T.time_id
+    WHERE T.year = 2025
+    GROUP BY 1
+)
+SELECT 
+    geo_name, 
+    total_revenue
+FROM Sales_Agg
+ORDER BY total_revenue DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 3] Testing: Monthly revenue trend for 2025 across all brands
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    T.month_name, 
+    SUM(F.net_revenue_eur) as total_revenue
+FROM FACT_Sales F
+JOIN DIM_Time T ON F.time_id = T.time_id
+JOIN DIM_Brand B ON F.brand_id = B.brand_id
+WHERE T.year = 2025
+GROUP BY 1 ORDER BY 1;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 4] Testing: Revenue by therapeutic area in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Brand', 'DIM_Time', 'DIM_Brand_Indication'}
+[DataHandler] SQL Generated: SELECT 
+    DB.therapeutic_area_name, 
+    SUM(COALESCE(FS.net_revenue_eur, 0)) as total_revenue
+FROM FACT_Sales FS
+JOIN DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN DIM_Time DT ON FS.time_id = DT.time_id
+WHERE DT.year = 2025
+GROUP BY DB.therapeutic_area_name
+ORDER BY total_revenue DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 5] Testing: Average market share percentage per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: WITH Sales_Agg AS (
+    SELECT 
+        D.brand_id, 
+        AVG(F.market_share_pct) as avg_market_share
+    FROM FACT_Sales F
+    JOIN DIM_Time T ON F.time_id = T.time_id
+    JOIN DIM_Brand D ON F.brand_id = D.brand_id
+    WHERE T.year = 2025
+    GROUP BY 1
+)
+SELECT 
+    D.brand_name, 
+    S.avg_market_share
+FROM Sales_Agg S
+JOIN DIM_Brand D ON S.brand_id = D.brand_id
+ORDER BY 2 DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 7] Testing: Total units sold per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: WITH Sales_Agg AS (
+    SELECT 
+        F.brand_id, 
+        SUM(F.units_sold) as total_units
+    FROM FACT_Sales F
+    JOIN DIM_Time T ON F.time_id = T.time_id
+    WHERE T.year = 2025
+    GROUP BY 1
+)
+SELECT 
+    D.brand_name, 
+    COALESCE(SA.total_units, 0) as total_units
+FROM DIM_Brand D
+LEFT JOIN Sales_Agg SA ON D.brand_id = SA.brand_id
+ORDER BY 2 DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 8] Testing: Total new patient starts by brand and country in Q1 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Geography', 'FACT_Sales', 'DIM_Brand', 'DIM_Time'}
+[DataHandler] SQL Generated: WITH Q1_2025_Sales AS (
+    SELECT 
+        F.geo_id, 
+        F.brand_id, 
+        SUM(F.new_patient_starts) as total_new_patient_starts
+    FROM FACT_Sales F
+    JOIN DIM_Time T ON F.time_id = T.time_id
+    WHERE T.quarter = 'Q1' AND T.year = 2025
+    GROUP BY 1, 2
+)
+SELECT 
+    D.geo_name, 
+    B.brand_name, 
+    COALESCE(Q.total_new_patient_starts, 0) as total_new_patient_starts
+FROM DIM_Geography D
+JOIN Q1_2025_Sales Q ON D.geo_id = Q.geo_id
+JOIN DIM_Brand B ON Q.brand_id = B.brand_id
+ORDER BY 3 DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 10] Testing: Top 10 HCO accounts by revenue in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Account'}
+[DataHandler] SQL Generated: SELECT 
+    D.account_name, 
+    SUM(F.net_revenue_eur) as total_revenue
+FROM FACT_Sales F
+JOIN DIM_Account D ON F.account_id = D.account_id
+JOIN DIM_Time T ON F.time_id = T.time_id
+WHERE T.year = 2025 AND D.account_type = 'HCO'
+GROUP BY 1 ORDER BY 2 DESC LIMIT 10;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 11] Testing: Quarterly revenue breakdown by cluster in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Geography', 'FACT_Sales', 'FACT_Targets', 'DIM_Time'}
+[DataHandler] SQL Generated: WITH Sales_By_Cluster AS (
+    SELECT 
+        D.cluster_name, 
+        T.quarter, 
+        SUM(F.net_revenue_eur) as total_revenue
+    FROM FACT_Sales F
+    JOIN DIM_Geography D ON F.geo_id = D.geo_id
+    JOIN DIM_Time T ON F.time_id = T.time_id
+    WHERE T.year = 2025
+    GROUP BY 1, 2
+)
+SELECT 
+    cluster_name, 
+    quarter, 
+    total_revenue
+FROM Sales_By_Cluster
+ORDER BY 1, 2;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 12] Testing: Total number of interactions by channel in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    F.interaction_channel, 
+    COUNT(F.interaction_id) as total_interactions
+FROM FACT_Interactions F
+JOIN DIM_Time T ON F.time_id = T.time_id
+WHERE T.year = 2025
+GROUP BY 1 ORDER BY 2 DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 13] Testing: Number of interactions per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'DIM_Brand_Indication', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    D.brand_name, 
+    COUNT(F.interaction_id) as interaction_count
+FROM FACT_Interactions F
+JOIN DIM_Brand D ON F.brand_id = D.brand_id
+JOIN DIM_Time T ON F.time_id = T.time_id
+WHERE T.year = 2025
+GROUP BY 1
+ORDER BY 2 DESC;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 15] Testing: Average interaction duration in minutes by brand and channel in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    B.brand_name, 
+    I.interaction_channel, 
+    AVG(I.interaction_duration_min) as average_interaction_duration
+FROM FACT_Interactions I
+JOIN DIM_Brand B ON I.brand_id = B.brand_id
+JOIN DIM_Time T ON I.time_id = T.time_id
+WHERE T.year = 2025
+GROUP BY 1, 2
+ORDER BY 1, 2;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+  Failed on turn 1: {"detail":"LLM.query() missing 1 required positional argument: 'context'"}
+
+[ID 16] Testing: Top 10 most active employees by number of interactions in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Employee', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    E.employee_name, 
+    E.employee_role, 
+    E.department, 
+    SUM(F.interaction_count) as total_interactions
+FROM FACT_Performance F
+JOIN DIM_Employee E ON F.employee_id = E.employee_id
+JOIN DIM_Time T ON F.time_id = T.time_id
+WHERE T.year = 2025
+GROUP BY 1, 2, 3
+ORDER BY 4 DESC
+LIMIT 10;
+Error processing chat message: LLM.query() missing 1 required positional argument: 'context'
+Closing resources...
+Resources closed.
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+        session.exitstatus = doit(config, session) or 0session.exitstatus = doit(config, session) or 0
+
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+        config.hook.pytest_runtestloop(session=session)config.hook.pytest_runtestloop(session=session)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\logging.py", line 801, in pytest_runtestloop
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\logging.py", line 801, in pytest_runtestloop
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\terminal.py", line 707, in pytest_runtestloop
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\terminal.py", line 707, in pytest_runtestloop
+        result = yieldresult = yield
+
+                          ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+        item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\warnings.py", line 89, in pytest_runtest_protocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\warnings.py", line 89, in pytest_runtest_protocol
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\assertion\__init__.py", line 192, in pytest_runtest_protocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\assertion\__init__.py", line 192, in pytest_runtest_protocol
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\unittest.py", line 591, in pytest_runtest_protocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\unittest.py", line 591, in pytest_runtest_protocol
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\faulthandler.py", line 102, in pytest_runtest_protocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\faulthandler.py", line 102, in pytest_runtest_protocol
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+        runtestprotocol(item, nextitem=nextitem)runtestprotocol(item, nextitem=nextitem)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+        reports.append(call_and_report(item, "call", log))reports.append(call_and_report(item, "call", log))
+
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+        call = CallInfo.from_call(call = CallInfo.from_call(
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+        result: TResult | None = func()result: TResult | None = func()
+
+                                                          ^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+        lambda: runtest_hook(item=item, **kwds),lambda: runtest_hook(item=item, **kwds),
+
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\logging.py", line 850, in pytest_runtest_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\logging.py", line 850, in pytest_runtest_call
+        yieldyield
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\capture.py", line 900, in pytest_runtest_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\capture.py", line 900, in pytest_runtest_call
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 139, in _multicall
+        teardown.throw(exception)teardown.throw(exception)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\skipping.py", line 268, in pytest_runtest_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\skipping.py", line 268, in pytest_runtest_call
+        return (yield)return (yield)
+
+                        ^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+        item.runtest()item.runtest()
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+        self.ihook.pytest_pyfunc_call(pyfuncitem=self)self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+        result = testfunction(**testargs)result = testfunction(**testargs)
+
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\tests\end_to_end_testing\end_to_end_testing.py", line 298, in test_chat_response_wrapper
+  File "C:\Users\andre\J-J-ChatBot\tests\end_to_end_testing\end_to_end_testing.py", line 298, in test_chat_response_wrapper
+        stats = chat_response_stats(client, reference_cases)stats = chat_response_stats(client, reference_cases)
+
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\tests\end_to_end_testing\end_to_end_testing.py", line 212, in chat_response_stats
+  File "C:\Users\andre\J-J-ChatBot\tests\end_to_end_testing\end_to_end_testing.py", line 212, in chat_response_stats
+        response = client.post(response = client.post(
+
+                              ^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 552, in post
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 552, in post
+        return super().post(return super().post(
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 1144, in post
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 1144, in post
+        return self.request(return self.request(
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 451, in request
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 451, in request
+        return super().request(return super().request(
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 825, in request
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 825, in request
+        return self.send(request, auth=auth, follow_redirects=follow_redirects)return self.send(request, auth=auth, follow_redirects=follow_redirects)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 914, in send
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 914, in send
+        response = self._send_handling_auth(response = self._send_handling_auth(
+
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+        response = self._send_handling_redirects(response = self._send_handling_redirects(
+
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+        response = self._send_single_request(request)response = self._send_single_request(request)
+
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+        response = transport.handle_request(request)response = transport.handle_request(request)
+
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 354, in handle_request
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 354, in handle_request
+        raise excraise exc
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 351, in handle_request
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\starlette\testclient.py", line 351, in handle_request
+        portal.call(self.app, scope, receive, send)portal.call(self.app, scope, receive, send)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\anyio\from_thread.py", line 291, in call
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\anyio\from_thread.py", line 291, in call
+        return cast(T_Retval, self.start_task_soon(func, *args).result())return cast(T_Retval, self.start_task_soon(func, *args).result())
+
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 451, in result
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 451, in result
+        self._condition.wait(timeout)self._condition.wait(timeout)
+
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 355, in wait
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 355, in wait
+        waiter.acquire()waiter.acquire()
+
+KeyboardInterruptKeyboardInterrupt
+
+
+
+During handling of the above exception, another exception occurred:
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+        raise SystemExit(pytest.console_main())raise SystemExit(pytest.console_main())
+
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+        code = main()code = main()
+
+                      ^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+        ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+        return wrap_session(config, _main)return wrap_session(config, _main)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 332, in wrap_session
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\main.py", line 332, in wrap_session
+        config.hook.pytest_keyboard_interrupt(excinfo=excinfo)config.hook.pytest_keyboard_interrupt(excinfo=excinfo)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+        return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+        return self._inner_hookexec(hook_name, methods, kwargs, firstresult)return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 167, in _multicall
+        raise exceptionraise exception
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+        res = hook_impl.function(*args)res = hook_impl.function(*args)
+
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\terminal.py", line 999, in pytest_keyboard_interrupt
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\terminal.py", line 999, in pytest_keyboard_interrupt
+        self._keyboardinterrupt_memo = excinfo.getrepr(funcargs=True)self._keyboardinterrupt_memo = excinfo.getrepr(funcargs=True)
+
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 765, in getrepr
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 765, in getrepr
+        return fmt.repr_excinfo(self)return fmt.repr_excinfo(self)
+
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1206, in repr_excinfo
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1206, in repr_excinfo
+        reprtraceback = self.repr_traceback(excinfo_)reprtraceback = self.repr_traceback(excinfo_)
+
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1133, in repr_traceback
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1133, in repr_traceback
+        self.repr_traceback_entry(entry, excinfo if last == entry else None)self.repr_traceback_entry(entry, excinfo if last == entry else None)
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1063, in repr_traceback_entry
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 1063, in repr_traceback_entry
+        source = self._getentrysource(entry)source = self._getentrysource(entry)
+
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 901, in _getentrysource
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 901, in _getentrysource
+        source = entry.getsource(self.astcache)source = entry.getsource(self.astcache)
+
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 289, in getsource
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 289, in getsource
+        source = self.frame.code.fullsourcesource = self.frame.code.fullsource
+
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 106, in fullsource
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\code.py", line 106, in fullsource
+        full, _ = findsource(self.raw)full, _ = findsource(self.raw)
+
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\source.py", line 127, in findsource
+  File "C:\Users\andre\J-J-ChatBot\venv\Lib\site-packages\_pytest\_code\source.py", line 127, in findsource
+        sourcelines, lineno = inspect.findsource(obj)sourcelines, lineno = inspect.findsource(obj)
+
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\inspect.py", line 1084, in findsource
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\inspect.py", line 1084, in findsource
+        module = getmodule(object, file)module = getmodule(object, file)
+
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\inspect.py", line 1010, in getmodule
+  File "C:\Users\andre\AppData\Local\Programs\Python\Python312\Lib\inspect.py", line 1010, in getmodule
+        os.path.realpath(f)] = module.__name__os.path.realpath(f)] = module.__name__
+
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "<frozen ntpath>", line 714, in realpath
+  File "<frozen ntpath>", line 714, in realpath
+KeyboardInterruptKeyboardInterrupt
+

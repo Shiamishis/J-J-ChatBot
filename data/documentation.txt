@@ -1,0 +1,321 @@
+NovaCarta Pharma
+EMEA Commercial Data Platform
+Technical Data Dictionary & Schema Documentation
+Property	Value
+Document ID	NC-EMEA-TECH-DOC-2025-001
+Version	4.0
+Classification	INTERNAL - TECHNICAL
+Effective Date	March 2025
+Document Owner	EMEA Data Engineering
+
+1. Data Model Overview
+The NovaCarta EMEA CDP implements a star schema with 6 dimension tables and 8 fact tables. Key design feature: brands can have multiple indications (DIM_Brand_Indication bridge), enabling brand-level sales aggregation with indication-level interaction tracking.
+1.1 Table Inventory
+Table	Type	Primary Key	Records	Description
+DIM_Geography	Dimension	geo_id	287	Five-level geographic hierarchy for EMEA
+DIM_Brand	Dimension	brand_id	15	Brand master data (15 brands across 4 TAs)
+DIM_Brand_Indication	Dimension	brand_id + indication_id	20	Brand-indication bridge (20 indications, multi-indication support)
+DIM_Time	Dimension	time_id	36	Calendar time: Jan 2023 - Dec 2025
+DIM_Employee	Dimension	employee_id	588	Sales force and medical affairs personnel
+DIM_Account	Dimension	account_id	1732	HCP and HCO master data (no target_class - see FACT_Account_Metrics)
+FACT_Interactions	Fact (Transaction)	interaction_id	189953	Individual HCP interactions with indication-level tracking
+FACT_Coverage	Fact (Snapshot)	coverage_id	10270	Monthly HCP coverage metrics
+FACT_Performance	Fact (Snapshot)	performance_id	15070	Monthly employee performance
+FACT_Sales	Fact (Transaction)	sales_id	124886	Monthly HCO-level sales with market data
+FACT_Account_Metrics	Fact (Snapshot)	account_metric_id	33400	Quarterly account-level metrics (includes target_class)
+FACT_KPI_Summary	Fact (Snapshot)	kpi_summary_id	52170	Consolidated KPI values per country/brand/quarter
+FACT_Sample_Management	Fact (Transaction)	sample_id	13982	Product sample delivery tracking
+FACT_Targets	Fact (Periodic Snapshot)	target_id	14696	Quarterly brand performance targets per country
+
+2. Table Specifications
+2.x DIM_Geography
+Type: Dimension | Records: 287 | PK: geo_id
+Five-level geographic hierarchy for EMEA
+Column	Data Type	Description	Sample
+geo_id	VARCHAR(10)	Primary key	GEO_0001
+geo_name	VARCHAR(100)	Name	Germany
+geo_level	VARCHAR(15)	REGION/CLUSTER/COUNTRY/TERRITORY/DISTRICT	COUNTRY
+parent_geo_id	VARCHAR(10)	FK to parent	GEO_0002
+country_code	CHAR(2)	ISO code	DE
+region_name	VARCHAR(20)	Top-level region	EMEA
+cluster_name	VARCHAR(30)	Cluster	Western Europe
+population_millions	DECIMAL(6,1)	Population	83.2
+
+2.x DIM_Brand
+Type: Dimension | Records: 15 | PK: brand_id
+Brand master data (15 brands across 4 TAs)
+Column	Data Type	Description	Sample
+brand_id	VARCHAR(10)	Primary key	BRD001
+brand_name	VARCHAR(50)	Commercial name	LUNARA
+molecule_id	VARCHAR(10)	Molecule ID	MOL001
+molecule_name	VARCHAR(80)	INN name	lunarexib
+therapeutic_area_id	VARCHAR(10)	TA classification	TA01
+therapeutic_area_name	VARCHAR(50)	TA name	Solid Tumors
+primary_launch_date	DATE	Earliest indication launch	2019-03-01
+lifecycle_stage	VARCHAR(10)	Current stage	GROWTH
+
+2.x DIM_Brand_Indication
+Type: Dimension | Records: 20 | PK: brand_id + indication_id
+Brand-indication bridge (20 indications, multi-indication support)
+Column	Data Type	Description	Sample
+brand_id	VARCHAR(10)	FK to DIM_Brand	BRD001
+indication_id	VARCHAR(10)	Indication identifier	IND001
+indication_name	VARCHAR(80)	Indication name	NSCLC First-Line
+sub_indication_name	VARCHAR(80)	Sub-indication detail	NSCLC EGFR+ 1L
+disease_group_id	VARCHAR(10)	Disease group ID	DG001
+disease_group_name	VARCHAR(50)	Disease group	Lung Cancer
+indication_launch_date	DATE	Launch date for this indication	2019-03-01
+indication_lifecycle_stage	VARCHAR(10)	Lifecycle stage	GROWTH
+
+2.x DIM_Time
+Type: Dimension | Records: 36 | PK: time_id
+Calendar time: Jan 2023 - Dec 2025
+Column	Data Type	Description	Sample
+time_id	VARCHAR(10)	PK format TYYYYMM	T202501
+year_month	INTEGER	YYYYMM	202501
+year	INTEGER	Calendar year	2025
+quarter	VARCHAR(2)	Q1-Q4	Q1
+month	INTEGER	1-12	1
+month_name	VARCHAR(10)	Full name	January
+time_period	VARCHAR(5)	Rolling period	R3M
+is_current_month	CHAR(1)	Y/N	N
+fiscal_year	VARCHAR(6)	FY identifier	FY2025
+fiscal_quarter	VARCHAR(10)	FQ identifier	FY2025-Q1
+
+2.x DIM_Employee
+Type: Dimension | Records: 588 | PK: employee_id
+Sales force and medical affairs personnel
+Column	Data Type	Description	Sample
+employee_id	VARCHAR(10)	Primary key	EMP0001
+employee_name	VARCHAR(100)	Full name	Anna Schmidt
+employee_role	VARCHAR(30)	Job role	Field_Sales_Representative
+territory_id	VARCHAR(10)	FK to geography	GEO_0009
+is_active	CHAR(1)	Y/N	Y
+hire_date	DATE	Start date	2020-01-15
+department	VARCHAR(20)	Department	Sales
+manager_id	VARCHAR(10)	FK to manager (self-ref)	EMP0050
+brand_id	VARCHAR(10)	Primary brand (NULL for managers)	BRD001
+therapeutic_area_id	VARCHAR(10)	TA alignment	TA01
+
+2.x DIM_Account
+Type: Dimension | Records: 1,732 | PK: account_id
+HCP and HCO master data (no target_class - see FACT_Account_Metrics)
+Column	Data Type	Description	Sample
+account_id	VARCHAR(10)	Primary key	ACC00001
+account_name	VARCHAR(100)	Name	Dr. Anna Mueller
+account_type	VARCHAR(5)	HCP or HCO	HCP
+specialty	VARCHAR(50)	Primary specialty	Oncology
+sub_specialty	VARCHAR(50)	Sub-specialty	Medical Oncology
+territory_id	VARCHAR(10)	FK to territory	GEO_0009
+country_code	CHAR(2)	ISO code	DE
+consent_status	VARCHAR(15)	Consent status	CONSENTED
+is_key_opinion_leader	CHAR(1)	Y/N	Y
+institution_name	VARCHAR(100)	HCO name (HCO records)	Berlin University Hospital
+institution_id	VARCHAR(10)	FK to parent HCO (HCP records)	ACC00001
+prescriber_volume	VARCHAR(10)	HIGH/MEDIUM/LOW	HIGH
+
+2.x FACT_Interactions
+Type: Fact (Transaction) | Records: 189,953 | PK: interaction_id
+Individual HCP interactions with indication-level tracking
+Column	Data Type	Description	Sample
+interaction_id	VARCHAR(12)	Primary key	INT0000001
+account_id	VARCHAR(10)	FK to account	ACC00042
+employee_id	VARCHAR(10)	FK to employee	EMP0015
+brand_id	VARCHAR(10)	FK to brand	BRD001
+indication_id	VARCHAR(10)	FK to indication	IND001
+geo_id	VARCHAR(10)	FK to country	GEO_0003
+time_id	VARCHAR(10)	FK to time	T202501
+interaction_type	VARCHAR(10)	CALL/EMAIL/EVENT	CALL
+interaction_channel	VARCHAR(20)	Channel	F2F
+is_f2f_flag	TINYINT	1 if F2F	1
+is_web_call_flag	TINYINT	1 if web	0
+is_email_flag	TINYINT	1 if email	0
+is_event_flag	TINYINT	1 if event	0
+is_promotional_flag	TINYINT	1 if promotional	1
+interaction_duration_min	INTEGER	Duration min	25
+call_status	VARCHAR(15)	Outcome status	COMPLETED
+kpi008_event_followup_flag	TINYINT	Event follow-up	0
+kpi012_tc1_interaction_flag	TINYINT	High-potential account flag	1
+kpi013_tc2_interaction_flag	TINYINT	Medium-potential account flag	0
+kpi014_promo_email_flag	TINYINT	Promo email flag	0
+kpi015_multichannel_score	INTEGER	Weighted score	3
+
+2.x FACT_Coverage
+Type: Fact (Snapshot) | Records: 10,270 | PK: coverage_id
+Monthly HCP coverage metrics
+Column	Data Type	Description	Sample
+coverage_id	VARCHAR(12)	PK	COV000001
+geo_id	VARCHAR(10)	FK country	GEO_0003
+brand_id	VARCHAR(10)	FK brand	BRD001
+time_id	VARCHAR(10)	FK time	T202501
+time_period	VARCHAR(5)	Rolling period	R3M
+target_universe_count	INTEGER	Target HCPs	150
+covered_accounts_count	INTEGER	Reached HCPs	120
+f2f_covered_count	INTEGER	F2F reached	90
+web_covered_count	INTEGER	Web reached	45
+email_covered_count	INTEGER	Email reached	60
+event_covered_count	INTEGER	Event reached	25
+total_hcp_count	INTEGER	Total HCPs	200
+leading_specialist_count	INTEGER	High-vol specialists	30
+kpi002_target_coverage_pct	DECIMAL(5,1)	Coverage %	80.0
+kpi005_f2f_coverage_pct	DECIMAL(5,1)	F2F %	60.0
+kpi006_digital_coverage_pct	DECIMAL(5,1)	Digital %	70.0
+kpi007_email_util_pct	DECIMAL(5,1)	Email %	40.0
+kpi011_ls_coverage_pct	DECIMAL(5,1)	LS %	85.0
+
+2.x FACT_Performance
+Type: Fact (Snapshot) | Records: 15,070 | PK: performance_id
+Monthly employee performance
+Column	Data Type	Description	Sample
+performance_id	VARCHAR(12)	PK	PERF000001
+employee_id	VARCHAR(10)	FK employee	EMP0015
+geo_id	VARCHAR(10)	FK country	GEO_0003
+brand_id	VARCHAR(10)	FK brand	BRD001
+time_id	VARCHAR(10)	FK time	T202501
+time_period	VARCHAR(5)	Period	R3M
+field_days	INTEGER	Days in field	18
+total_working_days	INTEGER	Business days	22
+coaching_days	INTEGER	Coaching days	3
+interaction_count	INTEGER	Total interactions	45
+planned_calls	INTEGER	Call plan target	50
+actual_calls	INTEGER	Completed calls	42
+target_adherence_pct	DECIMAL(5,1)	Adherence %	84.0
+email_utilization_pct	DECIMAL(5,1)	Email util %	35.0
+event_followup_count	INTEGER	Event follow-ups	5
+kpi001_field_day_pct	DECIMAL(5,1)	KPI001	81.8
+kpi003_call_plan_adherence_pct	DECIMAL(5,1)	KPI003	84.0
+kpi004_daily_interaction_rate	DECIMAL(4,2)	KPI004	2.50
+kpi009_coaching_days	INTEGER	KPI009	3
+
+2.x FACT_Sales
+Type: Fact (Transaction) | Records: 124,886 | PK: sales_id
+Monthly HCO-level sales with market data
+Column	Data Type	Description	Sample
+sales_id	VARCHAR(12)	Primary key	SAL000001
+account_id	VARCHAR(10)	FK to HCO account	ACC00001
+geo_id	VARCHAR(10)	FK to country	GEO_0003
+brand_id	VARCHAR(10)	FK to brand	BRD001
+time_id	VARCHAR(10)	FK to time	T202501
+net_revenue_eur	DECIMAL(15,2)	Revenue EUR	1523456.78
+units_sold	INTEGER	Units	609
+market_share_pct	DECIMAL(5,2)	Market share %	23.45
+market_size_eur	DECIMAL(15,2)	Market size EUR	6500000.00
+yoy_growth_pct	DECIMAL(6,2)	YoY growth %	25.30
+price_per_unit_eur	DECIMAL(10,2)	Price/unit	2500.00
+new_patient_starts	INTEGER	New patients	12
+total_patients_on_therapy	INTEGER	Total patients	85
+
+2.x FACT_Account_Metrics
+Type: Fact (Snapshot) | Records: 33,400 | PK: account_metric_id
+Quarterly account-level metrics (includes target_class)
+Column	Data Type	Description	Sample
+account_metric_id	VARCHAR(12)	PK	AM0000001
+account_id	VARCHAR(10)	FK account	ACC00042
+brand_id	VARCHAR(10)	FK brand	BRD001
+territory_id	VARCHAR(10)	FK territory	GEO_0009
+time_id	VARCHAR(10)	FK quarter end	T202503
+fiscal_quarter	VARCHAR(10)	FQ	FY2025-Q1
+penetration_pct	DECIMAL(5,1)	Penetration %	45.2
+potential_score	INTEGER	Score 0-100	78
+potential_tier	VARCHAR(10)	HIGH/MEDIUM/LOW	HIGH
+target_class	VARCHAR(5)	TC1/TC2/TC3 (computed)	TC1
+rx_volume_monthly	INTEGER	Monthly Rx volume	15
+rx_volume_change_pct	DECIMAL(5,1)	QoQ change	5.2
+share_of_voice_pct	DECIMAL(5,1)	SOV %	35.0
+adoption_stage	VARCHAR(15)	Adoption stage	ADOPTER
+
+2.x FACT_KPI_Summary
+Type: Fact (Snapshot) | Records: 52,170 | PK: kpi_summary_id
+Consolidated KPI values per country/brand/quarter
+Column	Data Type	Description	Sample
+kpi_summary_id	VARCHAR(12)	PK	KPIS000001
+kpi_id	VARCHAR(10)	KPI ID	KPI001
+kpi_name	VARCHAR(50)	KPI name	Field Day Percentage
+geo_id	VARCHAR(10)	FK country	GEO_0003
+brand_id	VARCHAR(10)	FK brand	BRD001
+time_id	VARCHAR(10)	FK quarter end	T202503
+time_period	VARCHAR(15)	FQ	FY2025-Q1
+numerator_value	INTEGER	Numerator	272
+denominator_value	INTEGER	Denominator	352
+kpi_value	DECIMAL(8,2)	KPI value	77.30
+unit	VARCHAR(20)	Unit	%
+target_value	DECIMAL(8,2)	Target	75.00
+
+2.x FACT_Sample_Management
+Type: Fact (Transaction) | Records: 13,982 | PK: sample_id
+Product sample delivery tracking
+Column	Data Type	Description	Sample
+sample_id	VARCHAR(12)	PK	SMP000001
+interaction_id	VARCHAR(12)	FK interaction	INT0000001
+account_id	VARCHAR(10)	FK HCP	ACC00042
+employee_id	VARCHAR(10)	FK employee	EMP0015
+brand_id	VARCHAR(10)	FK brand	BRD001
+time_id	VARCHAR(10)	FK time	T202501
+sample_quantity	INTEGER	Units delivered	2
+lot_number	VARCHAR(15)	Lot number	LOT2024156
+sample_status	VARCHAR(15)	DELIVERED/ACKNOWLEDGED/RETURNED	DELIVERED
+requires_signature	CHAR(1)	Y/N	Y
+signature_collected	CHAR(1)	Y/N	Y
+
+2.x FACT_Targets
+Type: Fact (Periodic Snapshot) | Records: 14,696 | PK: target_id
+Quarterly brand performance targets per country
+Column	Data Type	Description	Sample
+target_id	VARCHAR(12)	Primary key	TGT000001
+geo_id	VARCHAR(10)	FK to country	GEO_0003
+brand_id	VARCHAR(10)	FK to brand	BRD001
+time_id	VARCHAR(10)	FK to quarter end	T202503
+target_type	VARCHAR(25)	REVENUE_TARGET/UNIT_TARGET/MARKET_SHARE_TARGET/COVERAGE_TARGET	REVENUE_TARGET
+target_value	DECIMAL(15,2)	Target value	15000000.00
+unit	VARCHAR(10)	Unit	EUR
+fiscal_year	VARCHAR(6)	Fiscal year	FY2025
+approved_date	DATE	Approval date	2024-11-15
+
+3. Data Model Relationships
+Star schema with FACT_Interactions as central fact. Brand-indication bridge enables multi-indication tracking.
+From Table	From Column	To Table	To Column	Cardinality	Description
+FACT_Interactions	account_id	DIM_Account	account_id	N:1	Interaction references HCP
+FACT_Interactions	employee_id	DIM_Employee	employee_id	N:1	Interaction by employee
+FACT_Interactions	brand_id	DIM_Brand	brand_id	N:1	Interaction promotes brand
+FACT_Interactions	indication_id	DIM_Brand_Indication	indication_id	N:1	Interaction targets indication
+FACT_Interactions	geo_id	DIM_Geography	geo_id	N:1	Interaction in geography
+FACT_Interactions	time_id	DIM_Time	time_id	N:1	Interaction in time period
+FACT_Sales	account_id	DIM_Account	account_id	N:1	Sales at HCO level
+FACT_Sales	brand_id	DIM_Brand	brand_id	N:1	Sales per brand
+FACT_Sales	geo_id	DIM_Geography	geo_id	N:1	Sales per country
+FACT_Coverage	brand_id	DIM_Brand	brand_id	N:1	Coverage per brand
+FACT_Performance	employee_id	DIM_Employee	employee_id	N:1	Performance per employee
+FACT_Account_Metrics	account_id	DIM_Account	account_id	N:1	Metrics per account
+FACT_Account_Metrics	brand_id	DIM_Brand	brand_id	N:1	Metrics per brand
+FACT_Targets	brand_id	DIM_Brand	brand_id	N:1	Targets per brand
+FACT_Targets	geo_id	DIM_Geography	geo_id	N:1	Targets per country
+FACT_Sample_Management	interaction_id	FACT_Interactions	interaction_id	N:1	Sample from interaction
+DIM_Brand_Indication	brand_id	DIM_Brand	brand_id	N:1	Indication belongs to brand
+DIM_Employee	manager_id	DIM_Employee	employee_id	N:1	Manager hierarchy (self-ref)
+DIM_Account	institution_id	DIM_Account	account_id	N:1	HCP-HCO affiliation (self-ref)
+DIM_Geography	parent_geo_id	DIM_Geography	geo_id	N:1	Geo hierarchy (self-ref)
+
+4. KPI Quick Reference
+KPI ID	Name	Category	Target	Unit	Source
+KPI001	Field Day Percentage	Activity	75.0	%	FACT_Performance
+KPI002	Target Coverage Rate	Coverage	80.0	%	FACT_Coverage
+KPI003	Call Plan Adherence	Activity	85.0	%	FACT_Performance
+KPI004	Daily Interaction Rate	Productivity	3.5	Interactions/Day	FACT_Performance
+KPI005	F2F Coverage Rate	Coverage	65.0	%	FACT_Coverage
+KPI006	Digital Channel Coverage	Coverage	50.0	%	FACT_Coverage
+KPI007	Email Utilization Rate	Digital	70.0	%	FACT_Coverage
+KPI008	Event Follow-up Rate	Engagement	60.0	%	FACT_Interactions
+KPI009	Coaching Days per Month	Development	4.0	Days	FACT_Performance
+KPI010	Key Opinion Leader Reach	Strategic	90.0	%	FACT_Interactions
+KPI011	Leading Specialist Coverage	Coverage	85.0	%	FACT_Coverage
+KPI012	Interaction Frequency TC1	Engagement	6.0	Interactions	FACT_Interactions
+KPI013	Interaction Frequency TC2	Engagement	4.0	Interactions	FACT_Interactions
+KPI014	Promotional Email Effectiveness	Digital	25.0	%	FACT_Interactions
+KPI015	Multi-Channel Engagement Score	Engagement	7.5	Score	FACT_Interactions
+
+5. Generation Methodology
+Seed: 42 | Names: Faker (locale-appropriate per country)
+Revenue: Parameterized trajectory functions per indication with seasonal + Gaussian noise
+Interactions: Per employee/month, weighted by prescriber_volume, with indication selection weighted by revenue size
+Coverage/Performance: Derived from atomic interactions for consistency
+Targets: Revenue trajectory * country weight * 1.05 uplift; coverage by lifecycle stage

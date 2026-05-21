@@ -1,7 +1,7 @@
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from src.RAG.resources import Resources
@@ -53,9 +53,13 @@ async def chat_endpoint(data: ChatMessage):
         response = session.prompt(prompt)
         return {"response": response}
     except ValueError as e:
-        return {"error": str(e)}, 404
+        # This sends a REAL 404 status code
+        print("Session not found:", str(e))
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        return {"error": str(e)}, 500
+        # This sends a REAL 500 status code
+        print("Error processing chat message:", str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/chat/end")
@@ -63,7 +67,7 @@ async def end_chat_endpoint(data: EndChat):
     session_id = data.session_id
     try:
         session = app.state.session_manager.get_session(session_id)
-        session.end()
+        session.close()
         return {"success": True}
     except ValueError as e:
         return {"error": str(e)}, 404

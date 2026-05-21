@@ -57,11 +57,6 @@ Table "FACT_Interactions" {
   Note: "fact"
 }
 
-Table "FACT_KPI_Summary" {
-  placeholder_id text [note: "No columns available in source graph"]
-  Note: "fact"
-}
-
 Table "FACT_Performance" {
   employee_id text
   Note: "fact"

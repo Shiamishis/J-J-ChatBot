@@ -210,7 +210,7 @@ class DatabaseService:
             return "\n".join(lines).strip()
 
     def get_schema_context_file_path(self) -> Path:
-        return self._project_root / "data" / "schema_context.txt"
+        return self._project_root / "data" / "documentation.txt"
 
     def build_and_save_schema_context_file(self, sample_rows_per_table: int = 2) -> str:
         context = self.retrieve_structured_schema_context(
@@ -222,8 +222,3 @@ class DatabaseService:
         out_path.write_text(context, encoding="utf-8")
         return context
 
-    def load_schema_context_file(self) -> str | None:
-        path = self.get_schema_context_file_path()
-        if not path.exists():
-            return None
-        return path.read_text(encoding="utf-8")

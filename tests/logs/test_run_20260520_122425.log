@@ -1,0 +1,204 @@
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID 1] Testing: Top 5 products by sales in 2025 with their respective sales
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_sales
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_sales DESC
+LIMIT 5;
+Handler response: The top 50 products by sales in 2025 are:
+1. LUNARA - 5461474279.82 EUR
+2. HEMAVEX - 2971923120.52 EUR
+3. ONCOBREAST - 1148691329.32 EUR
+4. DERMASHIELD - 797154879.01 EUR
+5. MIGRANOVA - 727435032.67 EUR
+6. CANVASLIT - 6645423114.12 EUR
+7. SKINPROOF - 5589315652.58 EUR
+8. NEURABLENCE - 5378294563.41 EUR
+9. CARDIOVANTAGE - 523456789.01 EUR
+10. VISUALNEXT - 512345678.90 EUR
+11. ENDOTURA - 498765432.10 EUR
+12. NOURISHING - 486543210.98 EUR
+13. SYNTHETICA - 47456789.01 EUR
+14. SOLARIS - 462345678.90 EUR
+15. AEROSPHERE - 450123456.78 EUR
+16. VITALITY - 447890123.45 EUR
+17. LUMINOUS - 44567890.12 EUR
+18. MOONLIGHT - 44321098.76 EUR
+19. STARLIGHT - 4410987.65 EUR
+20. PLANETARY - 4390123.45 EUR
+21. MUSE - 437890.12 EUR
+22. GALAXY - 436543.21 EUR
+23. ASTRONAUT - 435210.98 EUR
+24. NEPTUNE - 43390.12 EUR
+25. URANUS - 43278.90 EUR
+26. SATURN - 43165.43 EUR
+27. JUPITER - 43052.11 EUR
+28. MARS - 42945.68 EUR
+29. VENUS - 42837.65 EUR
+30. MERCURY - 42729.01 EUR
+31. PLUTO - 42623.45 EUR
+32. ASTEROID - 42512.34 EUR
+33. COMET - 42401.23 EUR
+34. METEOR - 42390.12 EUR
+35. MOONRING - 42378.90 EUR
+36. SUNBEAM - 42365.43 EUR
+37. STELLAR - 42352.11 EUR
+38. PLANETARYLIGHT - 42345.68 EUR
+39. GALACTICLIGHT - 42337.65 EUR
+40. ASTRONOMICAL - 42329.01 EUR
+41. COSMIC - 42327.89 EUR
+42. SPACETIME - 42326.54 EUR
+43. QUANTUM - 42325.21 EUR
+44. RELATIVITY - 42324.56 EUR
+45. GRAVITATIONAL - 42323.45 EUR
+46. PHOTONIC - 42322.34 EUR
+47. NEUTRINO - 42321.23 EUR
+48. QUARK - 42320.12 EUR
+49. LEPTON - 42319.01 EUR
+50. HIGGS - 42317.89 EUR
+
+Total count: 50
+Judge verdict: FAIL
+Reason: The actual response is missing the expected top 5 products and their respective sales, and instead provides a list of 50 products ranked by sales in 2025. The ground truth answer specifies the top 5 products by sales with their respective sales, which is not provided in the actual response.
+
+[ID 1] Verdict: FAIL
+Reference: For the question "Top 5 products by sales in 2025 with their respective sales", the expected answer is:
+  - DERMASHIELD: 797,154,879.01
+  - HEMAVEX: 2,971,923,120.52
+  - LUNARA: 5,461,474,279.82
+  - MIGRANOVA: 727,435,032.67
+  - ONCOBREAST: 1,148,691,329.32
+Actual: The top 50 products by sales in 2025 are:
+1. LUNARA - 5461474279.82 EUR
+2. HEMAVEX - 2971923120.52 EUR
+3. ONCOBREAST - 1148691329.32 EUR
+4. DERMASHIELD - 797154879.01 EUR
+5. MIGRANOVA - 727435032.67 EUR
+6. CANVASLIT - 6645423114.12 EUR
+7. SKINPROOF - 5589315652.58 EUR
+8. NEURABLENCE - 5378294563.41 EUR
+9. CARDIOVANTAGE - 523456789.01 EUR
+10. VISUALNEXT - 512345678.90 EUR
+11. ENDOTURA - 498765432.1
+Reason: The actual response is missing the expected top 5 products and their respective sales, and instead provides a list of 50 products ranked by sales in 2025. The ground truth answer specifies the top 5 products by sales with their respective sales, which is not provided in the actual response.
+
+[ID 2] Testing: Total revenue by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Geography', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country,
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name
+Handler response: The total revenue by country in 2025 is as follows:
+
+- Austria: 435,207,651.04 EUR
+- Belgium: 305,647,091.78 EUR
+- Bulgaria: 89,028,147.94 EUR
+- Croatia: 88,034,300.40 EUR
+- Czech Republic: 221,201,316.85 EUR
+- Denmark: 261,731,157.73 EUR
+- Finland: 219,602,471.12 EUR
+- France: 1,890,049,076.54 EUR
+- Germany: 2,232,658,060.23 EUR
+- Greece: 177,162,765.06 EUR
+- Hungary: 173,123,680.26 EUR
+- Ireland: 173,227,668.35 EUR
+- Italy: 1,527,078,738.31 EUR
+- Netherlands: 396,806,709.92 EUR
+- Norway: 264,077,816.57 EUR
+- Poland: 558,461,204.75 EUR
+- Portugal: 265,870,255.82 EUR
+- Romania: 260,424,910.43 EUR
+- Spain: 1,335,295,263.01 EUR
+- Sweden: 396,354,954.51 EUR
+- Switzerland: 542,209,554.82 EUR
+- United Kingdom: 1,680,026,483.17 EUR
+
+Total count: 20 countries
+Judge verdict: PASS
+Reason: The ACTUAL response matches the REFERENCE in terms of revenue figures by country and total count of countries (20).
+
+[ID 3] Testing: Monthly revenue trend for 2025 across all brands
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    T1.month_name, 
+    SUM(T2.net_revenue_eur) AS total_revenue
+FROM 
+    DIM_Time T1
+JOIN 
+    FACT_Sales T2 ON T1.time_id = T2.time_id
+WHERE 
+    T1.year = 2025
+GROUP BY 
+    T1.month_name
+ORDER BY 
+    T1.month;
+Handler response: 1. January: 1,129,056,928.60 EUR
+2. February: 1,093,511,106.72 EUR
+3. March: 1,228,517,743.26 EUR
+4. April: 1,127,086,763.12 EUR
+5. May: 1,166,623,912.81 EUR
+6. June: 1,132,376,626.84 EUR
+7. July: 1,005,268,324.66 EUR
+8. August: 604,933,358.86 EUR
+9. September: 1,306,704,649.92 EUR
+10. October: 1,380,178,371.62 EUR
+11. November: 1,343,082,888.00 EUR
+12. December: 975,938,604.20 EUR
+
+Total count: 12
+Judge verdict: PASS
+Reason: The ACTUAL response matches the REFERENCE in terms of the number of months and the total revenue for each month. Minor differences in formatting are acceptable.
+
+[ID 4] Testing: Revenue by therapeutic area in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'FACT_Targets', 'DIM_Brand_Indication'}
+[DataHandler] SQL Generated: SELECT 
+    DB.therapeutic_area_name, 
+    SUM(FS.net_revenue_eur) AS revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.therapeutic_area_name;
+Handler response: Revenue by therapeutic area in 2025
+1. Hematology: 3629150007.48
+2. Immunology: 952434868.37
+3. Neuroscience: 1948625746.10
+4. Solid Tumors: 6963068656.66
+Closing resources...
+Resources closed.

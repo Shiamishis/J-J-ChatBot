@@ -1,0 +1,9 @@
+
+=== Running tests for reference_answers_conversational_handler.json ===
+
+[ID 1] Testing: Hello!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: It seems like you just said hello, how can I assist you today
+Closing resources...
+Resources closed.
