@@ -222,8 +222,3 @@ class DatabaseService:
         out_path.write_text(context, encoding="utf-8")
         return context
 
-    def load_schema_context_file(self) -> str | None:
-        path = self.get_schema_context_file_path()
-        if not path.exists():
-            return None
-        return path.read_text(encoding="utf-8")

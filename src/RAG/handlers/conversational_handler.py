@@ -6,9 +6,14 @@ from src.RAG.resources import Resources
 @register_handler("conversational_handler")
 class ConversationalHandler(Handler):
     description = (
-        "The ConversationalHandler handles general conversational questions, follow-up questions, "
-        "and any prompt that refers to the conversation itself — such as asking what was said before, "
-        "clarifying a previous answer, or casual greetings. It does NOT access the database."
+        "Handles social interactions, meta-commentary about the conversation, and general conceptual "
+        "definitions that do not require specific data access. "
+        "Use this for (Positive): Greetings ('Hello'), small talk ('How are you?'), references to "
+        "previous messages ('What did I just ask?'), requests for simpler explanations ('Explain that "
+        "like I'm five'), and general knowledge definitions ('What is a SQL join?' or 'What does CAGR stand for?'). "
+        "Do NOT use this for (Negative): Questions about specific internal data values ('What was our revenue?'), "
+        "questions about how to use a specific internal report ('How do I filter this dashboard?'), "
+        "or requests for schema details ('What columns are in the users table?')."
     )
 
     def __init__(self, resources: Resources):

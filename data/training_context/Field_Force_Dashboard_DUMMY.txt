@@ -1,0 +1,19 @@
+=== File: Field_Force_Dashboard_Features_Training_Refined.pdf ===
+[pypdf not installed, cannot parse Field_Force_Dashboard_Features_Training_Refined.pdf]
+
+=== File: Field_Force_Dashboard_KPI_Calculations_Training_Refined_v2.pdf ===
+[pypdf not installed, cannot parse Field_Force_Dashboard_KPI_Calculations_Training_Refined_v2.pdf]
+
+=== File: Field_Force_KPI_Master DUMMY.xlsx ===
+### Sheet: Field Force KPIs
+KPI Name | KPI Definition | KPI Calculation | Data Source
+Field Day % | Percentage of working days spent in the field engaging customers | SUM(field_days) / SUM(total_working_days) | FACT_Performance[field_days], FACT_Performance[total_working_days]
+Call Plan Adherence | Percentage of planned calls that were actually completed | SUM(actual_calls) / SUM(planned_calls) | FACT_Performance[actual_calls], FACT_Performance[planned_calls]
+Interactions per Day | Average number of interactions per field day | SUM(interaction_count) / SUM(field_days) | FACT_Performance[interaction_count], FACT_Performance[field_days]
+Coaching Days | Average number of coaching days per manager per month | AVERAGE(coaching_days) | FACT_Performance[coaching_days]
+Target Coverage Rate | Percentage of target accounts reached within a period | COUNT(distinct accounts reached) / COUNT(target accounts) | FACT_Interactions, DIM_Targets
+Leading Specialist Coverage | Percentage of priority specialists engaged | COUNT(distinct specialists reached) / COUNT(total priority specialists) | FACT_Interactions, DIM_HCP
+Total Interactions | Total number of customer interactions completed | SUM(interaction_count) | FACT_Interactions[interaction_count]
+Planned Calls | Total number of planned calls in the period | SUM(planned_calls) | FACT_Performance[planned_calls]
+Actual Calls | Total number of calls actually completed | SUM(actual_calls) | FACT_Performance[actual_calls]
+KPI Attainment % | Performance against target for each KPI | KPI Value / KPI Target | FACT_KPI_Summary[kpi_value], FACT_KPI_Summary[target_value]

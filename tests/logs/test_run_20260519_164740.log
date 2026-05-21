@@ -1,0 +1,176 @@
+
+=== Running tests for reference_answers_conversational_handler.json ===
+
+[ID 1] Testing: Hello!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The database schema provided is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The key design feature of this schema is the brand-indication bridge, which enables brand-level sales aggregation with indication-level interaction tracking. 
+
+The dimension tables are DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables are FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets.
+
+The FACT_Interactions table is the central fact table, and it has foreign keys to the DIM_Account, DIM_Employee, DIM_Brand, DIM_Brand_Indication, DIM_Geography, and DIM_Time tables. The other fact tables also have foreign keys to the dimension tables, which enables the creation of a star schema.
+
+The database schema also includes a list of KPIs, which are used to measure performance and coverage. The KPIs are calculated from the data in the fact tables, and they are used to provide insights into the performance of the sales team and the effectiveness of the marketing campaigns.
+
+The data in the database schema is generated using a combination of seed data, parameterized trajectory functions, and weighted random selection. The seed data is used to initialize the database, and the parameterized trajectory functions are used to generate revenue and interaction data. The weighted random selection is used to select indications and prescribers for interactions.
+
+Overall, the database schema is designed to provide a comprehensive view of the sales and marketing activities of the NovaCarta EMEA Commercial Data Platform, and it includes a range of tables and KPIs that can be used to analyze and optimize performance. 
+
+Given the question 'Hello!', there is no specific metadata information about the database schema that is directly relevant to this question, as it appears to be a greeting rather than a query about the database schema.
+Judge verdict: FAIL
+Reason: The response is relevant to a database schema explanation, but should be a friendly greeting
+
+[ID 1] Verdict: FAIL
+Reference: For the question "Hello!", the expected answer is:
+  The assistant should respond with a friendly greeting and offer to help with any questions.
+Actual: The database schema provided is for the NovaCarta EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The key design feature of this schema is the brand-indication bridge, which enables brand-level sales aggregation with indication-level interaction tracking. 
+
+The dimension tables are DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DI
+Reason: The response is relevant to a database schema explanation, but should be a friendly greeting
+
+[ID 2] Testing: Hi there, how are you doing today?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: set()
+Handler response: I don't know based on the available tables. The information might not be in the database.
+Judge verdict: FAIL
+Reason: The actual response does not match the expectation for a conversational greeting.
+
+[ID 2] Verdict: FAIL
+Reference: For the question "Hi there, how are you doing today?", the expected answer is:
+  The assistant should respond conversationally in a warm friendly tone and express readiness to help.
+Actual: I don't know based on the available tables. The information might not be in the database.
+Reason: The actual response does not match the expectation for a conversational greeting.
+
+[ID 3] Testing: Good morning!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The provided question 'Good morning!' does not contain any relevant information related to the database schema, so there is no specific metadata information to provide. However, I can give a general overview of the database schema if that would be helpful.
+
+The database schema is a star schema with 6 dimension tables and 8 fact tables. The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets.
+
+Each table has its own set of columns with specific data types and descriptions. The relationships between the tables are defined in the data model relationships section, which describes the cardinality and description of each relationship.
+
+If you have a specific question about the database schema or would like more information about a particular table or relationship, I would be happy to try and assist you.
+Judge verdict: FAIL
+Reason: The response provided a database schema overview, but the question 'Good morning!' was a generic greeting and did not ask for schema information.
+
+[ID 3] Verdict: FAIL
+Reference: For the question "Good morning!", the expected answer is:
+  The assistant should return a morning greeting and offer its assistance.
+Actual: The provided question 'Good morning!' does not contain any relevant information related to the database schema, so there is no specific metadata information to provide. However, I can give a general overview of the database schema if that would be helpful.
+
+The database schema is a star schema with 6 dimension tables and 8 fact tables. The dimension tables include DIM_Geography, DIM_Brand, DIM_Bra
+Reason: The response provided a database schema overview, but the question 'Good morning!' was a generic greeting and did not ask for schema information.
+
+[ID 4] Testing: What can you help me with?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: I can help you with understanding the database schema of the NovaCarta EMEA Commercial Data Platform. The database consists of 6 dimension tables and 8 fact tables, following a star schema design. The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets. 
+
+Each table has a specific primary key and contains various columns with different data types, such as integers, varchars, and decimals. The relationships between the tables are defined, with foreign keys linking the fact tables to the dimension tables. There are also self-referential relationships within some dimension tables, like the manager hierarchy in DIM_Employee and the geo hierarchy in DIM_Geography.
+
+The database tracks various key performance indicators (KPIs) across different categories, including activity, coverage, productivity, digital, engagement, development, and strategic. These KPIs have specific targets, units, and sources, which are mainly derived from the fact tables. The data is generated using a combination of seed values, parameterized trajectory functions, and weighted random selections to simulate real-world scenarios.
+
+If you have a specific question or need further clarification on any aspect of the database schema, feel free to ask.
+Judge verdict: FAIL
+Reason: The ACTUAL response deviates significantly from the REFERENCE, which was supposed to be a general description of abilities, not a detailed explanation of the NovaCarta EMEA Commercial Data Platform's schema
+
+[ID 4] Verdict: FAIL
+Reference: For the question "What can you help me with?", the expected answer is:
+  The assistant should describe its ability to answer questions about data and assist with analysis or general queries without referencing a specific database schema.
+Actual: I can help you with understanding the database schema of the NovaCarta EMEA Commercial Data Platform. The database consists of 6 dimension tables and 8 fact tables, following a star schema design. The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sale
+Reason: The ACTUAL response deviates significantly from the REFERENCE, which was supposed to be a general description of abilities, not a detailed explanation of the NovaCarta EMEA Commercial Data Platform's schema
+
+[ID 5] Testing: What kind of questions are you able to answer?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The database schema is designed to support a star schema with 6 dimension tables and 8 fact tables, enabling the tracking of brand-level sales aggregation with indication-level interaction tracking. I can answer questions related to the data model, such as the relationships between tables, the types of data stored in each table, and the KPIs that can be calculated from the data.
+
+I can provide information on the following topics: 
+- Data model overview and table inventory
+- Table specifications, including column names and data types
+- Data model relationships and how tables are connected
+- KPI quick reference, including KPI names, categories, targets, units, and sources
+- Generation methodology for seed data, names, revenue, interactions, coverage, performance, and targets
+
+I can help answer questions such as what kind of questions are you able to answer, which includes questions about the structure of the database, the relationships between different tables, and the types of data that are stored in each table. I can also help with questions about the KPIs that are tracked in the database and how they are calculated. 
+
+However, I may not be able to answer questions that require specific data from the database, such as the current sales figures for a particular brand or the number of interactions that have taken place in a certain region. For those types of questions, you would need to have access to the actual database and be able to query it directly.
+Judge verdict: PARTIAL
+Reason: While the actual response mentions the types of questions it can handle, it focuses too much on specific topics and provides additional details that diverge from the expected answer.
+
+[ID 5] Verdict: PARTIAL
+Reason: While the actual response mentions the types of questions it can handle, it focuses too much on specific topics and provides additional details that diverge from the expected answer.
+
+[ID 6] Testing: Thank you, that was very helpful!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The provided message 'Thank you, that was very helpful!' does not relate to any specific database schema information, so there is no relevant metadata to provide. The database schema details the structure and relationships of various tables within the NovaCarta EMEA Commercial Data Platform, including dimension tables such as DIM_Account, DIM_Brand, and DIM_Geography, and fact tables like FACT_Interactions, FACT_Sales, and FACT_Performance, but without a specific question or topic, it's not possible to provide more targeted information.
+Judge verdict: FAIL
+Reason: The ACTUAL does not acknowledge the thanks and offer to help further, which is the expected response as per the REFERENCE.
+
+[ID 6] Verdict: FAIL
+Reference: For the question "Thank you, that was very helpful!", the expected answer is:
+  The assistant should respond warmly acknowledge the thanks and offer to help further if needed.
+Actual: The provided message 'Thank you, that was very helpful!' does not relate to any specific database schema information, so there is no relevant metadata to provide. The database schema details the structure and relationships of various tables within the NovaCarta EMEA Commercial Data Platform, including dimension tables such as DIM_Account, DIM_Brand, and DIM_Geography, and fact tables like FACT_Int
+Reason: The ACTUAL does not acknowledge the thanks and offer to help further, which is the expected response as per the REFERENCE.
+
+[ID 7] Testing: Never mind, forget what I asked.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: You didn't ask a question to begin with, so there is nothing to forget. If you need help with something, feel free to ask now.
+Judge verdict: PASS
+Reason: The chatbot correctly acknowledges there was no question to forget and offers help with something else.
+
+[ID 8] Testing: You are doing a great job!
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The provided database schema is for NovaCarta Pharma's EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The central fact table is FACT_Interactions, which tracks individual HCP interactions with indication-level tracking. 
+
+The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. These tables provide master data for geographic locations, brands, brand indications, time, employees, and accounts.
+
+The fact tables include FACT_Interactions, FACT_Coverage, FACT_Performance, FACT_Sales, FACT_Account_Metrics, FACT_KPI_Summary, FACT_Sample_Management, and FACT_Targets. These tables track various metrics such as interactions, coverage, performance, sales, account metrics, KPI summaries, sample management, and targets.
+
+The database schema also defines relationships between the tables, including foreign keys and cardinalities. For example, an interaction is related to an account, employee, brand, indication, geography, and time period.
+
+The schema also includes a list of KPIs with their names, categories, targets, units, and source tables. These KPIs are used to measure performance and track progress towards targets.
+
+Given the question 'You are doing a great job!', this information is not directly related to the database schema, but it could be used as a sentiment analysis input to measure employee performance, which is tracked in the FACT_Performance table. However, there is no direct connection between this phrase and the database schema.
+Judge verdict: FAIL
+Reason: The actual response is unrelated to the original compliment and provides a detailed explanation of a database schema instead.
+
+[ID 8] Verdict: FAIL
+Reference: For the question "You are doing a great job!", the expected answer is:
+  The assistant should respond graciously and offer to continue helping.
+Actual: The provided database schema is for NovaCarta Pharma's EMEA Commercial Data Platform, which implements a star schema with 6 dimension tables and 8 fact tables. The central fact table is FACT_Interactions, which tracks individual HCP interactions with indication-level tracking. 
+
+The dimension tables include DIM_Geography, DIM_Brand, DIM_Brand_Indication, DIM_Time, DIM_Employee, and DIM_Account. Th
+Reason: The actual response is unrelated to the original compliment and provides a detailed explanation of a database schema instead.
+
+[ID 9] Testing: What is the capital of France?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The question about the capital of France does not relate to the provided database schema information, which appears to be focused on pharmaceutical sales and marketing data for the EMEA region. The database schema includes tables for geography, brands, interactions, sales, and performance metrics, but it does not contain information about country capitals. To answer the question, a different data source or database would be needed, such as a geography or encyclopedia database.
+Judge verdict: PARTIAL
+Reason: The chatbot correctly identifies the issue with the current database schema, but fails to provide the correct answer to the original question.
+
+[ID 9] Verdict: PARTIAL
+Reason: The chatbot correctly identifies the issue with the current database schema, but fails to provide the correct answer to the original question.
+
+[ID 10] Testing: What does the acronym HCP stand for?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: The acronym HCP can stand for different things depending on the context, but some common meanings include Healthcare Professional, Heavy Commercial Property, or Human Capital Partner, among others. Without more context, it's difficult to provide a specific answer, but in general, HCP is often used in the healthcare industry to refer to a Healthcare Professional, such as a doctor or nurse.
+Judge verdict: PARTIAL
+Reason: The ACTUAL contains some but not all key facts, and provides an ambiguous answer by listing multiple possible meanings for HCP.
+
+[ID 10] Verdict: PARTIAL
+Reason: The ACTUAL contains some but not all key facts, and provides an ambiguous answer by listing multiple possible meanings for HCP.
+
+[ID 11] Testing: What does KPI stand for?
+Determined intent: meta_data_handler
+Instantiated handler: Handler
+Handler response: None
+Closing resources...
+Resources closed.

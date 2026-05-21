@@ -17,7 +17,7 @@ PROJECT_ROOT = CURRENT_DIR.parent.parent
 
 # files
 INPUT_FILE = TEST_DIR / "supplementary_data" / "questions_sql.json"
-OUTPUT_FILE = TEST_DIR / "test_data" / "reference_answers_data.json"
+OUTPUT_FILE = TEST_DIR / "test_data" / "reference_answers_data_handler.json"
 
 # database
 DATABASE_PATH = PROJECT_ROOT / "local.db"

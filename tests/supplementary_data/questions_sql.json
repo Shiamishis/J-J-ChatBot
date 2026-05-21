@@ -1,12 +1,332 @@
 [
-    {
-        "id": 1,
-        "question": "top5 products by sales in 2025 with their respective sales",
-        "sql": "SELECT b.brand_name, SUM(s.net_revenue_eur) AS total_sales_eur FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_sales_eur DESC LIMIT 5;"
-    },
-    {
-        "id": 2,
-        "question": "total revenue by country in 2025",
-        "sql": "SELECT g.geo_name, SUM(s.net_revenue_eur) AS total_revenue FROM FACT_Sales s JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name;"
-    }
+  {
+    "id": 1,
+    "category": "Sales",
+    "question": "Top 5 products by sales in 2025 with their respective sales",
+    "sql": "SELECT b.brand_name, SUM(s.net_revenue_eur) AS total_sales_eur FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_sales_eur DESC LIMIT 5;"
+  },
+  {
+    "id": 2,
+    "category": "Sales",
+    "question": "Total revenue by country in 2025",
+    "sql": "SELECT g.geo_name, SUM(s.net_revenue_eur) AS total_revenue FROM FACT_Sales s JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name;"
+  },
+  {
+    "id": 3,
+    "category": "Sales",
+    "question": "Monthly revenue trend for 2025 across all brands",
+    "sql": "SELECT t.month_name, t.month, SUM(s.net_revenue_eur) AS total_revenue_eur FROM FACT_Sales s JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY t.month, t.month_name ORDER BY t.month;"
+  },
+  {
+    "id": 4,
+    "category": "Sales",
+    "question": "Revenue by therapeutic area in 2025",
+    "sql": "SELECT b.therapeutic_area_name, SUM(s.net_revenue_eur) AS total_revenue_eur FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.therapeutic_area_name ORDER BY total_revenue_eur DESC;"
+  },
+  {
+    "id": 5,
+    "category": "Sales",
+    "question": "Average market share percentage per brand in 2025",
+    "sql": "SELECT b.brand_name, AVG(s.market_share_pct) AS avg_market_share_pct FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY avg_market_share_pct DESC;"
+  },
+  {
+    "id": 6,
+    "category": "Sales",
+    "question": "Year-over-year revenue growth percentage by brand in 2025",
+    "sql": "SELECT b.brand_name, AVG(s.yoy_growth_pct) AS avg_yoy_growth_pct FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY avg_yoy_growth_pct DESC;"
+  },
+  {
+    "id": 7,
+    "category": "Sales",
+    "question": "Total units sold per brand in 2025",
+    "sql": "SELECT b.brand_name, SUM(s.units_sold) AS total_units FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_units DESC;"
+  },
+  {
+    "id": 8,
+    "category": "Sales",
+    "question": "Total new patient starts by brand and country in Q1 2025",
+    "sql": "SELECT b.brand_name, g.geo_name, SUM(s.new_patient_starts) AS total_new_patients FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 AND t.quarter = 'Q1' GROUP BY b.brand_name, g.geo_name ORDER BY b.brand_name, total_new_patients DESC;"
+  },
+  {
+    "id": 9,
+    "category": "Sales",
+    "question": "Revenue vs. target by brand and country in FY2025",
+    "sql": "SELECT b.brand_name, g.geo_name, SUM(s.net_revenue_eur) AS actual_revenue_eur, MAX(tg.target_value) AS revenue_target_eur, ROUND(SUM(s.net_revenue_eur) / NULLIF(MAX(tg.target_value), 0) * 100, 1) AS attainment_pct FROM FACT_Sales s JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id LEFT JOIN FACT_Targets tg ON tg.brand_id = s.brand_id AND tg.geo_id = s.geo_id AND tg.fiscal_year = 'FY2025' AND tg.target_type = 'REVENUE_TARGET' WHERE t.year = 2025 GROUP BY b.brand_name, g.geo_name ORDER BY b.brand_name, attainment_pct DESC;"
+  },
+  {
+    "id": 10,
+    "category": "Sales",
+    "question": "Top 10 HCO accounts by revenue in 2025",
+    "sql": "SELECT a.account_name, g.geo_name, b.brand_name, SUM(s.net_revenue_eur) AS total_revenue_eur FROM FACT_Sales s JOIN DIM_Account a ON s.account_id = a.account_id JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY a.account_name, g.geo_name, b.brand_name ORDER BY total_revenue_eur DESC LIMIT 10;"
+  },
+  {
+    "id": 11,
+    "category": "Sales",
+    "question": "Quarterly revenue breakdown by cluster in 2025",
+    "sql": "SELECT g.cluster_name, t.quarter, SUM(s.net_revenue_eur) AS total_revenue_eur FROM FACT_Sales s JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 AND g.geo_level = 'COUNTRY' GROUP BY g.cluster_name, t.quarter ORDER BY g.cluster_name, t.quarter;"
+  },
+  {
+    "id": 12,
+    "category": "Interactions",
+    "question": "Total number of interactions by channel in 2025",
+    "sql": "SELECT i.interaction_channel, COUNT(*) AS total_interactions FROM FACT_Interactions i JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY i.interaction_channel ORDER BY total_interactions DESC;"
+  },
+  {
+    "id": 13,
+    "category": "Interactions",
+    "question": "Number of interactions per brand in 2025",
+    "sql": "SELECT b.brand_name, COUNT(*) AS total_interactions FROM FACT_Interactions i JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY total_interactions DESC;"
+  },
+  {
+    "id": 14,
+    "category": "Interactions",
+    "question": "Monthly interaction volume by type (F2F, web call, email, event) in 2025",
+    "sql": "SELECT t.month_name, t.month, SUM(i.is_f2f_flag) AS f2f_count, SUM(i.is_web_call_flag) AS web_call_count, SUM(i.is_email_flag) AS email_count, SUM(i.is_event_flag) AS event_count FROM FACT_Interactions i JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY t.month, t.month_name ORDER BY t.month;"
+  },
+  {
+    "id": 15,
+    "category": "Interactions",
+    "question": "Average interaction duration in minutes by brand and channel in 2025",
+    "sql": "SELECT b.brand_name, i.interaction_channel, AVG(i.interaction_duration_min) AS avg_duration_min FROM FACT_Interactions i JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 AND i.call_status = 'COMPLETED' GROUP BY b.brand_name, i.interaction_channel ORDER BY b.brand_name, avg_duration_min DESC;"
+  },
+  {
+    "id": 16,
+    "category": "Interactions",
+    "question": "Top 10 most active employees by number of interactions in 2025",
+    "sql": "SELECT e.employee_name, e.employee_role, g.geo_name, COUNT(*) AS total_interactions FROM FACT_Interactions i JOIN DIM_Employee e ON i.employee_id = e.employee_id JOIN DIM_Geography g ON i.geo_id = g.geo_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY e.employee_name, e.employee_role, g.geo_name ORDER BY total_interactions DESC LIMIT 10;"
+  },
+  {
+    "id": 17,
+    "category": "Interactions",
+    "question": "Number of promotional interactions vs. non-promotional by country in 2025",
+    "sql": "SELECT g.geo_name, SUM(i.is_promotional_flag) AS promotional_count, COUNT(*) - SUM(i.is_promotional_flag) AS non_promotional_count FROM FACT_Interactions i JOIN DIM_Geography g ON i.geo_id = g.geo_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name ORDER BY promotional_count DESC;"
+  },
+  {
+    "id": 18,
+    "category": "Interactions",
+    "question": "Interaction rate per TC1 vs TC2 accounts by brand in 2025",
+    "sql": "SELECT b.brand_name, SUM(i.kpi012_tc1_interaction_flag) AS tc1_interactions, SUM(i.kpi013_tc2_interaction_flag) AS tc2_interactions FROM FACT_Interactions i JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY tc1_interactions DESC;"
+  },
+  {
+    "id": 19,
+    "category": "Interactions",
+    "question": "Multi-channel engagement score by country and brand in Q1 2025",
+    "sql": "SELECT g.geo_name, b.brand_name, AVG(i.kpi015_multichannel_score) AS avg_multichannel_score FROM FACT_Interactions i JOIN DIM_Geography g ON i.geo_id = g.geo_id JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 AND t.quarter = 'Q1' GROUP BY g.geo_name, b.brand_name ORDER BY avg_multichannel_score DESC;"
+  },
+  {
+    "id": 20,
+    "category": "Interactions",
+    "question": "Number of Key Opinion Leader (KOL) interactions by brand in 2025",
+    "sql": "SELECT b.brand_name, COUNT(*) AS kol_interactions FROM FACT_Interactions i JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Account a ON i.account_id = a.account_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 AND a.is_key_opinion_leader = 'Y' GROUP BY b.brand_name ORDER BY kol_interactions DESC;"
+  },
+  {
+    "id": 21,
+    "category": "Coverage",
+    "question": "Target coverage rate (KPI002) by brand and country in 2025",
+    "sql": "SELECT b.brand_name, g.geo_name, AVG(c.kpi002_target_coverage_pct) AS avg_target_coverage_pct FROM FACT_Coverage c JOIN DIM_Brand b ON c.brand_id = b.brand_id JOIN DIM_Geography g ON c.geo_id = g.geo_id JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name, g.geo_name ORDER BY b.brand_name, avg_target_coverage_pct DESC;"
+  },
+  {
+    "id": 22,
+    "category": "Coverage",
+    "question": "F2F coverage rate (KPI005) vs. digital coverage rate (KPI006) by brand in 2025",
+    "sql": "SELECT b.brand_name, AVG(c.kpi005_f2f_coverage_pct) AS avg_f2f_pct, AVG(c.kpi006_digital_coverage_pct) AS avg_digital_pct FROM FACT_Coverage c JOIN DIM_Brand b ON c.brand_id = b.brand_id JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY b.brand_name;"
+  },
+  {
+    "id": 23,
+    "category": "Coverage",
+    "question": "Leading Specialist coverage rate (KPI011) by country in 2025",
+    "sql": "SELECT g.geo_name, AVG(c.kpi011_ls_coverage_pct) AS avg_ls_coverage_pct FROM FACT_Coverage c JOIN DIM_Geography g ON c.geo_id = g.geo_id JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name ORDER BY avg_ls_coverage_pct DESC;"
+  },
+  {
+    "id": 24,
+    "category": "Coverage",
+    "question": "Number of covered vs. total target HCPs by brand in 2025",
+    "sql": "SELECT b.brand_name, SUM(c.covered_accounts_count) AS total_covered, SUM(c.target_universe_count) AS total_target, ROUND(SUM(c.covered_accounts_count) * 100.0 / NULLIF(SUM(c.target_universe_count), 0), 1) AS coverage_pct FROM FACT_Coverage c JOIN DIM_Brand b ON c.brand_id = b.brand_id JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY coverage_pct DESC;"
+  },
+  {
+    "id": 25,
+    "category": "Coverage",
+    "question": "Email utilization rate (KPI007) trend by quarter in 2025",
+    "sql": "SELECT t.quarter, AVG(c.kpi007_email_util_pct) AS avg_email_util_pct FROM FACT_Coverage c JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY t.quarter ORDER BY t.quarter;"
+  },
+  {
+    "id": 26,
+    "category": "Performance",
+    "question": "Average field day percentage (KPI001) by country in 2025",
+    "sql": "SELECT g.geo_name, AVG(p.kpi001_field_day_pct) AS avg_field_day_pct FROM FACT_Performance p JOIN DIM_Geography g ON p.geo_id = g.geo_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name ORDER BY avg_field_day_pct DESC;"
+  },
+  {
+    "id": 27,
+    "category": "Performance",
+    "question": "Call plan adherence rate (KPI003) by brand and country in 2025",
+    "sql": "SELECT b.brand_name, g.geo_name, AVG(p.kpi003_call_plan_adherence_pct) AS avg_adherence_pct FROM FACT_Performance p JOIN DIM_Brand b ON p.brand_id = b.brand_id JOIN DIM_Geography g ON p.geo_id = g.geo_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name, g.geo_name ORDER BY avg_adherence_pct DESC;"
+  },
+  {
+    "id": 28,
+    "category": "Performance",
+    "question": "Daily interaction rate (KPI004) per employee role in 2025",
+    "sql": "SELECT e.employee_role, AVG(p.kpi004_daily_interaction_rate) AS avg_daily_interaction_rate FROM FACT_Performance p JOIN DIM_Employee e ON p.employee_id = e.employee_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY e.employee_role ORDER BY avg_daily_interaction_rate DESC;"
+  },
+  {
+    "id": 29,
+    "category": "Performance",
+    "question": "Top 10 employees by call plan adherence in 2025",
+    "sql": "SELECT e.employee_name, e.employee_role, g.geo_name, AVG(p.kpi003_call_plan_adherence_pct) AS avg_adherence_pct FROM FACT_Performance p JOIN DIM_Employee e ON p.employee_id = e.employee_id JOIN DIM_Geography g ON p.geo_id = g.geo_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY e.employee_name, e.employee_role, g.geo_name ORDER BY avg_adherence_pct DESC LIMIT 10;"
+  },
+  {
+    "id": 30,
+    "category": "Performance",
+    "question": "Average coaching days per month (KPI009) by country in 2025",
+    "sql": "SELECT g.geo_name, AVG(p.kpi009_coaching_days) AS avg_coaching_days FROM FACT_Performance p JOIN DIM_Geography g ON p.geo_id = g.geo_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name ORDER BY avg_coaching_days DESC;"
+  },
+  {
+    "id": 31,
+    "category": "Performance",
+    "question": "Employees below 75% field day target (KPI001) in 2025",
+    "sql": "SELECT e.employee_name, e.employee_role, g.geo_name, AVG(p.kpi001_field_day_pct) AS avg_field_day_pct FROM FACT_Performance p JOIN DIM_Employee e ON p.employee_id = e.employee_id JOIN DIM_Geography g ON p.geo_id = g.geo_id JOIN DIM_Time t ON p.time_id = t.time_id WHERE t.year = 2025 GROUP BY e.employee_name, e.employee_role, g.geo_name HAVING avg_field_day_pct < 75.0 ORDER BY avg_field_day_pct ASC;"
+  },
+  {
+    "id": 32,
+    "category": "KPI Summary",
+    "question": "KPI attainment vs. target by brand and country for FY2025-Q1",
+    "sql": "SELECT k.kpi_name, b.brand_name, g.geo_name, k.kpi_value, k.target_value, ROUND((k.kpi_value / NULLIF(k.target_value, 0)) * 100, 1) AS attainment_pct FROM FACT_KPI_Summary k JOIN DIM_Brand b ON k.brand_id = b.brand_id JOIN DIM_Geography g ON k.geo_id = g.geo_id WHERE k.time_period = 'FY2025-Q1' ORDER BY k.kpi_name, b.brand_name, g.geo_name;"
+  },
+  {
+    "id": 33,
+    "category": "KPI Summary",
+    "question": "KPIs below target across all brands and countries in FY2025-Q1",
+    "sql": "SELECT k.kpi_name, b.brand_name, g.geo_name, k.kpi_value, k.target_value FROM FACT_KPI_Summary k JOIN DIM_Brand b ON k.brand_id = b.brand_id JOIN DIM_Geography g ON k.geo_id = g.geo_id WHERE k.time_period = 'FY2025-Q1' AND k.kpi_value < k.target_value ORDER BY (k.kpi_value / NULLIF(k.target_value, 0)) ASC;"
+  },
+  {
+    "id": 34,
+    "category": "KPI Summary",
+    "question": "Average KPI value by KPI name across EMEA in 2025",
+    "sql": "SELECT k.kpi_name, k.unit, AVG(k.kpi_value) AS avg_kpi_value, MAX(k.target_value) AS target_value FROM FACT_KPI_Summary k JOIN DIM_Time t ON k.time_id = t.time_id WHERE t.year = 2025 GROUP BY k.kpi_name, k.unit ORDER BY k.kpi_name;"
+  },
+  {
+    "id": 35,
+    "category": "Account Metrics",
+    "question": "Distribution of accounts by target class (TC1, TC2, TC3) per brand in Q1 2025",
+    "sql": "SELECT b.brand_name, am.target_class, COUNT(DISTINCT am.account_id) AS account_count FROM FACT_Account_Metrics am JOIN DIM_Brand b ON am.brand_id = b.brand_id WHERE am.fiscal_quarter = 'FY2025-Q1' GROUP BY b.brand_name, am.target_class ORDER BY b.brand_name, am.target_class;"
+  },
+  {
+    "id": 36,
+    "category": "Account Metrics",
+    "question": "Average penetration percentage by potential tier and brand in Q1 2025",
+    "sql": "SELECT b.brand_name, am.potential_tier, AVG(am.penetration_pct) AS avg_penetration_pct FROM FACT_Account_Metrics am JOIN DIM_Brand b ON am.brand_id = b.brand_id WHERE am.fiscal_quarter = 'FY2025-Q1' GROUP BY b.brand_name, am.potential_tier ORDER BY b.brand_name, am.potential_tier;"
+  },
+  {
+    "id": 37,
+    "category": "Account Metrics",
+    "question": "Top 10 accounts by Rx volume in Q1 2025",
+    "sql": "SELECT a.account_name, a.specialty, b.brand_name, g.geo_name, SUM(am.rx_volume_monthly) AS total_rx_volume FROM FACT_Account_Metrics am JOIN DIM_Account a ON am.account_id = a.account_id JOIN DIM_Brand b ON am.brand_id = b.brand_id JOIN DIM_Geography g ON am.territory_id = g.geo_id WHERE am.fiscal_quarter = 'FY2025-Q1' GROUP BY a.account_name, a.specialty, b.brand_name, g.geo_name ORDER BY total_rx_volume DESC LIMIT 10;"
+  },
+  {
+    "id": 38,
+    "category": "Account Metrics",
+    "question": "Share of voice percentage by brand and country in Q1 2025",
+    "sql": "SELECT b.brand_name, g.geo_name, AVG(am.share_of_voice_pct) AS avg_sov_pct FROM FACT_Account_Metrics am JOIN DIM_Brand b ON am.brand_id = b.brand_id JOIN DIM_Geography g ON am.territory_id = g.geo_id WHERE am.fiscal_quarter = 'FY2025-Q1' GROUP BY b.brand_name, g.geo_name ORDER BY avg_sov_pct DESC;"
+  },
+  {
+    "id": 39,
+    "category": "Account Metrics",
+    "question": "Number of accounts per adoption stage by brand in Q1 2025",
+    "sql": "SELECT b.brand_name, am.adoption_stage, COUNT(DISTINCT am.account_id) AS account_count FROM FACT_Account_Metrics am JOIN DIM_Brand b ON am.brand_id = b.brand_id WHERE am.fiscal_quarter = 'FY2025-Q1' GROUP BY b.brand_name, am.adoption_stage ORDER BY b.brand_name, am.adoption_stage;"
+  },
+  {
+    "id": 40,
+    "category": "Samples",
+    "question": "Total samples delivered by brand in 2025",
+    "sql": "SELECT b.brand_name, SUM(sm.sample_quantity) AS total_samples_delivered FROM FACT_Sample_Management sm JOIN DIM_Brand b ON sm.brand_id = b.brand_id JOIN DIM_Time t ON sm.time_id = t.time_id WHERE t.year = 2025 AND sm.sample_status = 'DELIVERED' GROUP BY b.brand_name ORDER BY total_samples_delivered DESC;"
+  },
+  {
+    "id": 41,
+    "category": "Samples",
+    "question": "Sample delivery signature compliance rate by country in 2025",
+    "sql": "SELECT g.geo_name, COUNT(*) AS total_samples, SUM(CASE WHEN sm.requires_signature = 'Y' AND sm.signature_collected = 'Y' THEN 1 ELSE 0 END) AS signatures_collected, ROUND(SUM(CASE WHEN sm.requires_signature = 'Y' AND sm.signature_collected = 'Y' THEN 1 ELSE 0 END) * 100.0 / NULLIF(SUM(CASE WHEN sm.requires_signature = 'Y' THEN 1 ELSE 0 END), 0), 1) AS compliance_pct FROM FACT_Sample_Management sm JOIN DIM_Employee e ON sm.employee_id = e.employee_id JOIN DIM_Geography g ON e.territory_id = g.geo_id JOIN DIM_Time t ON sm.time_id = t.time_id WHERE t.year = 2025 GROUP BY g.geo_name ORDER BY compliance_pct DESC;"
+  },
+  {
+    "id": 42,
+    "category": "Samples",
+    "question": "Top 10 HCPs receiving the most samples in 2025",
+    "sql": "SELECT a.account_name, a.specialty, b.brand_name, SUM(sm.sample_quantity) AS total_samples FROM FACT_Sample_Management sm JOIN DIM_Account a ON sm.account_id = a.account_id JOIN DIM_Brand b ON sm.brand_id = b.brand_id JOIN DIM_Time t ON sm.time_id = t.time_id WHERE t.year = 2025 GROUP BY a.account_name, a.specialty, b.brand_name ORDER BY total_samples DESC LIMIT 10;"
+  },
+  {
+    "id": 43,
+    "category": "Samples",
+    "question": "Sample delivery status breakdown (delivered, acknowledged, returned) by brand in 2025",
+    "sql": "SELECT b.brand_name, sm.sample_status, COUNT(*) AS count, SUM(sm.sample_quantity) AS total_units FROM FACT_Sample_Management sm JOIN DIM_Brand b ON sm.brand_id = b.brand_id JOIN DIM_Time t ON sm.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name, sm.sample_status ORDER BY b.brand_name, sm.sample_status;"
+  },
+  {
+    "id": 44,
+    "category": "Targets",
+    "question": "Revenue targets by brand and country for FY2025",
+    "sql": "SELECT b.brand_name, g.geo_name, tg.target_value AS revenue_target_eur FROM FACT_Targets tg JOIN DIM_Brand b ON tg.brand_id = b.brand_id JOIN DIM_Geography g ON tg.geo_id = g.geo_id WHERE tg.fiscal_year = 'FY2025' AND tg.target_type = 'REVENUE_TARGET' ORDER BY b.brand_name, revenue_target_eur DESC;"
+  },
+  {
+    "id": 45,
+    "category": "Targets",
+    "question": "Market share targets vs. actual market share by brand in 2025",
+    "sql": "SELECT b.brand_name, MAX(tg.target_value) AS market_share_target_pct, AVG(s.market_share_pct) AS actual_avg_market_share_pct FROM FACT_Targets tg JOIN DIM_Brand b ON tg.brand_id = b.brand_id LEFT JOIN FACT_Sales s ON s.brand_id = tg.brand_id LEFT JOIN DIM_Time t ON s.time_id = t.time_id AND t.year = 2025 WHERE tg.fiscal_year = 'FY2025' AND tg.target_type = 'MARKET_SHARE_TARGET' GROUP BY b.brand_name ORDER BY b.brand_name;"
+  },
+  {
+    "id": 46,
+    "category": "Geography",
+    "question": "List of all EMEA countries with their cluster assignments",
+    "sql": "SELECT geo_name AS country_name, country_code, cluster_name, population_millions FROM DIM_Geography WHERE geo_level = 'COUNTRY' ORDER BY cluster_name, country_name;"
+  },
+  {
+    "id": 47,
+    "category": "Geography",
+    "question": "Total number of territories per country",
+    "sql": "SELECT parent.geo_name AS country_name, COUNT(child.geo_id) AS territory_count FROM DIM_Geography parent JOIN DIM_Geography child ON child.parent_geo_id = parent.geo_id WHERE parent.geo_level = 'COUNTRY' AND child.geo_level = 'TERRITORY' GROUP BY parent.geo_name ORDER BY territory_count DESC;"
+  },
+  {
+    "id": 48,
+    "category": "Employee",
+    "question": "Headcount by employee role and country",
+    "sql": "SELECT g.geo_name, e.employee_role, COUNT(*) AS headcount FROM DIM_Employee e JOIN DIM_Geography g ON e.territory_id = g.geo_id WHERE e.is_active = 'Y' GROUP BY g.geo_name, e.employee_role ORDER BY g.geo_name, headcount DESC;"
+  },
+  {
+    "id": 49,
+    "category": "Employee",
+    "question": "Number of active employees by therapeutic area",
+    "sql": "SELECT b.therapeutic_area_name, COUNT(DISTINCT e.employee_id) AS headcount FROM DIM_Employee e JOIN DIM_Brand b ON e.therapeutic_area_id = b.therapeutic_area_id WHERE e.is_active = 'Y' AND e.brand_id IS NOT NULL GROUP BY b.therapeutic_area_name ORDER BY headcount DESC;"
+  },
+  {
+    "id": 50,
+    "category": "Brand",
+    "question": "List of all brands with their therapeutic area and lifecycle stage",
+    "sql": "SELECT brand_name, molecule_name, therapeutic_area_name, lifecycle_stage, primary_launch_date FROM DIM_Brand ORDER BY therapeutic_area_name, brand_name;"
+  },
+  {
+    "id": 51,
+    "category": "Brand",
+    "question": "Number of indications per brand",
+    "sql": "SELECT b.brand_name, COUNT(bi.indication_id) AS indication_count FROM DIM_Brand b LEFT JOIN DIM_Brand_Indication bi ON b.brand_id = bi.brand_id GROUP BY b.brand_name ORDER BY indication_count DESC;"
+  },
+  {
+    "id": 52,
+    "category": "Cross-table",
+    "question": "Revenue per interaction by brand and country in 2025 (sales efficiency)",
+    "sql": "SELECT b.brand_name, g.geo_name, SUM(s.net_revenue_eur) AS total_revenue_eur, COUNT(DISTINCT i.interaction_id) AS total_interactions, ROUND(SUM(s.net_revenue_eur) / NULLIF(COUNT(DISTINCT i.interaction_id), 0), 2) AS revenue_per_interaction FROM FACT_Sales s JOIN FACT_Interactions i ON i.brand_id = s.brand_id AND i.geo_id = s.geo_id AND i.time_id = s.time_id JOIN DIM_Brand b ON s.brand_id = b.brand_id JOIN DIM_Geography g ON s.geo_id = g.geo_id JOIN DIM_Time t ON s.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name, g.geo_name ORDER BY revenue_per_interaction DESC;"
+  },
+  {
+    "id": 53,
+    "category": "Cross-table",
+    "question": "Correlation between coverage rate and revenue by brand in 2025",
+    "sql": "SELECT b.brand_name, AVG(c.kpi002_target_coverage_pct) AS avg_coverage_pct, SUM(s.net_revenue_eur) AS total_revenue_eur FROM FACT_Coverage c JOIN FACT_Sales s ON c.brand_id = s.brand_id AND c.geo_id = s.geo_id AND c.time_id = s.time_id JOIN DIM_Brand b ON c.brand_id = b.brand_id JOIN DIM_Time t ON c.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY avg_coverage_pct DESC;"
+  },
+  {
+    "id": 54,
+    "category": "Cross-table",
+    "question": "Accounts with HIGH prescriber volume that have not been interacted with in 2025",
+    "sql": "SELECT a.account_name, a.specialty, a.country_code, a.prescriber_volume FROM DIM_Account a WHERE a.prescriber_volume = 'HIGH' AND a.account_type = 'HCP' AND a.account_id NOT IN (SELECT DISTINCT i.account_id FROM FACT_Interactions i JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025) ORDER BY a.country_code, a.account_name;"
+  },
+  {
+    "id": 55,
+    "category": "Cross-table",
+    "question": "Sample delivery rate per interaction by brand in 2025",
+    "sql": "SELECT b.brand_name, COUNT(DISTINCT i.interaction_id) AS total_interactions, COUNT(DISTINCT sm.sample_id) AS interactions_with_samples, ROUND(COUNT(DISTINCT sm.sample_id) * 100.0 / NULLIF(COUNT(DISTINCT i.interaction_id), 0), 1) AS sample_rate_pct FROM FACT_Interactions i LEFT JOIN FACT_Sample_Management sm ON sm.interaction_id = i.interaction_id JOIN DIM_Brand b ON i.brand_id = b.brand_id JOIN DIM_Time t ON i.time_id = t.time_id WHERE t.year = 2025 GROUP BY b.brand_name ORDER BY sample_rate_pct DESC;"
+  }
 ]

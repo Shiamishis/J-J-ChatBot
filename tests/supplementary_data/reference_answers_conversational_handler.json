@@ -1,0 +1,195 @@
+[
+  {
+    "id": 1,
+    "category": "greeting",
+    "question": "Hello!",
+    "answer": "The assistant should respond with a friendly greeting and offer to help with any questions."
+  },
+  {
+    "id": 2,
+    "category": "greeting",
+    "question": "Hi there, how are you doing today?",
+    "answer": "The assistant should respond conversationally in a warm friendly tone and express readiness to help."
+  },
+  {
+    "id": 3,
+    "category": "greeting",
+    "question": "Good morning!",
+    "answer": "The assistant should return a morning greeting and offer its assistance."
+  },
+  {
+    "id": 4,
+    "category": "capabilities",
+    "question": "What can you help me with?",
+    "answer": "The assistant should describe its ability to answer questions about data and assist with analysis or general queries without referencing a specific database schema."
+  },
+  {
+    "id": 5,
+    "category": "capabilities",
+    "question": "What kind of questions are you able to answer?",
+    "answer": "The assistant should explain the types of questions it can handle such as data questions analytical questions or general conversational questions without enumerating specific database tables."
+  },
+  {
+    "id": 6,
+    "category": "polite_social",
+    "question": "Thank you, that was very helpful!",
+    "answer": "The assistant should respond warmly acknowledge the thanks and offer to help further if needed."
+  },
+  {
+    "id": 7,
+    "category": "polite_social",
+    "question": "Never mind, forget what I asked.",
+    "answer": "The assistant should acknowledge the request and offer to help with something else."
+  },
+  {
+    "id": 8,
+    "category": "polite_social",
+    "question": "You are doing a great job!",
+    "answer": "The assistant should respond graciously and offer to continue helping."
+  },
+  {
+    "id": 9,
+    "category": "no_database",
+    "question": "What is the capital of France?",
+    "answer": "The assistant should answer that the capital of France is Paris without referencing any database or schema."
+  },
+  {
+    "id": 10,
+    "category": "no_database",
+    "question": "What does the acronym HCP stand for?",
+    "answer": "The assistant should answer that HCP stands for Healthcare Professional."
+  },
+  {
+    "id": 11,
+    "category": "no_database",
+    "question": "What does KPI stand for?",
+    "answer": "The assistant should answer that KPI stands for Key Performance Indicator."
+  },
+  {
+    "id": 12,
+    "category": "no_database",
+    "question": "Can you give me a quick definition of a foreign key?",
+    "answer": "The assistant should explain that a foreign key is a column in one table that references the primary key of another table establishing a relationship between the two using plain language."
+  },
+  {
+    "id": 13,
+    "category": "no_database",
+    "question": "Can you explain what a star schema is in plain terms?",
+    "answer": "The assistant should explain that a star schema organises data with a central fact table surrounded by dimension tables resembling a star shape using plain language without referencing specific tables from the system."
+  },
+  {
+    "id": 14,
+    "category": "ambiguity_handling",
+    "question": "What do you mean?",
+    "answer": "The assistant should acknowledge there is no prior context in this session and ask the user to clarify what they would like explained."
+  },
+  {
+    "id": 15,
+    "category": "ambiguity_handling",
+    "question": "Can you be more specific?",
+    "answer": "The assistant should acknowledge there is no prior context and ask the user to provide more detail about what they would like to know."
+  },
+  {
+    "id": 16,
+    "category": "goodbye",
+    "question": "That is all I needed, goodbye!",
+    "answer": "The assistant should respond with a friendly farewell and offer to help again in the future."
+  },
+  {
+    "id": 17,
+    "category": "multi_turn_follow_up",
+    "turns": [
+      {
+        "prompt": "What does KPI stand for?"
+      },
+      {
+        "prompt": "Can you give me an example of one?",
+        "answer": "The assistant should provide a concrete example of a KPI such as a sales target coverage rate or field day percentage without referencing specific database tables."
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "category": "multi_turn_follow_up",
+    "turns": [
+      {
+        "prompt": "Can you explain what a star schema is?"
+      },
+      {
+        "prompt": "And what sits at the center of it?",
+        "answer": "The assistant should explain that a fact table sits at the center of a star schema surrounded by dimension tables."
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "category": "multi_turn_clarification",
+    "turns": [
+      {
+        "prompt": "What is a foreign key?"
+      },
+      {
+        "prompt": "I did not quite follow that. Can you say it more simply?",
+        "answer": "The assistant should restate the foreign key definition using simpler language for example saying it is a way for one table to point to a row in another table."
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "category": "multi_turn_clarification",
+    "turns": [
+      {
+        "prompt": "What does HCO stand for?"
+      },
+      {
+        "prompt": "How is that different from an HCP?",
+        "answer": "The assistant should explain that an HCO is a Healthcare Organisation such as a hospital or clinic while an HCP is a Healthcare Professional such as a doctor or nurse."
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "category": "multi_turn_summary",
+    "turns": [
+      {
+        "prompt": "What does KPI stand for?"
+      },
+      {
+        "prompt": "What does HCP stand for?"
+      },
+      {
+        "prompt": "What have we talked about so far?",
+        "answer": "The assistant should summarise that the conversation covered the meaning of KPI as Key Performance Indicator and HCP as Healthcare Professional."
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "category": "multi_turn_summary",
+    "turns": [
+      {
+        "prompt": "Can you explain what a star schema is?"
+      },
+      {
+        "prompt": "Can you explain what a foreign key is?"
+      },
+      {
+        "prompt": "Can you give me a quick summary of what we have discussed?",
+        "answer": "The assistant should summarise that the conversation covered the star schema pattern and the definition of foreign keys."
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "category": "multi_turn_topic_switch",
+    "turns": [
+      {
+        "prompt": "What does KPI stand for?"
+      },
+      {
+        "prompt": "Actually never mind that, can you explain what ETL means instead?",
+        "answer": "The assistant should set aside the KPI topic and explain that ETL stands for Extract Transform Load which is a process for moving and preparing data."
+      }
+    ]
+  }
+]

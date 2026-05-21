@@ -1,0 +1,2507 @@
+
+=== Running tests for reference_answers_conversational_handler.json ===
+
+[ID 1] Testing: Hello!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: It seems like you just said hello, how can I assist you today
+Judge verdict: PASS
+Reason: The ACTUAL response includes a friendly greeting and an offer to assist, which are key facts from the REFERENCE. The wording is slightly different, but the meaning is the same.
+
+[ID 2] Testing: Hi there, how are you doing today?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I am doing well, thank you for asking, I am ready to help you with any questions or tasks you may have.
+Judge verdict: PASS
+Reason: The chatbot's response shows a warm and friendly tone and expresses readiness to help. It matches the ground-truth answer's requirement to respond conversationally.
+
+[ID 3] Testing: Good morning!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: Good morning to you as well, how can I assist you today
+Judge verdict: FAIL
+Reason: The chatbot's response does not include the expected morning greeting and specific assistance offer. The requirement for a morning greeting is missing, and the response does not clearly convey the assistant's readiness to assist.
+
+[ID 3] Verdict: FAIL
+Reference: For the question "Good morning!", the expected answer is:
+  The assistant should return a morning greeting and offer its assistance.
+Actual: Good morning to you as well, how can I assist you today
+Reason: The chatbot's response does not include the expected morning greeting and specific assistance offer. The requirement for a morning greeting is missing, and the response does not clearly convey the assistant's readiness to assist.
+
+[ID 4] Testing: What can you help me with?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I can help you with a wide range of tasks, such as answering questions, providing information, and assisting with general topics, so please let me know what is on your mind and I will do my best to help.
+Judge verdict: PASS
+Reason: The chatbot response describes its ability to help with a wide range of tasks, including answering questions, providing information, and assisting with general topics. This matches the expected answer's description of the assistant's ability to answer questions about data and assist with analysis or general queries without referencing a specific database schema.
+
+[ID 5] Testing: What kind of questions are you able to answer?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: I can answer a wide range of questions on various topics, including but not limited to history, science, technology, literature, and general knowledge. I can also provide information and explanations on different subjects, and help with tasks such as language translation and text summarization. Additionally, I can assist with answering questions that require logical reasoning and problem-solving skills. If you have a specific question in mind, feel free to ask and I will do my best to provide a helpful response.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey all key facts from the REFERENCE. The REFERENCE states that the assistant should explain the types of questions it can handle, such as data questions, analytical questions, or general conversational questions, without enumerating specific database tables. The ACTUAL response only mentions a wide range of topics (history, science, technology, literature, and general knowledge), and does not explain the types of questions it can handle.
+
+[ID 5] Verdict: FAIL
+Reference: For the question "What kind of questions are you able to answer?", the expected answer is:
+  The assistant should explain the types of questions it can handle such as data questions analytical questions or general conversational questions without enumerating specific database tables.
+Actual: I can answer a wide range of questions on various topics, including but not limited to history, science, technology, literature, and general knowledge. I can also provide information and explanations on different subjects, and help with tasks such as language translation and text summarization. Additionally, I can assist with answering questions that require logical reasoning and problem-solving s
+Reason: The ACTUAL response does not convey all key facts from the REFERENCE. The REFERENCE states that the assistant should explain the types of questions it can handle, such as data questions, analytical questions, or general conversational questions, without enumerating specific database tables. The ACTUAL response only mentions a wide range of topics (history, science, technology, literature, and general knowledge), and does not explain the types of questions it can handle.
+
+[ID 6] Testing: Thank you, that was very helpful!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: You are welcome, I am glad I could assist you, is there anything else I can help you with now.
+Judge verdict: PASS
+Reason: The chatbot response includes all key aspects, such as acknowledging the thanks, offering further help if needed, and maintaining a warm tone. The minor wording differences are acceptable.
+
+[ID 7] Testing: Never mind, forget what I asked.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: You didn't ask a question in the first place, so there's nothing to forget. If you're ready to ask a question now, I'm here to help.
+Judge verdict: FAIL
+Reason: The chatbot response does not acknowledge the request or offer to help with something else, which is required for a 'PASS' verdict.
+
+[ID 7] Verdict: FAIL
+Reference: For the question "Never mind, forget what I asked.", the expected answer is:
+  The assistant should acknowledge the request and offer to help with something else.
+Actual: You didn't ask a question in the first place, so there's nothing to forget. If you're ready to ask a question now, I'm here to help.
+Reason: The chatbot response does not acknowledge the request or offer to help with something else, which is required for a 'PASS' verdict.
+
+[ID 8] Testing: You are doing a great job!
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: Thank you for the kind words, I am happy to be of assistance and will continue to do my best to provide helpful responses.
+Judge verdict: PASS
+Reason: The actual response conveys the key facts of the reference, including the gratitude and the offer to continue helping, with minor wording differences.
+
+[ID 9] Testing: What is the capital of France?
+Determined intent: web_handler
+Instantiated handler: WebHandler
+API_KEY:  c5abc28e75235affb56d040071f319214e6536d2
+<Response [200]>
+Handler response: The capital of France is Paris, which serves as the seat of the country's national government and is home to both houses of the French Parliament, as well as France's highest courts. Paris is a significant city with a rich history and a large population, having approximately 2.234 million inhabitants as of 2011. It is located in the largest country in Europe, which covers an area of 550,000 square kilometers and has a total of 65 million inhabitants. Overall, Paris is an important and prominent city that plays a central role in French politics, history, and culture.
+Judge verdict: FAIL
+Reason: The actual response fails to mention that the capital of France is Paris and instead provides additional information. The ground truth requires a simple answer that the capital of France is Paris.
+
+[ID 9] Verdict: FAIL
+Reference: For the question "What is the capital of France?", the expected answer is:
+  The assistant should answer that the capital of France is Paris without referencing any database or schema.
+Actual: The capital of France is Paris, which serves as the seat of the country's national government and is home to both houses of the French Parliament, as well as France's highest courts. Paris is a significant city with a rich history and a large population, having approximately 2.234 million inhabitants as of 2011. It is located in the largest country in Europe, which covers an area of 550,000 square
+Reason: The actual response fails to mention that the capital of France is Paris and instead provides additional information. The ground truth requires a simple answer that the capital of France is Paris.
+
+[ID 10] Testing: What does the acronym HCP stand for?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: The acronym HCP can stand for different things depending on the context, but some common meanings include Healthcare Professional, Heavy Commercial Passenger vehicle, or High Conservation Priority, however without more context it is difficult to provide a specific answer.
+Judge verdict: FAIL
+Reason: The chatbot's response contains more than one possible interpretation of HCP, but fails to provide the most common and expected meaning (Healthcare Professional). The response does not meet the criteria of conveying all key facts from the reference.
+
+[ID 10] Verdict: FAIL
+Reference: For the question "What does the acronym HCP stand for?", the expected answer is:
+  The assistant should answer that HCP stands for Healthcare Professional.
+Actual: The acronym HCP can stand for different things depending on the context, but some common meanings include Healthcare Professional, Heavy Commercial Passenger vehicle, or High Conservation Priority, however without more context it is difficult to provide a specific answer.
+Reason: The chatbot's response contains more than one possible interpretation of HCP, but fails to provide the most common and expected meaning (Healthcare Professional). The response does not meet the criteria of conveying all key facts from the reference.
+
+[ID 11] Testing: What does KPI stand for?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measure used to evaluate the success of an organization, employee, or specific activity in achieving its objectives.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the abbreviation and its meaning. Minor wording differences are fine.
+
+[ID 12] Testing: Can you give me a quick definition of a foreign key?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field in a table that refers to the primary key of another table, used to link the two tables together and establish a relationship between them.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE (foreign key is a field in a table, references the primary key of another table, used to link the two tables together and establish a relationship between them). Minor wording differences are fine.
+
+[ID 13] Testing: Can you explain what a star schema is in plain terms?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a way to organize data in a database so that it is easy to understand and query. It is called a star schema because the tables are arranged in a star-like pattern. In the center of the star, there is a large fact table that contains the main data, and surrounding it are smaller dimension tables that provide additional information about the data in the fact table. This arrangement makes it simple to analyze and report on the data by joining the fact table with the relevant dimension tables.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the purpose, structure, and ease of querying the data in a star schema. Minor wording differences are fine.
+
+[ID 14] Testing: What do you mean?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: There is no context provided, so I don't have any information to clarify or explain. Please provide more context or information about what you are referring to, and I will do my best to help.
+Judge verdict: PASS
+Reason: The chatbot's response accurately conveys that there is no prior context and asks for clarification. It also provides a polite and helpful prompt to the user to provide more information.
+
+[ID 15] Testing: Can you be more specific?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: There is no context provided to give a specific answer, please provide more information about what you are referring to so I can give a more detailed response.
+Judge verdict: PASS
+Reason: The chatbot's response matches the ground-truth answer, acknowledging the lack of context and requesting more information.
+
+[ID 16] Testing: That is all I needed, goodbye!
+Determined intent: base_handler
+Instantiated handler: Handler
+Handler response: None
+  [ID 16] Assertion error: [ID 16] Empty response on turn 1
+assert None
+
+[ID 17] Testing: Can you give me an example of one?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measurable value that demonstrates how effectively an organization is achieving key business objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: An example of a key performance indicator is customer satisfaction rate, which measures how satisfied customers are with a company's products or services, often tracked through surveys or feedback forms.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not mention sales target coverage rate or field day percentage, which are mentioned in the REFERENCE. The ACTUAL response only gives an example of customer satisfaction rate, which is not sufficient.
+
+[ID 17] Verdict: FAIL
+Reference: For the question "Can you give me an example of one?", the expected answer is:
+  The assistant should provide a concrete example of a KPI such as a sales target coverage rate or field day percentage without referencing specific database tables.
+Actual: An example of a key performance indicator is customer satisfaction rate, which measures how satisfied customers are with a company's products or services, often tracked through surveys or feedback forms.
+Reason: The ACTUAL response does not mention sales target coverage rate or field day percentage, which are mentioned in the REFERENCE. The ACTUAL response only gives an example of customer satisfaction rate, which is not sufficient.
+
+[ID 18] Testing: And what sits at the center of it?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a type of database design used for data warehousing and business intelligence. It is called a star schema because it has a central table, known as the fact table, which is surrounded by smaller tables, known as dimension tables, that provide additional information about the data in the fact table. The fact table contains the main data being analyzed, such as sales or customer interactions, and the dimension tables provide context and details about the data, such as date, location, or product information. This design allows for efficient querying and analysis of the data, and is often used in data warehouses and data marts to support business intelligence and data analysis.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: The fact table sits at the center of a star schema, it is the central table that contains the main data being analyzed, such as sales or customer interactions, and it is surrounded by the dimension tables that provide additional information about the data in the fact table.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE (the fact table is at the center, it's central, contains main data, and is surrounded by dimension tables). No critical information is missing or contradictory, and minor wording differences are acceptable.
+
+[ID 19] Testing: I did not quite follow that. Can you say it more simply?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field in a table that refers to the primary key of another table, used to link the two tables together and establish a relationship between them.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a column in one table that contains the same values as the primary key in another table, it is used to connect the two tables and show that they are related.
+Judge verdict: FAIL
+Reason: The actual response does not contain all key facts, it is missing a clear explanation of what the foreign key definition means in simpler language. The reference states that the expected answer should restate the foreign key definition using simpler language, but the actual response does not do this.
+
+[ID 19] Verdict: FAIL
+Reference: For the question "I did not quite follow that. Can you say it more simply?", the expected answer is:
+  The assistant should restate the foreign key definition using simpler language for example saying it is a way for one table to point to a row in another table.
+Actual: A foreign key is a column in one table that contains the same values as the primary key in another table, it is used to connect the two tables and show that they are related.
+Reason: The actual response does not contain all key facts, it is missing a clear explanation of what the foreign key definition means in simpler language. The reference states that the expected answer should restate the foreign key definition using simpler language, but the actual response does not do this.
+
+[ID 20] Testing: How is that different from an HCP?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: HCO can stand for several things, but without more context, it is difficult to provide a specific answer. However, some common meanings of HCO include Healthcare Organization, Heavy Cycle Oil, or Hubbard Communications Office, among others.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: An HCP typically stands for Healthcare Professional, which refers to an individual who provides healthcare services, such as a doctor, nurse, or pharmacist. In contrast, an HCO, or Healthcare Organization, refers to the entity or institution that employs these professionals, such as a hospital, clinic, or medical practice.
+Judge verdict: PASS
+Reason: The actual response correctly differentiates between an HCP (Healthcare Professional) and an HCO (Healthcare Organization) and provides the required context, conveying all key facts from the reference.
+
+[ID 21] Testing: What have we talked about so far?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measurable value that demonstrates how effectively an organization is achieving key business objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: HCP stands for Healthcare Professional, which refers to individuals such as doctors, nurses, and pharmacists who provide medical care and services to patients.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: We have talked about the meanings of two abbreviations so far, KPI which stands for Key Performance Indicator, and HCP which stands for Healthcare Professional.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from REFERENCE, including the meanings of KPI and HCP. Minor wording differences are present, but no critical facts are missing or contradicted.
+
+[ID 22] Testing: Can you give me a quick summary of what we have discussed?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A star schema is a type of database schema that is used to store data in a data warehouse. It is called a star schema because it has a central fact table that is surrounded by dimension tables, which are connected to the fact table like the points of a star. The fact table contains the main data being analyzed, such as sales or website traffic, and the dimension tables contain additional information about the data, such as date, location, or product. This design allows for efficient querying and analysis of the data, and is commonly used in business intelligence and data analysis applications.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: A foreign key is a field or column in a database table that refers to the primary key of another table. It is used to link the two tables together and establish a relationship between them. The foreign key in one table matches the primary key in another table, allowing the database to join the two tables and retrieve related data. This helps to maintain data consistency and prevent errors, and it also enables the database to perform complex queries and retrieve data from multiple tables.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: We have discussed two topics so far, the star schema which is a type of database schema used in data warehouses, and foreign keys which are used to link tables together in a database by referencing the primary key of another table.
+Judge verdict: PASS
+Reason: The chatbot's response includes key facts from the reference, such as the topics discussed and their definitions, making it a correct response.
+
+[ID 23] Testing: Actually never mind that, can you explain what ETL means instead?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: KPI stands for Key Performance Indicator, which is a measure used to evaluate the success of an organization, employee, or specific activity in achieving its objectives.
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: ETL stands for Extract, Transform, and Load, which is a process used to extract data from multiple sources, transform it into a consistent format, and then load it into a target system, such as a database or data warehouse, for analysis and reporting.
+Judge verdict: PASS
+Reason: The actual response correctly explains what ETL stands for (Extract, Transform, and Load) and what the process entails, matching the reference.
+Stats for reference_answers_conversational_handler.json: {'ratio_pass': 0.6521739130434783, 'ratio_partial': 0.0, 'ratio_fail': 0.30434782608695654, 'average_response_time_sec': 1.1261155916296917, 'ratio_errors': 0.043478260869565216}
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID 1] Testing: Top 5 products by sales in 2025 with their respective sales
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_sales
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_sales DESC
+LIMIT 5;
+Handler response: Based on the provided SQL results and context, the top 5 products by sales in 2025 are:
+
+1. LUNARA
+2. HEMAVEX
+3. ONCOBREAST
+4. DERMASHIELD
+5. MIGRANOVA
+
+These products are ordered by total sales, with LUNARA having the highest sales. The sales figures are provided in EUR.
+Judge verdict: PASS
+Reason: The ACTUAL response lists the top 5 products by sales in 2025 with their respective sales, which matches the REFERENCE's product names and sales figures to within ~1%. Minor wording differences (e.g., listing by total sales instead of directly stating 'ordered by total sales') are acceptable under the scoring rules.
+
+[ID 2] Testing: Total revenue by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country,
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name
+Handler response: The total revenue by country in 2025 is as follows:
+
+- Austria: 435,207,651.04 EUR
+- Belgium: 305,647,091.78 EUR
+- Bulgaria: 89,028,147.94 EUR
+- Croatia: 88,034,300.40 EUR
+- Czech Republic: 221,201,316.85 EUR
+- Denmark: 261,731,157.73 EUR
+- Finland: 219,602,471.12 EUR
+- France: 1,890,049,076.54 EUR
+- Germany: 2,232,658,060.23 EUR
+- Greece: 177,162,765.06 EUR
+- Hungary: 173,123,680.26 EUR
+- Ireland: 173,227,668.35 EUR
+- Italy: 1,527,078,738.31 EUR
+- Netherlands: 396,806,709.92 EUR
+- Norway: 264,077,816.57 EUR
+- Poland: 558,461,204.75 EUR
+- Portugal: 265,870,255.82 EUR
+- Romania: 260,424,910.43 EUR
+- Spain: 1,335,295,263.01 EUR
+- Sweden: 396,354,954.51 EUR
+- Switzerland: 542,209,554.82 EUR
+- United Kingdom: 1,680,026,483.17 EUR
+
+These totals are derived from FACT_Sales, which tracks monthly HCO-level sales with market data. The figures are based on the data provided for 2025 and include net revenue, units sold, market share, and other relevant sales metrics.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE with minor wording differences. The figures match exactly, and the source of the data is mentioned.
+
+[ID 3] Testing: Monthly revenue trend for 2025 across all brands
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    T1.month_name, 
+    SUM(T2.net_revenue_eur) AS total_revenue
+FROM 
+    DIM_Time T1
+JOIN 
+    FACT_Sales T2 ON T1.time_id = T2.time_id
+WHERE 
+    T1.year = 2025
+GROUP BY 
+    T1.month_name
+ORDER BY 
+    T1.month;
+Handler response: The monthly revenue trend for 2025 across all brands has varied throughout the year. The highest revenue was achieved in September (130,670,464.92 EUR), while the lowest was in August (60,493,335.88 EUR). The average monthly revenue was approximately 114.4 million EUR. The data suggests that the latter half of the year generally saw higher revenue than the earlier months.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the specific revenue data, the highest and lowest months, and the average monthly revenue. Minor wording differences are fine.
+
+[ID 4] Testing: Revenue by therapeutic area in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Sales', 'DIM_Brand_Indication', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.therapeutic_area_name, 
+    SUM(FS.net_revenue_eur) AS revenue_2025
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.therapeutic_area_name;
+Handler response: The top revenue-generating therapeutic area in 2025 is Solid Tumors, with a revenue of approximately 696,306,865.66 euros. This information is based on the sales data provided for the specified year and therapeutic area.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide any of the specific numbers for the revenue in 2025 by therapeutic area, which are required for a PASS verdict. The reference provides specific numbers, but the ACTUAL response does not attempt to provide them.
+
+[ID 4] Verdict: FAIL
+Reference: For the question "Revenue by therapeutic area in 2025", the expected answer is:
+  - Hematology: 3,629,150,007.48
+  - Immunology: 952,434,868.37
+  - Neuroscience: 1,948,625,746.1
+  - Solid Tumors: 6,963,068,656.66
+Actual: The top revenue-generating therapeutic area in 2025 is Solid Tumors, with a revenue of approximately 696,306,865.66 euros. This information is based on the sales data provided for the specified year and therapeutic area.
+Reason: The ACTUAL response does not provide any of the specific numbers for the revenue in 2025 by therapeutic area, which are required for a PASS verdict. The reference provides specific numbers, but the ACTUAL response does not attempt to provide them.
+
+[ID 5] Testing: Average market share percentage per brand in 2025
+Determined intent: web_handler
+Instantiated handler: WebHandler
+API_KEY:  c5abc28e75235affb56d040071f319214e6536d2
+<Response [200]>
+Handler response: To determine the average market share percentage per brand in 2025, we need to consider the specific market or industry in question. The provided web search results mention the global advanced wound management market and the plug-in electric vehicle market, among others.
+
+For the global advanced wound management market, the market share in 2025 is broken down by company, but the exact percentages are not provided in the given context. Similarly, the plug-in electric vehicle market share by manufacturer in 2025 is mentioned, but the specific percentages or average market share per brand are not specified.
+
+The definition of market share is provided, which involves dividing a company's sales by the industry's total sales over a certain period. However, without the actual sales data or total industry sales, we cannot calculate the average market share percentage per brand in 2025.
+
+Additionally, the provided marketing statistics and trends, such as conversion rates for e-commerce sites, do not directly relate to calculating market share percentages. They do indicate that conversion rates vary across industries, with skincare online shopping having a relatively high conversion rate of 2.7%.
+
+In conclusion, without more specific data on sales and total industry sales for a particular market or industry in 2025, we cannot provide an accurate average market share percentage per brand. The available information provides context and definitions but lacks the necessary details for a precise calculation.
+Judge verdict: FAIL
+Reason: The chatbot's response lacks the necessary key facts from the reference. It does not provide the average market share percentage per brand in 2025, as requested by the user.
+
+[ID 5] Verdict: FAIL
+Reference: For the question "Average market share percentage per brand in 2025", the expected answer is:
+  - 19.48: MIGRANOVA
+  - 19.51: NEUROMYEL SPMS
+  - 19.51: MYELOGUARD
+  - 19.54: LUNARA
+  - 19.62: NEUROMYEL
+  - 19.62: DERMASHIELD
+  - 19.63: LUPINOVA
+  - 19.64: RHEUMAVEX
+  - 19.65: HEMAVEX COMBO
+  - 19.65: COGNIVEX
+  - 19.67: HEMAVEX
+  - 19.68: MIGRANOVA EP
+  - 19.68: COLONEX
+  - 19.69: ONCOBREAST
+  - 19.71: LYMPHACLEAR
+Actual: To determine the average market share percentage per brand in 2025, we need to consider the specific market or industry in question. The provided web search results mention the global advanced wound management market and the plug-in electric vehicle market, among others.
+
+For the global advanced wound management market, the market share in 2025 is broken down by company, but the exact percentages 
+Reason: The chatbot's response lacks the necessary key facts from the reference. It does not provide the average market share percentage per brand in 2025, as requested by the user.
+
+[ID 6] Testing: Year-over-year revenue growth percentage by brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: WITH 
+  -- Calculate revenue for each brand in 2024 and 2025
+  brand_revenue AS (
+    SELECT 
+      fs.brand_id,
+      dt.year,
+      SUM(fs.net_revenue_eur) AS total_revenue
+    FROM 
+      FACT_Sales fs
+    JOIN 
+      DIM_Time dt ON fs.time_id = dt.time_id
+    WHERE 
+      dt.year IN (2024, 2025)
+    GROUP BY 
+      fs.brand_id, dt.year
+  ),
+  
+  -- Calculate year-over-year revenue growth percentage for each brand
+  brand_growth AS (
+    SELECT 
+      br.brand_id,
+      br.year,
+      br.total_revenue,
+      LAG(br.total_revenue) OVER (PARTITION BY br.brand_id ORDER BY br.year) AS prev_year_revenue,
+      ((br.total_revenue - LAG(br.total_revenue) OVER (PARTITION BY br.brand_id ORDER BY br.year)) / 
+       LAG(br.total_revenue) OVER (PARTITION BY br.brand_id ORDER BY br.year)) * 100 AS yoy_growth_pct
+    FROM 
+      brand_revenue br
+  )
+
+-- Filter for 2025 and join with DIM_Brand to get brand names
+SELECT 
+  db.brand_name,
+  bg.yoy_growth_pct
+FROM 
+  brand_growth bg
+JOIN 
+  DIM_Brand db ON bg.brand_id = db.brand_id
+WHERE 
+  bg.year = 2025 AND bg.prev_year_revenue IS NOT NULL;
+Handler response: The SQL query you provided calculates the year-over-year revenue growth percentage for each brand in 2025. Here's what the results show:
+
+- **Brand Name**: The name of the brand.
+- **YOY Growth Percentage**: The year-over-year revenue growth percentage for each brand in 2025.
+
+For the brands listed in the results, the revenue growth percentage for 2025 is calculated based on the total revenue for 2024 and 2025. The growth percentage is then multiplied by 100 to get the percentage value.
+
+For example, if a brand had a total revenue of 1,000,000 EUR in 2024 and 1,200,000 EUR in 2025, the growth percentage would be (1,200,000 - 1,000,000) / 1,000,000 * 100 = 20%.
+
+Please note that the results provided are for the brands listed in the query and may not be exhaustive. If you need data for all brands, you would need to modify the query accordingly.
+Judge verdict: FAIL
+Reason: The ACTUAL response provides a detailed explanation of how the SQL query calculates year-over-year revenue growth percentage by brand in 2025, but it does not provide the actual values for each brand. The REFERENCE provides specific values for each brand, which are missing in the ACTUAL response.
+
+[ID 6] Verdict: FAIL
+Reference: For the question "Year-over-year revenue growth percentage by brand in 2025", the expected answer is:
+  - -14.88: RHEUMAVEX
+  - -5.12: DERMASHIELD
+  - -2.99: LYMPHACLEAR
+  - -0.0: ONCOBREAST
+  - 0.98: NEUROMYEL
+  - 1.01: MYELOGUARD
+  - 11.87: NEUROMYEL SPMS
+  - 14.9: MIGRANOVA EP
+  - 15.02: COLONEX
+  - 19.95: MIGRANOVA
+  - 25.05: LUNARA
+  - 25.07: COGNIVEX
+  - 29.89: HEMAVEX
+  - 35.11: HEMAVEX COMBO
+  - 49.98: LUPINOVA
+Actual: The SQL query you provided calculates the year-over-year revenue growth percentage for each brand in 2025. Here's what the results show:
+
+- **Brand Name**: The name of the brand.
+- **YOY Growth Percentage**: The year-over-year revenue growth percentage for each brand in 2025.
+
+For the brands listed in the results, the revenue growth percentage for 2025 is calculated based on the total revenue for 
+Reason: The ACTUAL response provides a detailed explanation of how the SQL query calculates year-over-year revenue growth percentage by brand in 2025, but it does not provide the actual values for each brand. The REFERENCE provides specific values for each brand, which are missing in the ACTUAL response.
+
+[ID 7] Testing: Total units sold per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.units_sold) AS total_units_sold
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+Handler response: Based on the provided SQL results and the schema documentation, the total units sold per brand in 2025 is as follows:
+
+- HEMAVEX COMBO: 39,321 units
+- LUNARA: 2,523,472 units
+- ONCOBREAST: 522,235 units
+- RHEUMAVEX: 265,750 units
+- MIGRANOVA EP: 75,744 units
+- MIGRANOVA: 336,541 units
+- MYELOGUARD: 83,831 units
+- NEUROMYEL: 300,393 units
+- NEUROMYEL SPMS: 144,812 units
+- LYMPHACLEAR: 180,300 units
+- MIGRANOVA EP: 75,744 units
+- LUNARA: 2,523,472 units
+- HEMAVEX COMBO: 39,321 units
+- RHEUMAVEX: 265,750 units
+- ONCOBREAST: 522,235 units
+- HEMAVEX: 1,379,626 units
+- LUNARA: 2,523,472 units
+- LUPINOVA: 44,269 units
+- DERMASHIELD: 368,696 units
+- COLONEX: 160,742 units
+- COGNIVEX: 37,417 units
+
+These values are based on the "total_units_sold" column in the SQL results. Please note that this data is for the year 2025 and may not reflect actual sales figures.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not contain all key facts from the REFERENCE. It misses the values for HEMAVEX, LUPINOVA, DERMASHIELD, COLONEX, COGNIVEX, and provides incomplete information for other brands.
+
+[ID 7] Verdict: FAIL
+Reference: For the question "Total units sold per brand in 2025", the expected answer is:
+  - COGNIVEX: 37,417
+  - COLONEX: 160,742
+  - DERMASHIELD: 368,696
+  - HEMAVEX: 1,379,626
+  - HEMAVEX COMBO: 39,321
+  - LUNARA: 2,523,472
+  - LUPINOVA: 44,269
+  - LYMPHACLEAR: 180,300
+  - MIGRANOVA: 336,541
+  - MIGRANOVA EP: 75,744
+  - MYELOGUARD: 83,831
+  - NEUROMYEL: 300,393
+  - NEUROMYEL SPMS: 144,812
+  - ONCOBREAST: 522,235
+  - RHEUMAVEX: 26,575
+Actual: Based on the provided SQL results and the schema documentation, the total units sold per brand in 2025 is as follows:
+
+- HEMAVEX COMBO: 39,321 units
+- LUNARA: 2,523,472 units
+- ONCOBREAST: 522,235 units
+- RHEUMAVEX: 265,750 units
+- MIGRANOVA EP: 75,744 units
+- MIGRANOVA: 336,541 units
+- MYELOGUARD: 83,831 units
+- NEUROMYEL: 300,393 units
+- NEUROMYEL SPMS: 144,812 units
+- LYMPHACLEAR: 180,300 units
+Reason: The ACTUAL response does not contain all key facts from the REFERENCE. It misses the values for HEMAVEX, LUPINOVA, DERMASHIELD, COLONEX, COGNIVEX, and provides incomplete information for other brands.
+
+[ID 8] Testing: Total new patient starts by brand and country in Q1 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'DIM_Time', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    DG.geo_name AS country, 
+    SUM(FS.new_patient_starts) AS total_new_patient_starts
+FROM 
+    FACT_Sales FS
+INNER JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+INNER JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+INNER JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.quarter = 'Q1' AND DT.year = 2025
+GROUP BY 
+    DB.brand_name, DG.geo_name
+Handler response: The total new patient starts by brand and country in Q1 2025 for the top 5 brands are as follows:
+
+1. **LUNARA** (Germany): 1212
+2. **DERMASHIELD** (Italy): 1424
+3. **HEMAVEX** (France): 5049
+4. **COLONEX** (Germany): 805
+5. **MYELOGUARD** (Spain): 327
+
+Note: The results are based on the provided SQL query and exclude any country without data for the brands in question.
+Judge verdict: FAIL
+Reason: The chatbot's response does not contain all key facts from the reference. The actual response provided values only for the top 5 brands, but the reference provides values for many more brands and countries.
+
+[ID 8] Verdict: FAIL
+Reference: For the question "Total new patient starts by brand and country in Q1 2025", the expected answer is:
+  - brand_name = COGNIVEX, geo_name = Austria, total_new_patients = 16
+  - brand_name = COGNIVEX, geo_name = Belgium, total_new_patients = 11
+  - brand_name = COGNIVEX, geo_name = Bulgaria, total_new_patients = 3
+  - brand_name = COGNIVEX, geo_name = Croatia, total_new_patients = 1
+  - brand_name = COGNIVEX, geo_name = Czech Republic, total_new_patients = 6
+  - brand_name = COGNIVEX, geo_name = Denmark, total_new_patients = 16
+  - brand_name = COGNIVEX, geo_name = Finland, total_new_patients = 6
+  - brand_name = COGNIVEX, geo_name = France, total_new_patients = 113
+  - brand_name = COGNIVEX, geo_name = Germany, total_new_patients = 157
+  - brand_name = COGNIVEX, geo_name = Greece, total_new_patients = 7
+  - brand_name = COGNIVEX, geo_name = Hungary, total_new_patients = 5
+  - brand_name = COGNIVEX, geo_name = Ireland, total_new_patients = 0
+  - brand_name = COGNIVEX, geo_name = Italy, total_new_patients = 147
+  - brand_name = COGNIVEX, geo_name = Netherlands, total_new_patients = 11
+  - brand_name = COGNIVEX, geo_name = Norway, total_new_patients = 10
+  - brand_name = COGNIVEX, geo_name = Poland, total_new_patients = 24
+  - brand_name = COGNIVEX, geo_name = Portugal, total_new_patients = 11
+  - brand_name = COGNIVEX, geo_name = Romania, total_new_patients = 11
+  - brand_name = COGNIVEX, geo_name = Spain, total_new_patients = 68
+  - brand_name = COGNIVEX, geo_name = Sweden, total_new_patients = 24
+  - brand_name = COGNIVEX, geo_name = Switzerland, total_new_patients = 28
+  - brand_name = COGNIVEX, geo_name = United Kingdom, total_new_patients = 89
+  - brand_name = COLONEX, geo_name = Austria, total_new_patients = 267
+  - brand_name = COLONEX, geo_name = Belgium, total_new_patients = 89
+  - brand_name = COLONEX, geo_name = Bulgaria, total_new_patients = 33
+  - brand_name = COLONEX, geo_name = Croatia, total_new_patients = 30
+  - brand_name = COLONEX, geo_name = Czech Republic, total_new_patients = 67
+  - brand_name = COLONEX, geo_name = Denmark, total_new_patients = 95
+  - brand_name = COLONEX, geo_name = Finland, total_new_patients = 109
+  - brand_name = COLONEX, geo_name = France, total_new_patients = 632
+  - brand_name = COLONEX, geo_name = Germany, total_new_patients = 805
+  - brand_name = COLONEX, geo_name = Greece, total_new_patients = 50
+  - brand_name = COLONEX, geo_name = Hungary, total_new_patients = 49
+  - brand_name = COLONEX, geo_name = Ireland, total_new_patients = 45
+  - brand_name = COLONEX, geo_name = Italy, total_new_patients = 480
+  - brand_name = COLONEX, geo_name = Netherlands, total_new_patients = 155
+  - brand_name = COLONEX, geo_name = Norway, total_new_patients = 83
+  - brand_name = COLONEX, geo_name = Poland, total_new_patients = 247
+  - brand_name = COLONEX, geo_name = Portugal, total_new_patients = 83
+  - brand_name = COLONEX, geo_name = Romania, total_new_patients = 93
+  - brand_name = COLONEX, geo_name = Spain, total_new_patients = 314
+  - brand_name = COLONEX, geo_name = Sweden, total_new_patients = 147
+  - brand_name = COLONEX, geo_name = Switzerland, total_new_patients = 164
+  - brand_name = COLONEX, geo_name = United Kingdom, total_new_patients = 506
+  - brand_name = DERMASHIELD, geo_name = Austria, total_new_patients = 351
+  - brand_name = DERMASHIELD, geo_name = Belgium, total_new_patients = 237
+  - brand_name = DERMASHIELD, geo_name = Bulgaria, total_new_patients = 76
+  - brand_name = DERMASHIELD, geo_name = Croatia, total_new_patients = 104
+  - brand_name = DERMASHIELD, geo_name = Czech Republic, total_new_patients = 250
+  - brand_name = DERMASHIELD, geo_name = Denmark, total_new_patients = 232
+  - brand_name = DERMASHIELD, geo_name = Finland, total_new_patients = 190
+  - brand_name = DERMASHIELD, geo_name = France, total_new_patients = 1,992
+  - brand_name = DERMASHIELD, geo_name = Germany, total_new_patients = 2,020
+  - brand_name = DERMASHIELD, geo_name = Greece, total_new_patients = 128
+  - brand_name = DERMASHIELD, geo_name = Hungary, total_new_patients = 176
+  - brand_name = DERMASHIELD, geo_name = Ireland, total_new_patients = 181
+  - brand_name = DERMASHIELD, geo_name = Italy, total_new_patients = 1,424
+  - brand_name = DERMASHIELD, geo_name = Netherlands, total_new_patients = 330
+  - brand_name = DERMASHIELD, geo_name = Norway, total_new_patients = 227
+  - brand_name = DERMASHIELD, geo_name = Poland, total_new_patients = 583
+  - brand_name = DERMASHIELD, geo_name = Portugal, total_new_patients = 285
+  - brand_name = DERMASHIELD, geo_name = Romania, total_new_patients = 201
+  - brand_name = DERMASHIELD, geo_name = Spain, total_new_patients = 1,112
+  - brand_name = DERMASHIELD, geo_name = Sweden, total_new_patients = 391
+  - brand_name = DERMASHIELD, geo_name = Switzerland, total_new_patients = 494
+  - brand_name = DERMASHIELD, geo_name = United Kingdom, total_new_patients = 1,847
+  - brand_name = HEMAVEX, geo_name = Austria, total_new_patients = 984
+  - brand_name = HEMAVEX, geo_name = Belgium, total_new_patients = 812
+  - brand_name = HEMAVEX, geo_name = Bulgaria, total_new_patients = 197
+  - brand_name = HEMAVEX, geo_name = Croatia, total_new_patients = 242
+  - brand_name = HEMAVEX, geo_name = Czech Republic, total_new_patients = 625
+  - brand_name = HEMAVEX, geo_name = Denmark, total_new_patients = 571
+  - brand_name = HEMAVEX, geo_name = Finland, total_new_patients = 645
+  - brand_name = HEMAVEX, geo_name = France, total_new_patients = 5,049
+  - brand_name = HEMAVEX, geo_name = Germany, total_new_patients = 6,879
+  - brand_name = HEMAVEX, geo_name = Greece, total_new_patients = 501
+  - brand_name = HEMAVEX, geo_name = Hungary, total_new_patients = 505
+  - brand_name = HEMAVEX, geo_name = Ireland, total_new_patients = 512
+  - brand_name = HEMAVEX, geo_name = Italy, total_new_patients = 4,499
+  - brand_name = HEMAVEX, geo_name = Netherlands, total_new_patients = 1,241
+  - brand_name = HEMAVEX, geo_name = Norway, total_new_patients = 868
+  - brand_name = HEMAVEX, geo_name = Poland, total_new_patients = 1,718
+  - brand_name = HEMAVEX, geo_name = Portugal, total_new_patients = 613
+  - brand_name = HEMAVEX, geo_name = Romania, total_new_patients = 891
+  - brand_name = HEMAVEX, geo_name = Spain, total_new_patients = 4,850
+  - brand_name = HEMAVEX, geo_name = Sweden, total_new_patients = 1,095
+  - brand_name = HEMAVEX, geo_name = Switzerland, total_new_patients = 1,447
+  - brand_name = HEMAVEX, geo_name = United Kingdom, total_new_patients = 5,157
+  - brand_name = HEMAVEX COMBO, geo_name = Austria, total_new_patients = 11
+  - brand_name = HEMAVEX COMBO, geo_name = Belgium, total_new_patients = 10
+  - brand_name = HEMAVEX COMBO, geo_name = Bulgaria, total_new_patients = 0
+  - brand_name = HEMAVEX COMBO, geo_name = Croatia, total_new_patients = 3
+  - brand_name = HEMAVEX COMBO, geo_name = Czech Republic, total_new_patients = 13
+  - brand_name = HEMAVEX COMBO, geo_name = Denmark, total_new_patients = 10
+  - brand_name = HEMAVEX COMBO, geo_name = Finland, total_new_patients = 8
+  - brand_name = HEMAVEX COMBO, geo_name = France, total_new_patients = 91
+  - brand_name = HEMAVEX COMBO, geo_name = Germany, total_new_patients = 115
+  - brand_name = HEMAVEX COMBO, geo_name = Greece, total_new_patients = 3
+  - brand_name = HEMAVEX COMBO, geo_name = Hungary, total_new_patients = 2
+  - brand_name = HEMAVEX COMBO, geo_name = Ireland, total_new_patients = 6
+  - brand_name = HEMAVEX COMBO, geo_name = Italy, total_new_patients = 64
+  - brand_name = HEMAVEX COMBO, geo_name = Netherlands, total_new_patients = 8
+  - brand_name = HEMAVEX COMBO, geo_name = Norway, total_new_patients = 10
+  - brand_name = HEMAVEX COMBO, geo_name = Poland, total_new_patients = 12
+  - brand_name = HEMAVEX COMBO, geo_name = Portugal, total_new_patients = 9
+  - brand_name = HEMAVEX COMBO, geo_name = Romania, total_new_patients = 5
+  - brand_name = HEMAVEX COMBO, geo_name = Spain, total_new_patients = 53
+  - brand_name = HEMAVEX COMBO, geo_name = Sweden, total_new_patients = 12
+  - brand_name = HEMAVEX COMBO, geo_name = Switzerland, total_new_patients = 40
+  - brand_name = HEMAVEX COMBO, geo_name = United Kingdom, total_new_patients = 68
+  - brand_name = LUNARA, geo_name = Austria, total_new_patients = 3,312
+  - brand_name = LUNARA, geo_name = Belgium, total_new_patients = 2,242
+  - brand_name = LUNARA, geo_name = Bulgaria, total_new_patients = 625
+  - brand_name = LUNARA, geo_name = Croatia, total_new_patients = 535
+  - brand_name = LUNARA, geo_name = Czech Republic, total_new_patients = 968
+  - brand_name = LUNARA, geo_name = Denmark, total_new_patients = 1,455
+  - brand_name = LUNARA, geo_name = Finland, total_new_patients = 1,817
+  - brand_name = LUNARA, geo_name = France, total_new_patients = 11,069
+  - brand_name = LUNARA, geo_name = Germany, total_new_patients = 12,163
+  - brand_name = LUNARA, geo_name = Greece, total_new_patients = 975
+  - brand_name = LUNARA, geo_name = Hungary, total_new_patients = 967
+  - brand_name = LUNARA, geo_name = Ireland, total_new_patients = 1,298
+  - brand_name = LUNARA, geo_name = Italy, total_new_patients = 9,929
+  - brand_name = LUNARA, geo_name = Netherlands, total_new_patients = 2,423
+  - brand_name = LUNARA, geo_name = Norway, total_new_patients = 1,617
+  - brand_name = LUNARA, geo_name = Poland, total_new_patients = 3,083
+  - brand_name = LUNARA, geo_name = Portugal, total_new_patients = 1,304
+  - brand_name = LUNARA, geo_name = Romania, total_new_patients = 1,651
+  - brand_name = LUNARA, geo_name = Spain, total_new_patients = 7,914
+  - brand_name = LUNARA, geo_name = Sweden, total_new_patients = 2,598
+  - brand_name = LUNARA, geo_name = Switzerland, total_new_patients = 2,938
+  - brand_name = LUNARA, geo_name = United Kingdom, total_new_patients = 11,490
+  - brand_name = LUPINOVA, geo_name = Austria, total_new_patients = 18
+  - brand_name = LUPINOVA, geo_name = Belgium, total_new_patients = 13
+  - brand_name = LUPINOVA, geo_name = Bulgaria, total_new_patients = 5
+  - brand_name = LUPINOVA, geo_name = Croatia, total_new_patients = 3
+  - brand_name = LUPINOVA, geo_name = Czech Republic, total_new_patients = 9
+  - brand_name = LUPINOVA, geo_name = Denmark, total_new_patients = 11
+  - brand_name = LUPINOVA, geo_name = Finland, total_new_patients = 3
+  - brand_name = LUPINOVA, geo_name = France, total_new_patients = 93
+  - brand_name = LUPINOVA, geo_name = Germany, total_new_patients = 146
+  - brand_name = LUPINOVA, geo_name = Greece, total_new_patients = 6
+  - brand_name = LUPINOVA, geo_name = Hungary, total_new_patients = 1
+  - brand_name = LUPINOVA, geo_name = Ireland, total_new_patients = 6
+  - brand_name = LUPINOVA, geo_name = Italy, total_new_patients = 71
+  - brand_name = LUPINOVA, geo_name = Netherlands, total_new_patients = 18
+  - brand_name = LUPINOVA, geo_name = Norway, total_new_patients = 8
+  - brand_name = LUPINOVA, geo_name = Poland, total_new_patients = 22
+  - brand_name = LUPINOVA, geo_name = Portugal, total_new_patients = 16
+  - brand_name = LUPINOVA, geo_name = Romania, total_new_patients = 7
+  - brand_name = LUPINOVA, geo_name = Spain, total_new_patients = 70
+  - brand_name = LUPINOVA, geo_name = Sweden, total_new_patients = 15
+  - brand_name = LUPINOVA, geo_name = Switzerland, total_new_patients = 20
+  - brand_name = LUPINOVA, geo_name = United Kingdom, total_new_patients = 80
+  - brand_name = LYMPHACLEAR, geo_name = Austria, total_new_patients = 176
+  - brand_name = LYMPHACLEAR, geo_name = Belgium, total_new_patients = 155
+  - brand_name = LYMPHACLEAR, geo_name = Bulgaria, total_new_patients = 35
+  - brand_name = LYMPHACLEAR, geo_name = Croatia, total_new_patients = 25
+  - brand_name = LYMPHACLEAR, geo_name = Czech Republic, total_new_patients = 138
+  - brand_name = LYMPHACLEAR, geo_name = Denmark, total_new_patients = 139
+  - brand_name = LYMPHACLEAR, geo_name = Finland, total_new_patients = 116
+  - brand_name = LYMPHACLEAR, geo_name = France, total_new_patients = 648
+  - brand_name = LYMPHACLEAR, geo_name = Germany, total_new_patients = 1,349
+  - brand_name = LYMPHACLEAR, geo_name = Greece, total_new_patients = 81
+  - brand_name = LYMPHACLEAR, geo_name = Hungary, total_new_patients = 76
+  - brand_name = LYMPHACLEAR, geo_name = Ireland, total_new_patients = 94
+  - brand_name = LYMPHACLEAR, geo_name = Italy, total_new_patients = 930
+  - brand_name = LYMPHACLEAR, geo_name = Netherlands, total_new_patients = 183
+  - brand_name = LYMPHACLEAR, geo_name = Norway, total_new_patients = 69
+  - brand_name = LYMPHACLEAR, geo_name = Poland, total_new_patients = 198
+  - brand_name = LYMPHACLEAR, geo_name = Portugal, total_new_patients = 111
+  - brand_name = LYMPHACLEAR, geo_name = Romania, total_new_patients = 83
+  - brand_name = LYMPHACLEAR, geo_name = Spain, total_new_patients = 685
+  - brand_name = LYMPHACLEAR, geo_name = Sweden, total_new_patients = 156
+  - brand_name = LYMPHACLEAR, geo_name = Switzerland, total_new_patients = 281
+  - brand_name = LYMPHACLEAR, geo_name = United Kingdom, total_new_patients = 603
+  - brand_name = MIGRANOVA, geo_name = Austria, total_new_patients = 433
+  - brand_name = MIGRANOVA, geo_name = Belgium, total_new_patients = 189
+  - brand_name = MIGRANOVA, geo_name = Bulgaria, total_new_patients = 66
+  - brand_name = MIGRANOVA, geo_name = Croatia, total_new_patients = 74
+  - brand_name = MIGRANOVA, geo_name = Czech Republic, total_new_patients = 146
+  - brand_name = MIGRANOVA, geo_name = Denmark, total_new_patients = 202
+  - brand_name = MIGRANOVA, geo_name = Finland, total_new_patients = 164
+  - brand_name = MIGRANOVA, geo_name = France, total_new_patients = 1,730
+  - brand_name = MIGRANOVA, geo_name = Germany, total_new_patients = 1,382
+  - brand_name = MIGRANOVA, geo_name = Greece, total_new_patients = 141
+  - brand_name = MIGRANOVA, geo_name = Hungary, total_new_patients = 87
+  - brand_name = MIGRANOVA, geo_name = Ireland, total_new_patients = 123
+  - brand_name = MIGRANOVA, geo_name = Italy, total_new_patients = 1,080
+  - brand_name = MIGRANOVA, geo_name = Netherlands, total_new_patients = 321
+  - brand_name = MIGRANOVA, geo_name = Norway, total_new_patients = 206
+  - brand_name = MIGRANOVA, geo_name = Poland, total_new_patients = 482
+  - brand_name = MIGRANOVA, geo_name = Portugal, total_new_patients = 196
+  - brand_name = MIGRANOVA, geo_name = Romania, total_new_patients = 230
+  - brand_name = MIGRANOVA, geo_name = Spain, total_new_patients = 1,121
+  - brand_name = MIGRANOVA, geo_name = Sweden, total_new_patients = 303
+  - brand_name = MIGRANOVA, geo_name = Switzerland, total_new_patients = 362
+  - brand_name = MIGRANOVA, geo_name = United Kingdom, total_new_patients = 1,195
+  - brand_name = MIGRANOVA EP, geo_name = Austria, total_new_patients = 70
+  - brand_name = MIGRANOVA EP, geo_name = Belgium, total_new_patients = 35
+  - brand_name = MIGRANOVA EP, geo_name = Bulgaria, total_new_patients = 18
+  - brand_name = MIGRANOVA EP, geo_name = Croatia, total_new_patients = 14
+  - brand_name = MIGRANOVA EP, geo_name = Czech Republic, total_new_patients = 28
+  - brand_name = MIGRANOVA EP, geo_name = Denmark, total_new_patients = 37
+  - brand_name = MIGRANOVA EP, geo_name = Finland, total_new_patients = 42
+  - brand_name = MIGRANOVA EP, geo_name = France, total_new_patients = 329
+  - brand_name = MIGRANOVA EP, geo_name = Germany, total_new_patients = 296
+  - brand_name = MIGRANOVA EP, geo_name = Greece, total_new_patients = 27
+  - brand_name = MIGRANOVA EP, geo_name = Hungary, total_new_patients = 37
+  - brand_name = MIGRANOVA EP, geo_name = Ireland, total_new_patients = 24
+  - brand_name = MIGRANOVA EP, geo_name = Italy, total_new_patients = 228
+  - brand_name = MIGRANOVA EP, geo_name = Netherlands, total_new_patients = 66
+  - brand_name = MIGRANOVA EP, geo_name = Norway, total_new_patients = 50
+  - brand_name = MIGRANOVA EP, geo_name = Poland, total_new_patients = 75
+  - brand_name = MIGRANOVA EP, geo_name = Portugal, total_new_patients = 42
+  - brand_name = MIGRANOVA EP, geo_name = Romania, total_new_patients = 30
+  - brand_name = MIGRANOVA EP, geo_name = Spain, total_new_patients = 158
+  - brand_name = MIGRANOVA EP, geo_name = Sweden, total_new_patients = 36
+  - brand_name = MIGRANOVA EP, geo_name = Switzerland, total_new_patients = 95
+  - brand_name = MIGRANOVA EP, geo_name = United Kingdom, total_new_patients = 236
+  - brand_name = MYELOGUARD, geo_name = Austria, total_new_patients = 69
+  - brand_name = MYELOGUARD, geo_name = Belgium, total_new_patients = 76
+  - brand_name = MYELOGUARD, geo_name = Bulgaria, total_new_patients = 13
+  - brand_name = MYELOGUARD, geo_name = Croatia, total_new_patients = 9
+  - brand_name = MYELOGUARD, geo_name = Czech Republic, total_new_patients = 48
+  - brand_name = MYELOGUARD, geo_name = Denmark, total_new_patients = 47
+  - brand_name = MYELOGUARD, geo_name = Finland, total_new_patients = 46
+  - brand_name = MYELOGUARD, geo_name = France, total_new_patients = 320
+  - brand_name = MYELOGUARD, geo_name = Germany, total_new_patients = 330
+  - brand_name = MYELOGUARD, geo_name = Greece, total_new_patients = 47
+  - brand_name = MYELOGUARD, geo_name = Hungary, total_new_patients = 39
+  - brand_name = MYELOGUARD, geo_name = Ireland, total_new_patients = 37
+  - brand_name = MYELOGUARD, geo_name = Italy, total_new_patients = 243
+  - brand_name = MYELOGUARD, geo_name = Netherlands, total_new_patients = 73
+  - brand_name = MYELOGUARD, geo_name = Norway, total_new_patients = 45
+  - brand_name = MYELOGUARD, geo_name = Poland, total_new_patients = 111
+  - brand_name = MYELOGUARD, geo_name = Portugal, total_new_patients = 54
+  - brand_name = MYELOGUARD, geo_name = Romania, total_new_patients = 64
+  - brand_name = MYELOGUARD, geo_name = Spain, total_new_patients = 327
+  - brand_name = MYELOGUARD, geo_name = Sweden, total_new_patients = 93
+  - brand_name = MYELOGUARD, geo_name = Switzerland, total_new_patients = 129
+  - brand_name = MYELOGUARD, geo_name = United Kingdom, total_new_patients = 304
+  - brand_name = NEUROMYEL, geo_name = Austria, total_new_patients = 314
+  - brand_name = NEUROMYEL, geo_name = Belgium, total_new_patients = 244
+  - brand_name = NEUROMYEL, geo_name = Bulgaria, total_new_patients = 69
+  - brand_name = NEUROMYEL, geo_name = Croatia, total_new_patients = 59
+  - brand_name = NEUROMYEL, geo_name = Czech Republic, total_new_patients = 157
+  - brand_name = NEUROMYEL, geo_name = Denmark, total_new_patients = 229
+  - brand_name = NEUROMYEL, geo_name = Finland, total_new_patients = 204
+  - brand_name = NEUROMYEL, geo_name = France, total_new_patients = 1,034
+  - brand_name = NEUROMYEL, geo_name = Germany, total_new_patients = 1,536
+  - brand_name = NEUROMYEL, geo_name = Greece, total_new_patients = 138
+  - brand_name = NEUROMYEL, geo_name = Hungary, total_new_patients = 106
+  - brand_name = NEUROMYEL, geo_name = Ireland, total_new_patients = 127
+  - brand_name = NEUROMYEL, geo_name = Italy, total_new_patients = 1,066
+  - brand_name = NEUROMYEL, geo_name = Netherlands, total_new_patients = 281
+  - brand_name = NEUROMYEL, geo_name = Norway, total_new_patients = 163
+  - brand_name = NEUROMYEL, geo_name = Poland, total_new_patients = 421
+  - brand_name = NEUROMYEL, geo_name = Portugal, total_new_patients = 193
+  - brand_name = NEUROMYEL, geo_name = Romania, total_new_patients = 191
+  - brand_name = NEUROMYEL, geo_name = Spain, total_new_patients = 1,241
+  - brand_name = NEUROMYEL, geo_name = Sweden, total_new_patients = 244
+  - brand_name = NEUROMYEL, geo_name = Switzerland, total_new_patients = 404
+  - brand_name = NEUROMYEL, geo_name = United Kingdom, total_new_patients = 1,202
+  - brand_name = NEUROMYEL SPMS, geo_name = Austria, total_new_patients = 124
+  - brand_name = NEUROMYEL SPMS, geo_name = Belgium, total_new_patients = 91
+  - brand_name = NEUROMYEL SPMS, geo_name = Bulgaria, total_new_patients = 25
+  - brand_name = NEUROMYEL SPMS, geo_name = Croatia, total_new_patients = 23
+  - brand_name = NEUROMYEL SPMS, geo_name = Czech Republic, total_new_patients = 66
+  - brand_name = NEUROMYEL SPMS, geo_name = Denmark, total_new_patients = 83
+  - brand_name = NEUROMYEL SPMS, geo_name = Finland, total_new_patients = 76
+  - brand_name = NEUROMYEL SPMS, geo_name = France, total_new_patients = 682
+  - brand_name = NEUROMYEL SPMS, geo_name = Germany, total_new_patients = 884
+  - brand_name = NEUROMYEL SPMS, geo_name = Greece, total_new_patients = 66
+  - brand_name = NEUROMYEL SPMS, geo_name = Hungary, total_new_patients = 49
+  - brand_name = NEUROMYEL SPMS, geo_name = Ireland, total_new_patients = 69
+  - brand_name = NEUROMYEL SPMS, geo_name = Italy, total_new_patients = 506
+  - brand_name = NEUROMYEL SPMS, geo_name = Netherlands, total_new_patients = 150
+  - brand_name = NEUROMYEL SPMS, geo_name = Norway, total_new_patients = 76
+  - brand_name = NEUROMYEL SPMS, geo_name = Poland, total_new_patients = 176
+  - brand_name = NEUROMYEL SPMS, geo_name = Portugal, total_new_patients = 105
+  - brand_name = NEUROMYEL SPMS, geo_name = Romania, total_new_patients = 72
+  - brand_name = NEUROMYEL SPMS, geo_name = Spain, total_new_patients = 418
+  - brand_name = NEUROMYEL SPMS, geo_name = Sweden, total_new_patients = 107
+  - brand_name = NEUROMYEL SPMS, geo_name = Switzerland, total_new_patients = 160
+  - brand_name = NEUROMYEL SPMS, geo_name = United Kingdom, total_new_patients = 557
+  - brand_name = ONCOBREAST, geo_name = Austria, total_new_patients = 505
+  - brand_name = ONCOBREAST, geo_name = Belgium, total_new_patients = 355
+  - brand_name = ONCOBREAST, geo_name = Bulgaria, total_new_patients = 123
+  - brand_name = ONCOBREAST, geo_name = Croatia, total_new_patients = 96
+  - brand_name = ONCOBREAST, geo_name = Czech Republic, total_new_patients = 241
+  - brand_name = ONCOBREAST, geo_name = Denmark, total_new_patients = 320
+  - brand_name = ONCOBREAST, geo_name = Finland, total_new_patients = 273
+  - brand_name = ONCOBREAST, geo_name = France, total_new_patients = 2,476
+  - brand_name = ONCOBREAST, geo_name = Germany, total_new_patients = 2,939
+  - brand_name = ONCOBREAST, geo_name = Greece, total_new_patients = 242
+  - brand_name = ONCOBREAST, geo_name = Hungary, total_new_patients = 220
+  - brand_name = ONCOBREAST, geo_name = Ireland, total_new_patients = 248
+  - brand_name = ONCOBREAST, geo_name = Italy, total_new_patients = 1,674
+  - brand_name = ONCOBREAST, geo_name = Netherlands, total_new_patients = 422
+  - brand_name = ONCOBREAST, geo_name = Norway, total_new_patients = 282
+  - brand_name = ONCOBREAST, geo_name = Poland, total_new_patients = 854
+  - brand_name = ONCOBREAST, geo_name = Portugal, total_new_patients = 387
+  - brand_name = ONCOBREAST, geo_name = Romania, total_new_patients = 368
+  - brand_name = ONCOBREAST, geo_name = Spain, total_new_patients = 1,888
+  - brand_name = ONCOBREAST, geo_name = Sweden, total_new_patients = 467
+  - brand_name = ONCOBREAST, geo_name = Switzerland, total_new_patients = 852
+  - brand_name = ONCOBREAST, geo_name = United Kingdom, total_new_patients = 2,040
+  - brand_name = RHEUMAVEX, geo_name = Austria, total_new_patients = 17
+  - brand_name = RHEUMAVEX, geo_name = Belgium, total_new_patients = 11
+  - brand_name = RHEUMAVEX, geo_name = Bulgaria, total_new_patients = 3
+  - brand_name = RHEUMAVEX, geo_name = Croatia, total_new_patients = 1
+  - brand_name = RHEUMAVEX, geo_name = Czech Republic, total_new_patients = 7
+  - brand_name = RHEUMAVEX, geo_name = Denmark, total_new_patients = 13
+  - brand_name = RHEUMAVEX, geo_name = Finland, total_new_patients = 3
+  - brand_name = RHEUMAVEX, geo_name = France, total_new_patients = 91
+  - brand_name = RHEUMAVEX, geo_name = Germany, total_new_patients = 144
+  - brand_name = RHEUMAVEX, geo_name = Greece, total_new_patients = 8
+  - brand_name = RHEUMAVEX, geo_name = Hungary, total_new_patients = 3
+  - brand_name = RHEUMAVEX, geo_name = Ireland, total_new_patients = 13
+  - brand_name = RHEUMAVEX, geo_name = Italy, total_new_patients = 113
+  - brand_name = RHEUMAVEX, geo_name = Netherlands, total_new_patients = 17
+  - brand_name = RHEUMAVEX, geo_name = Norway, total_new_patients = 11
+  - brand_name = RHEUMAVEX, geo_name = Poland, total_new_patients = 28
+  - brand_name = RHEUMAVEX, geo_name = Portugal, total_new_patients = 8
+  - brand_name = RHEUMAVEX, geo_name = Romania, total_new_patients = 13
+  - brand_name = RHEUMAVEX, geo_name = Spain, total_new_patients = 84
+  - brand_name = RHEUMAVEX, geo_name = Sweden, total_new_patients = 36
+  - brand_name = RHEUMAVEX, geo_name = Switzerland, total_new_patients = 30
+  - brand_name = RHEUMAVEX, geo_name = United Kingdom, total_new_patients = 99
+Actual: The total new patient starts by brand and country in Q1 2025 for the top 5 brands are as follows:
+
+1. **LUNARA** (Germany): 1212
+2. **DERMASHIELD** (Italy): 1424
+3. **HEMAVEX** (France): 5049
+4. **COLONEX** (Germany): 805
+5. **MYELOGUARD** (Spain): 327
+
+Note: The results are based on the provided SQL query and exclude any country without data for the brands in question.
+Reason: The chatbot's response does not contain all key facts from the reference. The actual response provided values only for the top 5 brands, but the reference provides values for many more brands and countries.
+
+[ID 9] Testing: Revenue vs. target by brand and country in FY2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'DIM_Time', 'FACT_Sales', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    DG.geo_name AS country, 
+    SUM(FS.net_revenue_eur) AS revenue, 
+    FT.target_value AS target
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+JOIN 
+    FACT_Targets FT ON DB.brand_id = FT.brand_id AND DG.geo_id = FT.geo_id AND DT.fiscal_year = FT.fiscal_year
+WHERE 
+    DT.fiscal_year = 'FY2025'
+GROUP BY 
+    DB.brand_name, 
+    DG.geo_name, 
+    FT.target_value
+ORDER BY 
+    DB.brand_name, 
+    DG.geo_name;
+Error processing chat message: LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': "The input (185399 tokens) is longer than the model's context length (65536 tokens).", 'type': 'BadRequestError', 'param': None, 'code': 400}
+  Failed on turn 1: {"detail":"LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': \"The input (185399 tokens) is longer than the model's context length (65536 tokens).\", 'type': 'BadRequestError', 'param': None, 'code': 400}"}
+
+[ID 10] Testing: Top 10 HCO accounts by revenue in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'DIM_Account', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DA.account_id, 
+    DA.account_name, 
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+JOIN 
+    DIM_Account DA ON FS.account_id = DA.account_id
+WHERE 
+    DT.year = 2025 AND DA.account_type = 'HCO'
+GROUP BY 
+    DA.account_id, DA.account_name
+ORDER BY 
+    total_revenue DESC
+LIMIT 10;
+Handler response: The top 10 HCO accounts by revenue in 2025 are:
+
+1. Pasewalk Research Institute (account_id: ACC00029)
+2. Cocconito Vignaretto Teaching Hospital (account_id: ACC00114)
+3. Gessate Outpatient Center (account_id: ACC00108)
+4. Ponderano Community Hospital (account_id: ACC00110)
+5. Cuxhaven Private Clinic (account_id: ACC00013)
+6. Romanshorn Outpatient Center (account_id: ACC00100)
+7. West Dawnburgh Regional Medical Center (account_id: ACC00177)
+8. Riosecco Teaching Hospital (account_id: ACC00123)
+9. Valencia Regional Medical Center (account_id: ACC00131)
+10. Bryanmouth Specialty Center (account_id: ACC00183)
+Judge verdict: FAIL
+Reason: The actual response does not match the reference. It does not include all key facts from the reference, and it includes account_ids which are not present in the reference.
+
+[ID 10] Verdict: FAIL
+Reference: For the question "Top 10 HCO accounts by revenue in 2025", the expected answer is:
+  - account_name = Cocconito Vignaretto Teaching Hospital, brand_name = LUNARA, geo_name = Italy, total_revenue_eur = 61,599,731.11
+  - account_name = Gessate Outpatient Center, brand_name = LUNARA, geo_name = Italy, total_revenue_eur = 57,212,505.8
+  - account_name = Neuruppin Cancer Center, brand_name = LUNARA, geo_name = Germany, total_revenue_eur = 56,066,944.13
+  - account_name = Pasewalk Research Institute, brand_name = LUNARA, geo_name = Germany, total_revenue_eur = 55,205,194.53
+  - account_name = Priceton Community Hospital, brand_name = LUNARA, geo_name = United Kingdom, total_revenue_eur = 59,413,654.92
+  - account_name = Riosecco Teaching Hospital, brand_name = LUNARA, geo_name = Italy, total_revenue_eur = 74,940,285.04
+  - account_name = Romanshorn Outpatient Center, brand_name = LUNARA, geo_name = Switzerland, total_revenue_eur = 53,631,088.78
+  - account_name = Rottweil Outpatient Center, brand_name = LUNARA, geo_name = Germany, total_revenue_eur = 72,264,104.23
+  - account_name = Valencia Regional Medical Center, brand_name = LUNARA, geo_name = Spain, total_revenue_eur = 57,802,259.61
+  - account_name = Weber University Hospital, brand_name = LUNARA, geo_name = France, total_revenue_eur = 52,556,902.08
+Actual: The top 10 HCO accounts by revenue in 2025 are:
+
+1. Pasewalk Research Institute (account_id: ACC00029)
+2. Cocconito Vignaretto Teaching Hospital (account_id: ACC00114)
+3. Gessate Outpatient Center (account_id: ACC00108)
+4. Ponderano Community Hospital (account_id: ACC00110)
+5. Cuxhaven Private Clinic (account_id: ACC00013)
+6. Romanshorn Outpatient Center (account_id: ACC00100)
+7. West Dawnburgh Re
+Reason: The actual response does not match the reference. It does not include all key facts from the reference, and it includes account_ids which are not present in the reference.
+
+[ID 11] Testing: Quarterly revenue breakdown by cluster in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'FACT_Sales', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DG.cluster_name, 
+    DT.quarter, 
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.cluster_name, 
+    DT.quarter
+ORDER BY 
+    DG.cluster_name, 
+    DT.quarter;
+Handler response: The quarterly revenue breakdown by cluster in 2025 is as follows:
+
+- **CEE (Central and Eastern Europe)**: 
+  - Q1: 355,422,704.72 EUR
+  - Q2: 356,829,389.02 EUR
+  - Q3: 299,255,321.86 EUR
+  - Q4: 378,766,145.03 EUR
+
+- **DACH (Germany, Austria, Switzerland)**: 
+  - Q1: 250,108,256.05 EUR
+  - Q2: 242,700,517.93 EUR
+  - Q3: 212,405,721.43 EUR
+  - Q4: 272,202,710.45 EUR
+
+- **Nordics (Denmark, Finland, Norway, Sweden)**: 
+  - Q1: 290,054,389.12 EUR
+  - Q2: 290,097,295.52 EUR
+  - Q3: 244,247,791.12 EUR
+  - Q4: 317,366,924.17 EUR
+
+- **Southern Europe (Spain, France, Italy, Portugal)**: 
+  - Q1: 840,309,488.54 EUR
+  - Q2: 836,722,091.71 EUR
+  - Q3: 722,768,826.48 EUR
+  - Q4: 905,606,615.47 EUR
+
+- **UK & Ireland**: 
+  - Q1: 472,066,478.89 EUR
+  - Q2: 479,508,422.23 EUR
+  - Q3: 392,945,052.89 EUR
+  - Q4: 508,734,197.51 EUR
+
+- **Western Europe (Belgium, Netherlands, Luxembourg)**: 
+  - Q1: 124,312,4461.26 EUR
+  - Q2: 122,022,9586.36 EUR
+  - Q3: 104,528,3619.66 EUR
+  - Q4: 131,652,3271.19 EUR
+Judge verdict: PASS
+Reason: The ACTUAL response provides all key facts from the REFERENCE, including the precise numbers and names, and does not contain any contradictions or missing information.
+
+[ID 12] Testing: Total number of interactions by channel in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    interaction_channel, 
+    COUNT(interaction_id) AS total_interactions
+FROM 
+    FACT_Interactions
+WHERE 
+    SUBSTR(time_id, 2, 4) = '2025'
+GROUP BY 
+    interaction_channel;
+Handler response: According to the provided SQL results, the total number of interactions by channel in 2025 is as follows:
+
+- APPROVED_EMAIL: 9502
+- F2F (Face-to-Face): 32394
+- LIVE_EVENT: 16654
+- WEB: 14491
+
+In total, there were 73041 interactions by channel in 2025.
+Judge verdict: PASS
+Reason: The ACTUAL response provides the total number of interactions by channel in 2025, aligning with the REFERENCE. Key facts such as APPROVED_EMAIL (9502), F2F (32394), LIVE_EVENT (16654), and WEB (14491) are accurately presented. Additionally, the total number of interactions (73041) is correctly calculated and matches the context provided.
+
+[ID 13] Testing: Number of interactions per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    COUNT(FI.interaction_id) AS number_of_interactions
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Brand DB ON FI.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FI.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+Handler response: The number of interactions per brand in 2025 is 3553 for COGNIVEX, 6280 for COLONEX, 6440 for DERMASHIELD, 4336 for HEMAVEX, 4301 for HEMAVEX COMBO, 6281 for LUNARA, 6291 for LUPINOVA, 4247 for LYMPHACLEAR, 3590 for MIGRANOVA, 3497 for MIGRANOVA EP, 4357 for MYELOGUARD, 3623 for NEUROMYEL, 3636 for NEUROMYEL SPMS, 6359 for ONCOBREAST, and 6250 for RHEUMAVEX.
+Judge verdict: PASS
+Reason: The ACTUAL response matches the REFERENCE in terms of numbers and brands. Minor wording differences are acceptable.
+
+[ID 14] Testing: Monthly interaction volume by type (F2F, web call, email, event) in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    T1.month_name,
+    CASE 
+        WHEN T2.is_f2f_flag = 1 THEN 'F2F'
+        WHEN T2.is_web_call_flag = 1 THEN 'Web Call'
+        WHEN T2.is_email_flag = 1 THEN 'Email'
+        WHEN T2.is_event_flag = 1 THEN 'Event'
+    END AS interaction_type,
+    COUNT(T2.interaction_id) AS interaction_volume
+FROM 
+    DIM_Time T1
+INNER JOIN 
+    FACT_Interactions T2 ON T1.time_id = T2.time_id
+WHERE 
+    T1.year = 2025
+GROUP BY 
+    T1.month_name,
+    CASE 
+        WHEN T2.is_f2f_flag = 1 THEN 'F2F'
+        WHEN T2.is_web_call_flag = 1 THEN 'Web Call'
+        WHEN T2.is_email_flag = 1 THEN 'Email'
+        WHEN T2.is_event_flag = 1 THEN 'Event'
+    END
+ORDER BY 
+    T1.month_name;
+Handler response: Based on the provided SQL results, here is the summary of monthly interaction volume by type (F2F, web call, email, event) in 2025:
+
+- **April:**
+  - F2F: 2883
+  - Web Call: 1289
+  - Email: 835
+  - Event: 1476
+
+- **August:**
+  - F2F: 1373
+  - Web Call: 600
+  - Email: 416
+  - Event: 712
+
+- **December:**
+  - F2F: 2090
+  - Web Call: 979
+  - Email: 621
+  - Event: 1071
+
+- **February:**
+  - F2F: 2813
+  - Web Call: 1229
+  - Email: 854
+  - Event: 1456
+
+- **January:**
+  - F2F: 2990
+  - Web Call: 1382
+  - Email: 890
+  - Event: 1522
+
+- **July:**
+  - F2F: 2455
+  - Web Call: 1065
+  - Email: 672
+  - Event: 1189
+
+- **June:**
+  - F2F: 2648
+  - Web Call: 1225
+  - Email: 783
+  - Event: 1388
+
+- **March:**
+  - F2F: 3215
+  - Web Call: 1353
+  - Email: 984
+  - Event: 1641
+
+- **May:**
+  - F2F: 2824
+  - Web Call: 1296
+  - Email: 818
+  - Event: 1446
+
+- **November:**
+  - F2F: 2922
+  - Web Call: 1364
+  - Email: 890
+  - Event: 1512
+
+- **October:**
+  - F2F: 3139
+  - Web Call: 1406
+  - Email: 920
+  - Event: 1681
+
+- **September:**
+  - F2F: 3042
+  - Web Call: 1303
+  - Email: 819
+  - Event: 1560
+
+The highest interaction volume in 2025 was observed in January, with 2990 F2F interactions, and the lowest was observed in August, with 600 web calls. The most common interaction type throughout the year was F2F, followed by web calls. Email and event interactions also had notable volumes throughout the year.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide the exact numbers provided in the REFERENCE. Key facts such as email_count, event_count, f2f_count, month, and month_name are missing or incorrect.
+
+[ID 14] Verdict: FAIL
+Reference: For the question "Monthly interaction volume by type (F2F, web call, email, event) in 2025", the expected answer is:
+  - email_count = 416, event_count = 712, f2f_count = 1,373, month = 8, month_name = August, web_call_count = 600
+  - email_count = 621, event_count = 1,071, f2f_count = 2,090, month = 12, month_name = December, web_call_count = 979
+  - email_count = 672, event_count = 1,189, f2f_count = 2,455, month = 7, month_name = July, web_call_count = 1,065
+  - email_count = 783, event_count = 1,388, f2f_count = 2,648, month = 6, month_name = June, web_call_count = 1,225
+  - email_count = 818, event_count = 1,446, f2f_count = 2,824, month = 5, month_name = May, web_call_count = 1,296
+  - email_count = 819, event_count = 1,560, f2f_count = 3,042, month = 9, month_name = September, web_call_count = 1,303
+  - email_count = 835, event_count = 1,476, f2f_count = 2,883, month = 4, month_name = April, web_call_count = 1,289
+  - email_count = 854, event_count = 1,456, f2f_count = 2,813, month = 2, month_name = February, web_call_count = 1,229
+  - email_count = 890, event_count = 1,512, f2f_count = 2,922, month = 11, month_name = November, web_call_count = 1,364
+  - email_count = 890, event_count = 1,522, f2f_count = 2,990, month = 1, month_name = January, web_call_count = 1,382
+  - email_count = 920, event_count = 1,681, f2f_count = 3,139, month = 10, month_name = October, web_call_count = 1,406
+  - email_count = 984, event_count = 1,641, f2f_count = 3,215, month = 3, month_name = March, web_call_count = 1,353
+Actual: Based on the provided SQL results, here is the summary of monthly interaction volume by type (F2F, web call, email, event) in 2025:
+
+- **April:**
+  - F2F: 2883
+  - Web Call: 1289
+  - Email: 835
+  - Event: 1476
+
+- **August:**
+  - F2F: 1373
+  - Web Call: 600
+  - Email: 416
+  - Event: 712
+
+- **December:**
+  - F2F: 2090
+  - Web Call: 979
+  - Email: 621
+  - Event: 1071
+
+- **February:**
+  - F2F: 2813
+  
+Reason: The ACTUAL response does not provide the exact numbers provided in the REFERENCE. Key facts such as email_count, event_count, f2f_count, month, and month_name are missing or incorrect.
+
+[ID 15] Testing: Average interaction duration in minutes by brand and channel in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    FI.interaction_channel, 
+    AVG(FI.interaction_duration_min) AS average_interaction_duration_in_minutes
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Brand DB ON FI.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FI.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name, 
+    FI.interaction_channel
+ORDER BY 
+    DB.brand_name, 
+    FI.interaction_channel;
+Handler response: The average interaction duration in minutes by brand and channel in 2025 is as follows:
+
+- **COGNIVEX**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.41 minutes
+  - **LIVE_EVENT**: 89.82 minutes
+  - **WEB**: 14.64 minutes
+
+- **COLONEX**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.41 minutes
+  - **LIVE_EVENT**: 88.74 minutes
+  - **WEB**: 14.37 minutes
+
+- **DERMASHIELD**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.47 minutes
+  - **LIVE_EVENT**: 89.76 minutes
+  - **WEB**: 14.58 minutes
+
+- **HEMAVEX**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.60 minutes
+  - **LIVE_EVENT**: 90.00 minutes
+  - **WEB**: 14.48 minutes
+
+- **HEMAVEX COMBO**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.66 minutes
+  - **LIVE_EVENT**: 89.01 minutes
+  - **WEB**: 14.48 minutes
+
+- **LUNARA**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.44 minutes
+  - **LIVE_EVENT**: 89.52 minutes
+  - **WEB**: 14.45 minutes
+
+- **LUPINOVA**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.53 minutes
+  - **LIVE_EVENT**: 89.12 minutes
+  - **WEB**: 14.66 minutes
+
+- **LYMPHACLEAR**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.50 minutes
+  - **LIVE_EVENT**: 89.43 minutes
+  - **WEB**: 14.64 minutes
+
+- **MIGRANOVA**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.64 minutes
+  - **LIVE_EVENT**: 90.10 minutes
+  - **WEB**: 14.38 minutes
+
+- **MIGRANOVA EP**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.44 minutes
+  - **LIVE_EVENT**: 90.31 minutes
+  - **WEB**: 14.22 minutes
+
+- **MYELOGUARD**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.42 minutes
+  - **LIVE_EVENT**: 89.98 minutes
+  - **WEB**: 14.45 minutes
+
+- **NEUROMYEL**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.61 minutes
+  - **LIVE_EVENT**: 89.47 minutes
+  - **WEB**: 14.46 minutes
+
+- **NEUROMYEL SPMS**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.42 minutes
+  - **LIVE_EVENT**: 89.94 minutes
+  - **WEB**: 14.64 minutes
+
+- **ONCOBREAST**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.45 minutes
+  - **LIVE_EVENT**: 88.81 minutes
+  - **WEB**: 14.56 minutes
+
+- **RHEUMAVEX**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.41 minutes
+  - **LIVE_EVENT**: 88.82 minutes
+  - **WEB**: 14.66 minutes
+
+- **MIGRANOVA EP**:
+  - **APPROVED_EMAIL**: 0.0 minutes
+  - **F2F**: 24.44 minutes
+  - **LIVE_EVENT**: 90.31 minutes
+  - **WEB**: 14.22 minutes
+
+For each brand, the average interaction duration in minutes by channel is as follows:
+
+- **COGNIVEX**:
+  - F2F: 24.41 minutes
+  - LIVE_EVENT: 89.82 minutes
+  - WEB: 14.64 minutes
+
+- **COLONEX**:
+  - F2F: 24.41 minutes
+  - LIVE_EVENT: 88.74 minutes
+  - WEB: 14.37 minutes
+
+- **DERMASHIELD**:
+  - F2F: 24.47 minutes
+  - LIVE_EVENT: 89.76 minutes
+  - WEB: 14.58 minutes
+
+- **HEMAVEX**:
+  - F2F: 24.60 minutes
+  - LIVE_EVENT: 90.00 minutes
+  - WEB: 14.48 minutes
+
+- **HEMAVEX COMBO**:
+  - F2F: 24.66 minutes
+  - LIVE_EVENT: 89.01 minutes
+  - WEB: 14.48 minutes
+
+- **LUNARA**:
+  - F2F: 24.44 minutes
+  - LIVE_EVENT: 89.52 minutes
+  - WEB: 14.45 minutes
+
+- **LUPINOVA**:
+  - F2F: 24.53 minutes
+  - LIVE_EVENT: 89.12 minutes
+  - WEB: 14.66 minutes
+
+- **LYMPHACLEAR**:
+  - F2F: 24.50 minutes
+  - LIVE_EVENT: 89.43 minutes
+  - WEB: 14.64 minutes
+
+- **MIGRANOVA**:
+  - F2F: 24.64 minutes
+  - LIVE_EVENT: 90.10 minutes
+  - WEB: 14.38 minutes
+
+- **MIGRANOVA EP**:
+  - F2F: 24.44 minutes
+  - LIVE_EVENT: 90.31 minutes
+  - WEB: 14.22 minutes
+
+- **MYELOGUARD**:
+  - F2F: 24.42 minutes
+  - LIVE_EVENT: 89.98 minutes
+  - WEB: 14.45 minutes
+
+- **NEUROMYEL**:
+  - F2F: 24.61 minutes
+  - LIVE_EVENT: 89.47 minutes
+  - WEB: 14.46 minutes
+
+- **NEUROMYEL SPMS**:
+  - F2F: 24.42 minutes
+  - LIVE_EVENT: 89.94 minutes
+  - WEB: 14.64 minutes
+
+- **ONCOBREAST**:
+  - F2F: 24.45 minutes
+  - LIVE_EVENT: 88.81 minutes
+  - WEB: 14.56 minutes
+
+- **RHEUMAVEX**:
+  - F2F: 24.41 minutes
+  - LIVE_EVENT: 88.82 minutes
+  - WEB: 14.66 minutes
+
+- **MIGRANOVA EP**:
+  - F2F: 24.44 minutes
+  - LIVE_EVENT: 90.31 minutes
+  - WEB: 14.22 minutes
+
+The channel with the highest average interaction duration for each brand in 2025 is **LIVE_EVENT** for all listed brands except **COGNIVEX** and **COLONEX**, where it is **F2F**.
+Judge verdict: PASS
+Reason: The ACTUAL response includes all key details from REFERENCE, including all brands, channels, and their respective average interaction durations. Minor wording differences are acceptable given the formatting and structure of the responses.
+
+[ID 16] Testing: Top 10 most active employees by number of interactions in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    E.employee_name, 
+    COUNT(I.interaction_id) AS interaction_count
+FROM 
+    FACT_Interactions I
+JOIN 
+    DIM_Employee E ON I.employee_id = E.employee_id
+JOIN 
+    DIM_Time T ON I.time_id = T.time_id
+WHERE 
+    T.year = 2025
+GROUP BY 
+    E.employee_name
+ORDER BY 
+    interaction_count DESC
+LIMIT 10;
+Handler response: The top 10 most active employees by number of interactions in 2025 are:
+
+1. Rita Demuynck with 230 interactions
+2. Ingolf Stiebitz with 225 interactions
+3. Peter Smith with 223 interactions
+4. Therese Hofstetter with 220 interactions
+5. Ibolya Nagy with 219 interactions
+6. Aurore Pires with 219 interactions
+7. Dominika Kopecký with 218 interactions
+8. Tiberia Aanei with 217 interactions
+9. Teodor Johansson with 217 interactions
+10. Luce Thomas with 217 interactions
+Judge verdict: PASS
+Reason: The actual response matches the reference, with minor differences in employee name order. All key facts are present.
+
+[ID 17] Testing: Number of promotional interactions vs. non-promotional by country in 2025
+Determined intent: web_handler
+Instantiated handler: WebHandler
+API_KEY:  c5abc28e75235affb56d040071f319214e6536d2
+<Response [200]>
+Handler response: Based on the provided web search results, it appears that there is no specific data available on the number of promotional interactions versus non-promotional interactions by country in 2025. However, the results do suggest that the effectiveness of promotions is becoming more important than the frequency of promotions. 
+
+The global promotional products market is valued at USD 26.5 billion in 2025, indicating a significant investment in promotional activities. Additionally, the data on pharmaceutical expenditure across 15 OECD countries shows an increase in non-retail pharmaceuticals, but this information does not directly relate to promotional interactions. 
+
+To provide a comprehensive answer, more specific data on promotional interactions by country in 2025 would be required. The available information primarily focuses on the market value of promotional products and the impact of promotion regulations, rather than the number of interactions. Therefore, it is not possible to provide a detailed comparison of promotional and non-promotional interactions by country in 2025 based on the given web search results.
+Judge verdict: FAIL
+Reason: The actual response does not provide detailed data on promotional interactions vs. non-promotional by country in 2025, despite the reference explicitly stating such data. The actual response fails to address the question and instead provides information on the global promotional products market and pharmaceutical expenditure, which is not related to the question.
+
+[ID 17] Verdict: FAIL
+Reference: For the question "Number of promotional interactions vs. non-promotional by country in 2025", the expected answer is:
+  - geo_name = Austria, non_promotional_count = 584, promotional_count = 1,920
+  - geo_name = Belgium, non_promotional_count = 862, promotional_count = 1,679
+  - geo_name = Bulgaria, non_promotional_count = 27, promotional_count = 262
+  - geo_name = Croatia, non_promotional_count = 206, promotional_count = 263
+  - geo_name = Czech Republic, non_promotional_count = 641, promotional_count = 1,084
+  - geo_name = Denmark, non_promotional_count = 451, promotional_count = 1,304
+  - geo_name = Finland, non_promotional_count = 336, promotional_count = 1,207
+  - geo_name = France, non_promotional_count = 1,724, promotional_count = 7,014
+  - geo_name = Germany, non_promotional_count = 2,281, promotional_count = 8,145
+  - geo_name = Greece, non_promotional_count = 322, promotional_count = 1,158
+  - geo_name = Hungary, non_promotional_count = 421, promotional_count = 929
+  - geo_name = Ireland, non_promotional_count = 448, promotional_count = 1,254
+  - geo_name = Italy, non_promotional_count = 1,495, promotional_count = 5,985
+  - geo_name = Netherlands, non_promotional_count = 628, promotional_count = 1,706
+  - geo_name = Norway, non_promotional_count = 696, promotional_count = 765
+  - geo_name = Poland, non_promotional_count = 1,136, promotional_count = 3,049
+  - geo_name = Portugal, non_promotional_count = 166, promotional_count = 1,560
+  - geo_name = Romania, non_promotional_count = 453, promotional_count = 2,044
+  - geo_name = Spain, non_promotional_count = 1,088, promotional_count = 5,498
+  - geo_name = Sweden, non_promotional_count = 522, promotional_count = 1,918
+  - geo_name = Switzerland, non_promotional_count = 715, promotional_count = 1,808
+  - geo_name = United Kingdom, non_promotional_count = 1,452, promotional_count = 5,835
+Actual: Based on the provided web search results, it appears that there is no specific data available on the number of promotional interactions versus non-promotional interactions by country in 2025. However, the results do suggest that the effectiveness of promotions is becoming more important than the frequency of promotions. 
+
+The global promotional products market is valued at USD 26.5 billion in 2025
+Reason: The actual response does not provide detailed data on promotional interactions vs. non-promotional by country in 2025, despite the reference explicitly stating such data. The actual response fails to address the question and instead provides information on the global promotional products market and pharmaceutical expenditure, which is not related to the question.
+
+[ID 18] Testing: Interaction rate per TC1 vs TC2 accounts by brand in 2025
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: To answer this question we need to compare the interaction rates of accounts labeled as TC1 and TC2 for each brand in the year 2025. Interaction rate is typically calculated by dividing the total number of interactions such as likes, comments, and shares by the total number of posts or content pieces published, and this can vary significantly across different brands and account types. 
+
+Without specific data, we can't calculate the exact interaction rates per TC1 vs TC2 accounts by brand in 2025. However, the process would involve gathering the total interactions and the total content published for each account type within each brand for the year 2025, and then calculating the interaction rate as a percentage or a ratio. 
+
+This calculation would help in understanding which type of account, TC1 or TC2, has a higher engagement with its audience for each brand, and could inform marketing strategies and content creation decisions for the future.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide the necessary data for the question, while the REFERENCE provides detailed interaction rates for each brand and TC1/TC2 account type in 2025. The ACTUAL response is incomplete and lacks the key factual information asked in the question.
+
+[ID 18] Verdict: FAIL
+Reference: For the question "Interaction rate per TC1 vs TC2 accounts by brand in 2025", the expected answer is:
+  - brand_name = COGNIVEX, tc1_interactions = 876, tc2_interactions = 1,905
+  - brand_name = COLONEX, tc1_interactions = 1,755, tc2_interactions = 3,366
+  - brand_name = DERMASHIELD, tc1_interactions = 1,709, tc2_interactions = 3,619
+  - brand_name = HEMAVEX, tc1_interactions = 1,225, tc2_interactions = 2,051
+  - brand_name = HEMAVEX COMBO, tc1_interactions = 1,230, tc2_interactions = 1,981
+  - brand_name = LUNARA, tc1_interactions = 1,839, tc2_interactions = 3,294
+  - brand_name = LUPINOVA, tc1_interactions = 1,643, tc2_interactions = 3,579
+  - brand_name = LYMPHACLEAR, tc1_interactions = 1,147, tc2_interactions = 2,073
+  - brand_name = MIGRANOVA, tc1_interactions = 933, tc2_interactions = 1,914
+  - brand_name = MIGRANOVA EP, tc1_interactions = 928, tc2_interactions = 1,860
+  - brand_name = MYELOGUARD, tc1_interactions = 1,189, tc2_interactions = 2,042
+  - brand_name = NEUROMYEL, tc1_interactions = 928, tc2_interactions = 1,926
+  - brand_name = NEUROMYEL SPMS, tc1_interactions = 961, tc2_interactions = 1,933
+  - brand_name = ONCOBREAST, tc1_interactions = 1,810, tc2_interactions = 3,364
+  - brand_name = RHEUMAVEX, tc1_interactions = 1,745, tc2_interactions = 3,379
+Actual: To answer this question we need to compare the interaction rates of accounts labeled as TC1 and TC2 for each brand in the year 2025. Interaction rate is typically calculated by dividing the total number of interactions such as likes, comments, and shares by the total number of posts or content pieces published, and this can vary significantly across different brands and account types. 
+
+Without sp
+Reason: The ACTUAL response does not provide the necessary data for the question, while the REFERENCE provides detailed interaction rates for each brand and TC1/TC2 account type in 2025. The ACTUAL response is incomplete and lacks the key factual information asked in the question.
+
+[ID 19] Testing: Multi-channel engagement score by country and brand in Q1 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Brand', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country,
+    DB.brand_name AS brand,
+    AVG(FI.kpi015_multichannel_score) AS multi_channel_engagement_score
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Geography DG ON FI.geo_id = DG.geo_id
+JOIN 
+    DIM_Brand DB ON FI.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FI.time_id = DT.time_id
+WHERE 
+    DT.quarter = 'Q1' AND DT.year = 2025
+GROUP BY 
+    DG.geo_name, DB.brand_name
+ORDER BY 
+    country, brand;
+Handler response: The query is to get multi-channel engagement scores by country and brand in Q1 2025 for NovaCarta Pharma's EMEA (Europe, Middle East, Africa) commercial data platform.
+
+To answer the query, I will use SQL to filter and aggregate the given data based on the requested criteria.
+
+Here is the SQL query that you can use to get the results:
+
+```sql
+SELECT 
+    DIM_Geography.geo_name AS country,
+    DIM_Brand.brand_name,
+    SUM(FACT_Interactions.multi_channel_engagement_score) AS total_engagement_score
+FROM 
+    DIM_Geography
+INNER JOIN 
+    DIM_Brand ON DIM_Geography.geo_id = DIM_Brand.territory_id
+INNER JOIN 
+    FACT_Interactions ON DIM_Brand.brand_id = FACT_Interactions.brand_id
+WHERE 
+    DIM_Geography.geo_level = 'COUNTRY'  -- This filters for country-level data
+AND 
+    FACT_Interactions.time_id = 'T202501'  -- This filters for Q1 2025
+GROUP BY 
+    DIM_Geography.geo_name, DIM_Brand.brand_name
+ORDER BY 
+    DIM_Geography.geo_name, DIM_Brand.brand_name;
+```
+
+Note that you will need to adjust the SQL syntax and table names to match your specific database schema and query needs.
+
+The query above will return the results as follows:
+
+| country               | brand_name                  | total_engagement_score |
+|-----------------------|-----------------------------|------------------------|
+| Austria               | COGNIVEX                    | 2.2903225806451615      |
+| Austria               | COLONEX                      | 2.212121212121212        |
+| Austria               | DERMASHIELD                  | 2.4029850746268657      |
+| Austria               | HEMAVEX                      | 2.263157894736842       |
+| Austria               | HEMAVEX COMBO                | 2.4523809523809526      |
+| Austria               | LUNARA                       | 2.263157894736842        |
+| Austria               | LUPINOVA                     | 2.36231884057971        |
+| Austria               | LYMPHACLEAR                  | 2.3620689655172415      |
+| Austria               | MIGRANOVA                    | 2.25                      |
+| Austria               | MIGRANOVA EP                 | 2.34375                  |
+| Austria               | MYELOGUARD                   | 2.2291666666666665      |
+| Austria               | NEUROMYEL                    | 2.4313725490196076      |
+| Austria               | NEUROMYEL SPMS               | 2.323529411764706       |
+| Austria               | ONCOBREAST                   | 2.4262295081967213      |
+| Austria               | RHEUMAVEX                   | 2.3442622950819674      |
+| Belgium                | COGNIVEX                    | 2.13953488372093        |
+| Belgium                | COLONEX                      | 2.0943396226415096      |
+| Belgium                | DERMASHIELD                  | 2.0576923076923075      |
+| Belgium                | HEMAVEX                      | 2.0                       |
+| Belgium                | HEMAVEX COMBO                | 1.951219512195122        |
+| Belgium                | LUNARA                       | 2.18                      |
+| Belgium                | LUPINOVA                     | 2.1403508771929824      |
+| Belgium                | LYMPHACLEAR                  | 1.975609756097561        |
+| Belgium                | MIGRANOVA                    | 2.1666666666666665      |
+| Belgium                | MIGRANOVA EP                 | 2.1515151515151514       |
+| Belgium                | MYELOGUARD                   | 2.0                       |
+| Belgium                | NEUROMYEL                    | 2.150943396226415        |
+| Belgium                | NEUROMYEL SPMS               | 2.085714285714286        |
+| Belgium                | ONCOBREAST                   | 2.0350877192982457      |
+| Belgium                | RHEUMAVEX                   | 2.2222222222222223       |
+| Bulgaria               | COLONEX                      | 2.6666666666666665      |
+| Bulgaria               | DERMASHIELD                  | 2.5714285714285716        |
+| Bulgaria               | LUNARA                       | 2.6666666666666665      |
+| Bulgaria               | LUPINOVA                     | 2.64                       |
+| Bulgaria               | ONCOBREAST                   | 3.0                         |
+| Bulgaria               | RHEUMAVEX                   | 2.75                         |
+| Croatia                 | COLONEX                      | 2.52                         |
+| Croatia                 | DERMASHIELD                  | 2.076923076923077         |
+| Croatia                 | LUNARA                       | 2.2142857142857144        |
+| Croatia                 | LUPINOVA                     | 2.5                           |
+| Croatia                 | ONCOBREAST                   | 2.5294117647058822        |
+| Croatia                 | RHEUMAVEX                   | 2.3157894736842106        |
+| Czech Republic         | COGNIVEX                    | 2.1785714285714284        |
+| Czech Republic         | COLONEX                      | 2.176470588235294         |
+| Czech Republic         | DERMASHIELD                  | 2.3958333333333335         |
+| Czech Republic         | HEMAVEX                      | 2.176470588235294         |
+| Czech Republic         | HEMAVEX COMBO                | 2.206896551724138         |
+| Czech Republic         | LUNARA                       | 2.1842105263157894        |
+| Czech Republic         | LUPINOVA                     | 2.404255319148936         |
+| Czech Republic         | LYMPHACLEAR                  | 2.1794871794871793        |
+| Czech Republic         | MIGRANOVA                    | 2.076923076923077         |
+| Czech Republic         | MIGRANOVA EP                 | 2.1739130434782608        |
+| Czech Republic         | MYELOGUARD                   | 2.5416666666666665        |
+| Czech Republic         | NEUROMYEL                    | 2.1739130434782608        |
+| Czech Republic         | NEUROMYEL SPMS               | 2.2                          |
+| Czech Republic         | ONCOBREAST                   | 2.0256410256410255        |
+| Czech Republic         | RHEUMAVEX                   | 2.3076923076923075        |
+| Denmark                 | COGNIVEX                    | 2.125                         |
+| Denmark                 | COLONEX                      | 2.111111111111111            |
+| Denmark                 | DERMASHIELD                  | 2.057142857142857            |
+| Denmark                 | HEMAVEX                      | 2.1333333333333333           |
+| Denmark                 | HEMAVEX COMBO                | 2.2962962962962963           |
+| Denmark                 | LUNARA                       | 2.057142857142857            |
+| Denmark                 | LUPINOVA                     | 1.9166666666666667           |
+| Denmark                 | LYMPHACLEAR                  | 2.090909090909091            |
+| Denmark                 | MIGRANOVA                    | 2.0689655172413794           |
+| Denmark                 | MIGRANOVA EP                 | 2.0357142857142856           |
+| Denmark                 | MYELOGUARD                   | 1.8285714285714285           |
+| Denmark                 | NEUROMYEL                    | 2.2857142857142856           |
+| Denmark                 | NEUROMYEL SPMS               | 2.269230769230769            |
+| Denmark                 | ONCOBREAST                   | 2.111111111111111            |
+| Denmark                 | RHEUMAVEX                   | 2.176470588235294            |
+| Finland                 | COGNIVEX                    | 2.111111111111111            |
+| Finland                 | COLONEX                      | 2.024390243902439            |
+| Finland                 | DERMASHIELD                  | 1.9210526315789473           |
+| Finland                 | HEMAVEX                      | 2.0833333333333335           |
+| Finland                 | HEMAVEX COMBO                | 2.1                           |
+| Finland                 | LUNARA                       | 2.03125                      |
+| Finland                 | LUPINOVA                     | 2.025                         |
+| Finland                 | LYMPHACLEAR                  | 2.5789473684210527           |
+| Finland                 | MIGRANOVA                    | 2.0                           |
+| Finland                 | MIGRANOVA EP                 | 1.9230769230769231           |
+| Finland                 | MYELOGUARD                   | 2.1904761904761907           |
+| Finland                 | NEUROMYEL                    | 2.217391304347826            |
+| Finland                 | NEUROMYEL SPMS               | 1.793103448275862            |
+| Finland                 | ONCOBREAST                   | 2.119047619047619            |
+| Finland                 | RHEUMAVEX                   | 2.268292682926829            |
+| France                  | COGNIVEX                    | 2.4301075268817205          |
+| France                  | COLONEX                      | 2.3392857142857144          |
+| France                  | DERMASHIELD                  | 2.3132075471698115          |
+| France                  | HEMAVEX                      | 2.3877551020408165          |
+| France                  | HEMAVEX COMBO                | 2.246268656716418           |
+| France                  | LUNARA                       | 2.3141025641025643          |
+| France                  | LUPINOVA                     | 2.356                         |
+| France                  | LYMPHACLEAR                  | 2.3424657534246576          |
+| France                  | MIGRANOVA                    | 2.4298245614035086          |
+| France                  | MIGRANOVA EP                 | 2.302521008403361           |
+| France                  | MYELOGUARD                   | 2.4176470588235293          |
+| France                  | NEUROMYEL                    | 2.3063063063063063          |
+| France                  | NEUROMYEL SPMS               | 2.4347826086956523          |
+| France                  | ONCOBREAST                   | 2.2777777777777777          |
+| France                  | RHEUMAVEX                   | 2.2635658914728682          |
+| Germany                 | COGNIVEX                    | 2.3866666666666667          |
+| Germany                 | COLONEX                      | 2.2851985559566788          |
+| Germany                 | DERMASHIELD                  | 2.2901960784313724          |
+| Germany                 | HEMAVEX                      | 2.2823529411764705          |
+| Germany                 | HEMAVEX COMBO                | 2.2411347517730498          |
+| Germany                 | LUNARA                       | 2.330739299610895           |
+| Germany                 | LUPINOVA                     | 2.2742616033755274          |
+| Germany                 | LYMPHACLEAR                  | 2.283422459893048          |
+| Germany                 | MIGRANOVA                    | 2.3194444444444446          |
+| Germany                 | MIGRANOVA EP                 | 2.3225806451612905          |
+| Germany                 | MYELOGUARD                   | 2.2371794871794872          |
+| Germany                 | NEUROMYEL                    | 2.214814814814815           |
+| Germany                 | NEUROMYEL SPMS               | 2.2941176470588234          |
+| Germany                 | ONCOBREAST                   | 2.2908366533864544          |
+| Germany                 | RHEUMAVEX                   | 2.3580786026200875          |
+| Greece                  | COGNIVEX                    | 2.2222222222222223          |
+| Greece                  | COLONEX                      | 2.6956521739130435          |
+| Greece                  | DERMASHIELD                  | 2.2857142857142856          |
+| Greece                  | HEMAVEX                      | 2.5416666666666665          |
+| Greece                  | HEMAVEX COMBO                | 2.1842105263157894          |
+| Greece                  | LUNARA                       | 2.5757575757575757          |
+| Greece                  | LUPINOVA                     | 2.5                           |
+| Greece                  | LYMPHACLEAR                  | 2.5833333333333335           |
+| Greece                  | MIGRANOVA                    | 2.3043478260869565          |
+| Greece                  | MIGRANOVA EP                 | 2.235294117647059           |
+| Greece                  | MYELOGUARD                   | 2.5172413793103448          |
+| Greece                  | NEUROMYEL                    | 2.272727272727273           |
+| Greece                  | NEUROMYEL SPMS               | 2.111111111111111            |
+| Greece                  | ONCOBREAST                   | 2.511627906976744           |
+| Greece                  | RHEUMAVEX                   | 2.5217391304347827          |
+| Hungary                 | COGNIVEX                    | 2.4                           |
+| Hungary                 | COLONEX                      | 2.34                          |
+| Hungary                 | DERMASHIELD                  | 2.519230769230769           |
+| Hungary                 | HEMAVEX                      | 2.3076923076923075           |
+| Hungary                 | HEMAVEX COMBO                | 2.6666666666666665           |
+| Hungary                 | LUNARA                       | 2.4                           |
+| Hungary                 | LUPINOVA                     | 2.5454545454545454           |
+| Hungary                 | LYMPHACLEAR                  | 2.411764705882353           |
+| Hungary                 | MIGRANOVA                    | 2.5555555555555554           |
+| Hungary                 | MIGRANOVA EP                 | 2.8125                        |
+| Hungary                 | MYELOGUARD                   | 2.6153846153846154           |
+| Hungary                 | NEUROMYEL                    | 2.4545454545454546           |
+| Hungary                 | NEUROMYEL SPMS               | 2.1818181818181817           |
+| Hungary                 | ONCOBREAST                   | 2.4814814814814814           |
+| Hungary                 | RHEUMAVEX                   | 2.2093023255813953           |
+| Ireland                  | COGNIVEX                    | 2.125                          |
+| Ireland                  | COLONEX                      | 2.025                          |
+| Ireland                  | DERMASHIELD                  | 2.0377358490566038           |
+| Ireland                  | HEMAVEX                      | 2.076923076923077            |
+| Ireland                  | HEMAVEX COMBO                | 2.0416666666666665           |
+| Ireland                  | LUNARA                       | 2.0789473684210527           |
+| Ireland                  | LUPINOVA                     | 1.96875                        |
+| Ireland                  | LYMPHACLEAR                  | 1.8333333333333333            |
+| Ireland                  | MIGRANOVA                    | 2.0588235294117645           |
+| Ireland                  | MIGRANOVA EP                 | 2.2916666666666665           |
+| Ireland                  | MYELOGUARD                   | 1.9090909090909092            |
+| Ireland                  | NEUROMYEL                    | 2.28                           |
+| Ireland                  | NEUROMYEL SPMS               | 2.1                            |
+| Ireland                  | ONCOBREAST                   | 2.04                           |
+| Ireland                  | RHEUMAVEX                   | 2.27027027027027             |
+| Italy                    | COGNIVEX                    | 2.4655172413793105          |
+| Italy                    | COLONEX                      | 2.4545454545454546          |
+| Italy                    | DERMASHIELD                  | 2.4759358288770055          |
+| Italy                    | HEMAVEX                      | 2.5328467153284673          |
+| Italy                    | HEMAVEX COMBO                | 2.604651162790698           |
+| Italy                    | LUNARA                       | 2.5321637426900585          |
+| Italy                    | LUPINOVA                     | 2.4723926380368098          |
+| Italy                    | LYMPHACLEAR                  | 2.4761904761904763          |
+| Italy                    | MIGRANOVA                    | 2.481132075471698           |
+| Italy                    | MIGRANOVA EP                 | 2.440677966101695           |
+| Italy                    | MYELOGUARD                   | 2.564814814814815           |
+| Italy                    | NEUROMYEL                    | 2.4414414414414414           |
+| Italy                    | NEUROMYEL SPMS               | 2.5398230088495577          |
+| Italy                    | ONCOBREAST                   | 2.5027624309392267          |
+| Italy                    | RHEUMAVEX                   | 2.383720930232558           |
+| Netherlands              | COGNIVEX                    | 2.048780487804878           |
+| Netherlands              | COLONEX                      | 1.9111111111111112           |
+| Netherlands              | DERMASHIELD                  | 2.0136986301369864           |
+| Netherlands              | HEMAVEX                      | 2.075                         |
+| Netherlands              | HEMAVEX COMBO                | 2.2439024390243905           |
+| Netherlands              | LUNARA                       | 1.96875                        |
+| Netherlands              | LUPINOVA                     | 2.0377358490566038           |
+| Netherlands              | LYMPHACLEAR                  | 2.088888888888889            |
+| Netherlands              | MIGRANOVA                    | 2.1025641025641026           |
+| Netherlands              | MIGRANOVA EP                 | 2.025                         |
+| Netherlands              | MYELOGUARD                   | 2.018181818181818            |
+| Netherlands              | NEUROMYEL                    | 2.0869565217391304           |
+| Netherlands              | NEUROMYEL SPMS               | 2.1315789473684212           |
+| Netherlands              | ONCOBREAST                   | 2.116279069767442            |
+| Netherlands              | RHEUMAVEX                   | 2.1791044776119404           |
+| Norway                    | COGNIVEX                    | 2.1666666666666665          |
+| Norway                    | COLONEX                      | 2.230769230769231           |
+| Norway                    | DERMASHIELD                  | 2.0277777777777777          |
+| Norway                    | HEMAVEX                      | 2.111111111111111            |
+| Norway                    | HEMAVEX COMBO                | 2.185185185185185           |
+| Norway                    | LUNARA                       | 2.1666666666666665          |
+| Norway                    | LUPINOVA                     | 2.0256410256410255          |
+| Norway                    | LYMPHACLEAR                  | 2.0                           |
+| Norway                    | MIGRANOVA                    | 2.142857142857143           |
+| Norway                    | MIGRANOVA EP                 | 2.3529411764705883           |
+| Norway                    | MYELOGUARD                   | 2.185185185185185            |
+| Norway                    | NEUROMYEL                    | 2.1818181818181817           |
+| Norway                    | NEUROMYEL SPMS               | 1.9230769230769231           |
+| Norway                    | ONCOBREAST                   | 2.1923076923076925           |
+| Norway                    | RHEUMAVEX                   | 2.076923076923077            |
+| Poland                    | COGNIVEX                    | 2.4                           |
+| Poland                    | COLONEX                      | 2.5054945054945055           |
+| Poland                    | DERMASHIELD                  | 2.4186046511627906           |
+| Poland                    | HEMAVEX                      | 2.4133333333333336           |
+| Poland                    | HEMAVEX COMBO                | 2.6666666666666665           |
+| Poland                    | LUNARA                       | 2.4642857142857144           |
+| Poland                    | LUPINOVA                     | 2.509433962264151            |
+| Poland                    | LYMPHACLEAR                  | 2.388059701492537            |
+| Poland                    | MIGRANOVA                    | 2.5555555555555554           |
+| Poland                    | MIGRANOVA EP                 | 2.450980392156863            |
+| Poland                    | MYELOGUARD                   | 2.367088607594937            |
+| Poland                    | NEUROMYEL                    | 2.4545454545454546           |
+| Poland                    | NEUROMYEL SPMS               | 2.1818181818181817           |
+| Poland                    | ONCOBREAST                   | 2.4343434343434343           |
+| Poland                    | RHEUMAVEX                   | 2.402173913043478            |
+| Portugal                  | COGNIVEX                    | 2.533333333333333            |
+| Portugal                  | COLONEX                      | 2.5945945945945947           |
+| Portugal                  | DERMASHIELD                  | 2.5                           |
+| Portugal                  | HEMAVEX                      | 2.375                         |
+| Portugal                  | HEMAVEX COMBO                | 2.6538461538461537           |
+| Portugal                  | LUNARA                       | 2.5757575757575757           |
+| Portugal                  | LUPINOVA                     | 2.5686274509803924           |
+| Portugal                  | LYMPHACLEAR                  | 2.5517241379310347           |
+| Portugal                  | MIGRANOVA                    | 2.347826086956522            |
+| Portugal                  | MIGRANOVA EP                 | 2.426829268292683            |
+| Portugal                  | MYELOGUARD                   | 2.375                         |
+| Portugal                  | NEUROMYEL                    | 2.6774193548387095           |
+| Portugal                  | NEUROMYEL SPMS               | 2.25                           |
+| Portugal                  | ONCOBREAST                   | 2.511627906976744            |
+| Portugal                  | RHEUMAVEX                   | 2.5217391304347827           |
+| Romania                   | COGNIVEX                    | 2.4444444444444446           |
+| Romania                   | COLONEX                      | 2.4727272727272727           |
+| Romania                   | DERMASHIELD                  | 2.4047619047619047           |
+| Romania                   | HEMAVEX                      | 2.404255319148936           |
+| Romania                   | HEMAVEX COMBO                | 2.6363636363636362           |
+| Romania                   | LUNARA                       | 2.4642857142857144           |
+| Romania                   | LUPINOVA                     | 2.509433962264151           |
+| Romania                   | LYMPHACLEAR                  | 2.7560975609756095           |
+| Romania                   | MIGRANOVA                    | 2.3333333333333335           |
+| Romania                   | MIGRANOVA EP                 | 2.4545454545454546           |
+| Romania                   | MYELOGUARD                   | 2.4545454545454546           |
+| Romania                   | NEUROMYEL                    | 2.475                         |
+| Romania                   | NEUROMYEL SPMS               | 2.1818181818181817           |
+| Romania                   | ONCOBREAST                   | 2.5285714285714285           |
+| Romania                   | RHEUMAVEX                   | 2.6363636363636362           |
+| Spain                     | COGNIVEX                    | 2.5161290322580645          |
+| Spain                     | COLONEX                      | 2.5714285714285716          |
+| Spain                     | DERMASHIELD                  | 2.5384615384615383          |
+| Spain                     | HEMAVEX                      | 2.4913793103448274          |
+| Spain                     | HEMAVEX COMBO                | 2.47                           |
+| Spain                     | LUNARA                       | 2.497536945812808            |
+| Spain                     | LUPINOVA                     | 2.5555555555555554           |
+| Spain                     | LYMPHACLEAR                  | 2.510869565217391            |
+| Spain                     | MIGRANOVA                    | 2.5555555555555554           |
+| Spain                     | MIGRANOVA EP                 | 2.426829268292683            |
+| Spain                     | MYELOGUARD                   | 2.5686274509803924          |
+| Spain                     | NEUROMYEL                    | 2.418918918918919            |
+| Spain                     | NEUROMYEL SPMS               | 2.575                         |
+| Spain                     | ONCOBREAST                   | 2.489795918367347           |
+| Spain                     | RHEUMAVEX                   | 2.401639344262295           |
+| Sweden                     | COGNIVEX                    | 2.1142857142857143          |
+| Sweden                     | COLONEX                      | 2.086206896551724           |
+| Sweden                     | DERMASHIELD                  | 2.0701754385964914          |
+| Sweden                     | HEMAVEX                      | 2.097560975609756           |
+| Sweden                     | HEMAVEX COMBO                | 2.3076923076923075          |
+| Sweden                     | LUNARA                       | 2.0545454545454547          |
+| Sweden                     | LUPINOVA                     | 2.076923076923077           |
+| Sweden                     | LYMPHACLEAR                  | 2.1458333333333335           |
+| Sweden                     | MIGRANOVA                    | 2.176470588235294           |
+| Sweden                     | MIGRANOVA EP                 | 2.1470588235294117           |
+| Sweden                     | MYELOGUARD                   | 2.26                           |
+| Sweden                     | NEUROMYEL                    | 1.9259259259259258           |
+| Sweden                     | NEUROMYEL SPMS               | 2.0476190476190474           |
+| Sweden                     | ONCOBREAST                   | 2.1311475409836067           |
+| Sweden                     | RHEUMAVEX                   | 2.066666666666667           |
+| Switzerland                | COGNIVEX                    | 2.225806451612903           |
+| Switzerland                | COLONEX                      | 2.357142857142857            |
+| Switzerland                | DERMASHIELD                  | 2.267857142857143            |
+| Switzerland                | HEMAVEX                      | 2.18                           |
+| Switzerland                | HEMAVEX COMBO                | 2.3076923076923075           |
+| Switzerland                | LUNARA                       | 2.3134328358208953           |
+| Switzerland                | LUPINOVA                     | 2.3442622950819674           |
+| Switzerland                | LYMPHACLEAR                  | 2.261904761904762            |
+| Switzerland                | MIGRANOVA                    | 2.302325581395349            |
+| Switzerland                | MIGRANOVA EP                 | 2.206896551724138            |
+| Switzerland                | MYELOGUARD                   | 2.395348837209302            |
+| Switzerland                | NEUROMYEL                    | 2.1315789473684212           |
+| Switzerland                | NEUROMYEL SPMS               | 2.096774193548387            |
+| Switzerland                | ONCOBREAST                   | 2.2884615384615383           |
+| Switzerland                | RHEUMAVEX                   | 2.1481481481481484           |
+| United Kingdom             | COGNIVEX                    | 2.086021505376344           |
+| United Kingdom             | COLONEX                      | 2.116822429906542           |
+| United Kingdom             | DERMASHIELD                  | 2.161111111111111            |
+| United Kingdom             | HEMAVEX                      | 2.08955223880597             |
+| United Kingdom             | HEMAVEX COMBO                | 2.0384615384615383           |
+| United Kingdom             | LUNARA                       | 2.165                          |
+| United Kingdom             | LUPINOVA                     | 2.171974522292994            |
+| United Kingdom             | LYMPHACLEAR                  | 2.0588235294117645           |
+| United Kingdom             | MIGRANOVA                    | 2.020618556701031            |
+| United Kingdom             | MIGRANOVA EP                 | 2.1095890410958904           |
+| United Kingdom             | MYELOGUARD                   | 2.0982142857142856           |
+| United Kingdom             | NEUROMYEL                    | 2.1973684210526314           |
+| United Kingdom             | NEUROMYEL SPMS               | 2.159090909090909            |
+| United Kingdom             | ONCOBREAST                   | 2.06282722513089             |
+| United Kingdom             | RHEUMAVEX                   | 2.176829268292683            |
+
+This table shows the country, brand name, and total multi-channel engagement score for each brand in Q1 2025 across the EMEA region. 
+
+Please note that the total engagement score is a composite score based on the given data and may not be directly comparable across brands or countries. The engagement scores are calculated using a proprietary algorithm and are based on various factors such as interaction frequency, type of interaction, and other metrics.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys all key facts from the REFERENCE. The ACTUAL response includes the same information as the REFERENCE, including the countries, brand names, and their respective multi-channel engagement scores in Q1 2025. Minor wording differences are present, but the essential information is preserved.
+
+[ID 20] Testing: Number of Key Opinion Leader (KOL) interactions by brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand_Indication', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    COUNT(CASE WHEN DA.is_key_opinion_leader = 'Y' THEN FI.interaction_id END) AS num_kol_interactions
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Brand DB ON FI.brand_id = DB.brand_id
+JOIN 
+    DIM_Account DA ON FI.account_id = DA.account_id
+JOIN 
+    DIM_Time DT ON FI.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+Handler response: Based on the provided SQL results and the context, there is no KOL (Key Opinion Leader) interaction data in 2025 for any brand in the NovaCarta Pharma database. Therefore, the number of KOL interactions by brand in 2025 is 0 for all brands listed.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys that there is no KOL interaction data in 2025 for any brand. The critical fact is present, and no contradiction exists.
+
+[ID 21] Testing: Target coverage rate (KPI002) by brand and country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'FACT_Coverage', 'DIM_Time', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country,
+    DB.brand_name AS brand,
+    FC.kpi002_target_coverage_pct AS target_coverage_rate
+FROM 
+    FACT_Coverage FC
+INNER JOIN 
+    DIM_Geography DG ON FC.geo_id = DG.geo_id
+INNER JOIN 
+    DIM_Brand DB ON FC.brand_id = DB.brand_id
+INNER JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+Error processing chat message: LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': "The input (113540 tokens) is longer than the model's context length (65536 tokens).", 'type': 'BadRequestError', 'param': None, 'code': 400}
+  Failed on turn 1: {"detail":"LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': \"The input (113540 tokens) is longer than the model's context length (65536 tokens).\", 'type': 'BadRequestError', 'param': None, 'code': 400}"}
+
+[ID 22] Testing: F2F coverage rate (KPI005) vs. digital coverage rate (KPI006) by brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Coverage', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name,
+    FC.kpi005_f2f_coverage_pct AS F2F_Coverage_Rate,
+    FC.kpi006_digital_coverage_pct AS Digital_Coverage_Rate
+FROM 
+    FACT_Coverage FC
+JOIN 
+    DIM_Brand DB ON FC.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2025;
+Error processing chat message: LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': "The input (158167 tokens) is longer than the model's context length (65536 tokens).", 'type': 'BadRequestError', 'param': None, 'code': 400}
+  Failed on turn 1: {"detail":"LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': \"The input (158167 tokens) is longer than the model's context length (65536 tokens).\", 'type': 'BadRequestError', 'param': None, 'code': 400}"}
+
+[ID 23] Testing: Leading Specialist coverage rate (KPI011) by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'FACT_Coverage', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country, 
+    FC.kpi011_ls_coverage_pct AS leading_specialist_coverage_rate
+FROM 
+    FACT_Coverage FC
+JOIN 
+    DIM_Geography DG ON FC.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name, 
+    FC.kpi011_ls_coverage_pct
+ORDER BY 
+    DG.geo_name;
+Handler response: The Leading Specialist coverage rate (KPI011) by country in 2025 is:
+- Austria: 100.0%
+- Belgium: 100.0%
+- Bulgaria: 100.0%
+- Croatia: 100.0%
+- Czech Republic: 100.0%
+- Denmark: 100.0%
+- Finland: 100.0%
+- France: 100.0%
+- Germany: 100.0%
+- Greece: 100.0%
+- Hungary: 100.0%
+- Ireland: 100.0%
+- Italy: 100.0%
+- Netherlands: 100.0%
+- Norway: 100.0%
+- Poland: 100.0%
+- Portugal: 100.0%
+- Romania: 100.0%
+- Spain: 100.0%
+- Sweden: 100.0%
+- Switzerland: 100.0%
+- United Kingdom: 100.0%
+
+All the countries listed have a leading specialist coverage rate of 100.0% in 2025.
+Judge verdict: FAIL
+Reason: The ACTUAL response lists all countries with 100.0% coverage, but it does not provide the actual rates for each country, which are necessary for a complete evaluation. The REFERENCE includes specific rates for each country, which are missing in the ACTUAL response.
+
+[ID 23] Verdict: FAIL
+Reference: For the question "Leading Specialist coverage rate (KPI011) by country in 2025", the expected answer is:
+  - 19.55: Hungary
+  - 24.44: Romania
+  - 39.44: Croatia
+  - 41.11: Portugal
+  - 43.58: Ireland
+  - 48.89: Norway
+  - 53.07: Denmark
+  - 56.92: Germany
+  - 57.78: Greece
+  - 58.33: Belgium
+  - 63.64: France
+  - 63.69: Czech Republic
+  - 67.04: Finland
+  - 67.31: Bulgaria
+  - 68.0: United Kingdom
+  - 68.33: Sweden
+  - 69.63: Switzerland
+  - 71.47: Spain
+  - 76.7: Italy
+  - 87.78: Austria
+  - 92.5: Netherlands
+  - 92.5: Poland
+Actual: The Leading Specialist coverage rate (KPI011) by country in 2025 is:
+- Austria: 100.0%
+- Belgium: 100.0%
+- Bulgaria: 100.0%
+- Croatia: 100.0%
+- Czech Republic: 100.0%
+- Denmark: 100.0%
+- Finland: 100.0%
+- France: 100.0%
+- Germany: 100.0%
+- Greece: 100.0%
+- Hungary: 100.0%
+- Ireland: 100.0%
+- Italy: 100.0%
+- Netherlands: 100.0%
+- Norway: 100.0%
+- Poland: 100.0%
+- Portugal: 100.0%
+- Romania: 100.0%
+
+Reason: The ACTUAL response lists all countries with 100.0% coverage, but it does not provide the actual rates for each country, which are necessary for a complete evaluation. The REFERENCE includes specific rates for each country, which are missing in the ACTUAL response.
+
+[ID 24] Testing: Number of covered vs. total target HCPs by brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Coverage', 'DIM_Time', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM.FC.total_target_hcps, 
+    SUM.FC.covered_hcps
+FROM 
+    DIM_Brand DB
+JOIN 
+    FACT_Coverage FC ON DB.brand_id = FC.brand_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DB.brand_name
+Database Error: no such column: SUM.FC.total_target_hcps
+Handler response: The SQL query to retrieve the number of covered vs. total target HCPs by brand in 2025 requires the use of the `FACT_Coverage` fact table, which contains metrics for monthly HCP coverage. Specifically, we need to filter by brand, country, and time period (2025) to get the number of covered HCPs and total target HCPs for each brand.
+
+Unfortunately, the provided SQL query results in an error because the column `SUM.FC.total_target_hcps` does not exist in the `FACT_Coverage` table. This suggests that the query may need to be revised to correctly reference the columns in the table.
+
+Assuming that the correct columns in `FACT_Coverage` for the target HCPs are `total_target_hcps` and `covered_accounts_count`, a revised SQL query could look like this:
+
+```sql
+SELECT 
+  brand_id, 
+  total_target_hcps, 
+  covered_accounts_count 
+FROM 
+  FACT_Coverage 
+WHERE 
+  geo_id IN (SELECT DISTINCT geo_id FROM DIM_Geography WHERE parent_geo_id IS NULL)  -- filter by country
+  AND brand_id IN (SELECT DISTINCT brand_id FROM DIM_Brand WHERE lifecycle_stage = 'GROWTH')  -- filter by brand lifecycle stage
+  AND time_id IN (SELECT DISTINCT time_id FROM DIM_Time WHERE fiscal_year = '2025')  -- filter by time period
+  AND time_period = 'R3M'  -- filter by rolling period
+GROUP BY 
+  brand_id, 
+  total_target_hcps, 
+  covered_accounts_count;
+```
+
+This query will return the number of covered HCPs and total target HCPs by brand in 2025 for countries with a root geography level (i.e., countries) and brands in growth stage.
+
+Please note that the specific columns and filtering criteria may need to be adjusted based on the actual data model and requirements.
+Judge verdict: FAIL
+Reason: The actual response does not provide the specific numbers for each brand as requested in the question. It only describes the plan to retrieve the data and the potential query that could be used to get it, but it does not include the actual data.
+
+[ID 24] Verdict: FAIL
+Reference: For the question "Number of covered vs. total target HCPs by brand in 2025", the expected answer is:
+  - brand_name = COGNIVEX, coverage_pct = 47.1, total_covered = 1,945, total_target = 4,126
+  - brand_name = COLONEX, coverage_pct = 54.6, total_covered = 3,268, total_target = 5,988
+  - brand_name = DERMASHIELD, coverage_pct = 65.0, total_covered = 2,806, total_target = 4,318
+  - brand_name = HEMAVEX, coverage_pct = 63.9, total_covered = 1,971, total_target = 3,084
+  - brand_name = HEMAVEX COMBO, coverage_pct = 63.5, total_covered = 1,957, total_target = 3,084
+  - brand_name = LUNARA, coverage_pct = 54.7, total_covered = 3,278, total_target = 5,991
+  - brand_name = LUPINOVA, coverage_pct = 64.5, total_covered = 2,786, total_target = 4,320
+  - brand_name = LYMPHACLEAR, coverage_pct = 62.8, total_covered = 1,936, total_target = 3,082
+  - brand_name = MIGRANOVA, coverage_pct = 47.2, total_covered = 1,949, total_target = 4,126
+  - brand_name = MIGRANOVA EP, coverage_pct = 47.7, total_covered = 1,967, total_target = 4,125
+  - brand_name = MYELOGUARD, coverage_pct = 64.0, total_covered = 1,972, total_target = 3,083
+  - brand_name = NEUROMYEL, coverage_pct = 47.7, total_covered = 1,971, total_target = 4,128
+  - brand_name = NEUROMYEL SPMS, coverage_pct = 47.6, total_covered = 1,964, total_target = 4,128
+  - brand_name = ONCOBREAST, coverage_pct = 54.5, total_covered = 3,268, total_target = 5,997
+  - brand_name = RHEUMAVEX, coverage_pct = 63.9, total_covered = 2,761, total_target = 4,320
+Actual: The SQL query to retrieve the number of covered vs. total target HCPs by brand in 2025 requires the use of the `FACT_Coverage` fact table, which contains metrics for monthly HCP coverage. Specifically, we need to filter by brand, country, and time period (2025) to get the number of covered HCPs and total target HCPs for each brand.
+
+Unfortunately, the provided SQL query results in an error because
+Reason: The actual response does not provide the specific numbers for each brand as requested in the question. It only describes the plan to retrieve the data and the potential query that could be used to get it, but it does not include the actual data.
+
+[ID 25] Testing: Email utilization rate (KPI007) trend by quarter in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Coverage', 'DIM_Time', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    T2.quarter,
+    AVG(T1.kpi007_email_util_pct) AS email_utilization_rate
+FROM 
+    FACT_Coverage T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+WHERE 
+    T2.year = 2025
+GROUP BY 
+    T2.quarter
+ORDER BY 
+    T2.quarter;
+Handler response: Based on the provided SQL results, the email utilization rate (KPI007) trend by quarter in 2025 is as follows:
+
+Q1: 26.63%
+Q2: 25.18%
+Q3: 19.19%
+Q4: 23.84%
+
+The quarterly email utilization rates in 2025 reflect a decline in the second quarter and a recovery in the fourth quarter, with a consistent low in the third quarter. This may indicate a shift in communication strategies or challenges faced in the second quarter that affected email usage. Further analysis of the factors influencing this trend would be necessary to provide a comprehensive understanding.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys all key facts from the REFERENCE, including the quartely email utilization rates and the corresponding quarter numbers. Minor wording differences are fine.
+
+[ID 26] Testing: Average field day percentage (KPI001) by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'FACT_Performance', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country,
+    AVG(FP.kpi001_field_day_pct) AS average_kpi001
+FROM 
+    FACT_Performance FP
+JOIN 
+    DIM_Geography DG ON FP.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FP.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name
+Handler response: The average field day percentage (KPI001) by country in 2025 is as follows:
+
+Austria: 73.9484375
+Belgium: 73.565625
+Bulgaria: 74.03333333333333
+Croatia: 74.76041666666667
+Czech Republic: 75.58194444444445
+Denmark: 73.84930555555555
+Finland: 72.32727272727273
+France: 73.65980392156864
+Germany: 73.67791666666666
+Greece: 73.90757575757576
+Hungary: 74.52583333333334
+Ireland: 74.7201388888889
+Italy: 74.03011363636364
+Netherlands: 73.92333333333333
+Norway: 74.29545454545455
+Poland: 73.96284722222222
+Portugal: 73.15347222222222
+Romania: 74.9875
+Spain: 74.74230769230769
+Sweden: 74.64218749999999
+Switzerland: 73.15625
+United Kingdom: 74.5827519379845
+Judge verdict: PASS
+Reason: The chatbot provides detailed, correct data for each country's average field day percentage (KPI001) in 2025. Minor differences in formatting do not affect the accuracy of the information.
+
+[ID 27] Testing: Call plan adherence rate (KPI003) by brand and country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'DIM_Time', 'FACT_Performance', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+  DB.brand_name, 
+  DG.geo_name AS country, 
+  FP.kpi003_call_plan_adherence_pct AS call_plan_adherence_rate
+FROM 
+  FACT_Performance FP
+  JOIN DIM_Employee DE ON FP.employee_id = DE.employee_id
+  JOIN DIM_Brand DB ON DE.brand_id = DB.brand_id
+  JOIN DIM_Geography DG ON FP.geo_id = DG.geo_id
+  JOIN DIM_Time DT ON FP.time_id = DT.time_id
+WHERE 
+  DT.year = 2025
+GROUP BY 
+  DB.brand_name, 
+  DG.geo_name, 
+  FP.kpi003_call_plan_adherence_pct
+ORDER BY 
+  DB.brand_name, 
+  DG.geo_name;
+Error processing chat message: LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': "The input (109015 tokens) is longer than the model's context length (65536 tokens).", 'type': 'BadRequestError', 'param': None, 'code': 400}
+  Failed on turn 1: {"detail":"LLM query failed (SwissAILLM): Error code: 400 - {'object': 'error', 'message': \"The input (109015 tokens) is longer than the model's context length (65536 tokens).\", 'type': 'BadRequestError', 'param': None, 'code': 400}"}
+
+[ID 28] Testing: Daily interaction rate (KPI004) per employee role in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Performance', 'DIM_Time', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    de.employee_role,
+    AVG(fp.kpi004_daily_interaction_rate) AS daily_interaction_rate
+FROM 
+    FACT_Performance fp
+JOIN 
+    DIM_Employee de ON fp.employee_id = de.employee_id
+JOIN 
+    DIM_Time dt ON fp.time_id = dt.time_id
+WHERE 
+    dt.year = 2025
+GROUP BY 
+    de.employee_role
+Handler response: The daily interaction rate (KPI004) per employee role in 2025 is as follows:
+
+* Field_Sales_Representative: 1.077
+* Key_Account_Manager: 0.707
+* Medical_Science_Liaison: 0.155
+
+These values are based on the data provided and reflect the average daily interaction rate per role in the year 2025. Note that these rates are specific to NovaCarta Pharma's EMEA commercial data platform.
+Judge verdict: PASS
+Reason: The actual response matches the reference in terms of numbers and roles. Minor differences in formatting and phrasing are acceptable.
+
+[ID 29] Testing: Top 10 employees by call plan adherence in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Performance', 'DIM_Time', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    E.employee_name, 
+    P.target_adherence_pct
+FROM 
+    FACT_Performance P
+JOIN 
+    DIM_Employee E ON P.employee_id = E.employee_id
+JOIN 
+    DIM_Time T ON P.time_id = T.time_id
+WHERE 
+    T.year = 2025
+ORDER BY 
+    P.target_adherence_pct DESC
+LIMIT 10;
+Handler response: The top 10 employees by call plan adherence in 2025 are:
+
+1. Krzysztof Bona
+2. Christine Texier
+3. Luminița Gheorghiu
+4. Rosalia Antelami
+5. Mercedes Balaguer
+6. Juan Manuel Tudela
+7. Gabriela Pou
+8. Γαβριέλλα Βαβουλίδης
+9. Frank King
+10. Sandro Fo
+Judge verdict: FAIL
+Reason: There are multiple issues in the ACTUAL response. First, some employee names and roles are incorrect, such as Γαβριέλλα Βαβουλίδης (Gabriella Baboulidis in REFERENCE) and Frank King (no match in REFERENCE). Second, the ACTUAL response is missing critical information, such as employee names, roles, and geo names for some top-ranked employees. Third, the ACTUAL response presents an incomplete list of top 10 employees by call plan adherence in 2025.
+
+[ID 29] Verdict: FAIL
+Reference: For the question "Top 10 employees by call plan adherence in 2025", the expected answer is:
+  - avg_adherence_pct = 25.52, employee_name = Javiera Valbuena, employee_role = Field_Sales_Representative, geo_name = Spain
+  - avg_adherence_pct = 25.55, employee_name = Anunciación Oliveras, employee_role = Field_Sales_Representative, geo_name = Spain
+  - avg_adherence_pct = 25.6, employee_name = Alexandrina Dobre, employee_role = Field_Sales_Representative, geo_name = Romania
+  - avg_adherence_pct = 25.66, employee_name = Katalin Kovács, employee_role = Field_Sales_Representative, geo_name = Hungary
+  - avg_adherence_pct = 25.68, employee_name = Paulina Toscanini, employee_role = Key_Account_Manager, geo_name = Italy
+  - avg_adherence_pct = 25.69, employee_name = Luminița Gheorghiu, employee_role = Field_Sales_Representative, geo_name = Romania
+  - avg_adherence_pct = 26.07, employee_name = Tiberia Aanei, employee_role = Field_Sales_Representative, geo_name = Romania
+  - avg_adherence_pct = 26.15, employee_name = Cipriano Trussardi, employee_role = Field_Sales_Representative, geo_name = Italy
+  - avg_adherence_pct = 26.53, employee_name = Anastazja Małocha, employee_role = Field_Sales_Representative, geo_name = Poland
+  - avg_adherence_pct = 26.79, employee_name = Marcos Morais, employee_role = Field_Sales_Representative, geo_name = Portugal
+Actual: The top 10 employees by call plan adherence in 2025 are:
+
+1. Krzysztof Bona
+2. Christine Texier
+3. Luminița Gheorghiu
+4. Rosalia Antelami
+5. Mercedes Balaguer
+6. Juan Manuel Tudela
+7. Gabriela Pou
+8. Γαβριέλλα Βαβουλίδης
+9. Frank King
+10. Sandro Fo
+Reason: There are multiple issues in the ACTUAL response. First, some employee names and roles are incorrect, such as Γαβριέλλα Βαβουλίδης (Gabriella Baboulidis in REFERENCE) and Frank King (no match in REFERENCE). Second, the ACTUAL response is missing critical information, such as employee names, roles, and geo names for some top-ranked employees. Third, the ACTUAL response presents an incomplete list of top 10 employees by call plan adherence in 2025.
+
+[ID 30] Testing: Average coaching days per month (KPI009) by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'FACT_Performance', 'DIM_Employee', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+  DG.geo_name AS country,
+  AVG(FP.coaching_days) AS average_coaching_days
+FROM 
+  FACT_Performance FP
+  JOIN DIM_Geography DG ON FP.geo_id = DG.geo_id
+  JOIN DIM_Time DT ON FP.time_id = DT.time_id
+WHERE 
+  DT.year = 2025
+GROUP BY 
+  DG.geo_name
+Handler response: Based on the SQL results, the average coaching days per month (KPI009) by country in 2025 is as follows:
+
+- Austria: 1.5573 days/month
+- Belgium: 1.7396 days/month
+- Bulgaria: 1.5833 days/month
+- Croatia: 1.3958 days/month
+- Czech Republic: 1.4931 days/month
+- Denmark: 1.3194 days/month
+- Finland: 1.3864 days/month
+- France: 1.5229 days/month
+- Germany: 1.3708 days/month
+- Greece: 1.8030 days/month
+- Hungary: 1.4333 days/month
+- Ireland: 1.4097 days/month
+- Italy: 1.4000 days/month
+- Netherlands: 1.6000 days/month
+- Norway: 1.4848 days/month
+- Poland: 1.3403 days/month
+- Portugal: 1.4583 days/month
+- Romania: 1.5365 days/month
+- Spain: 1.5107 days/month
+- Sweden: 1.6250 days/month
+- Switzerland: 1.6458 days/month
+- United Kingdom: 1.6085 days/month
+Judge verdict: PASS
+Reason: The ACTUAL response includes all key facts from the REFERENCE, with minor wording differences, and no contradictions.
+
+[ID 31] Testing: Employees below 75% field day target (KPI001) in 2025
+Determined intent: base
+Instantiated handler: Handler
+Handler response: None
+  [ID 31] Assertion error: [ID 31] Empty response on turn 1
+assert None
+
+[ID 32] Testing: KPI attainment vs. target by brand and country for FY2025-Q1
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Geography', 'DIM_Time', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: WITH 
+  -- Filter FACT_Targets for FY2025-Q1
+  targets AS (
+    SELECT 
+      t.geo_id,
+      t.brand_id,
+      t.target_value,
+      t.target_type
+    FROM 
+      FACT_Targets t
+    JOIN 
+      DIM_Time dt ON t.time_id = dt.time_id
+    WHERE 
+      dt.fiscal_quarter = 'FY2025-Q1'
+  ),
+  
+  -- Filter FACT_KPI_Summary for FY2025-Q1
+  kpi_summary AS (
+    SELECT 
+      ks.geo_id,
+      ks.brand_id,
+      ks.kpi_name,
+      ks.kpi_value,
+      ks.target_value
+    FROM 
+      FACT_KPI_Summary ks
+    JOIN 
+      DIM_Time dt ON ks.time_id = dt.time_id
+    WHERE 
+      dt.fiscal_quarter = 'FY2025-Q1'
+  )
+
+-- Join targets and kpi_summary with DIM_Geography and DIM_Brand
+SELECT 
+  dg.geo_name AS country,
+  db.brand_name AS brand,
+  t.target_type,
+  t.target_value,
+  ks.kpi_name,
+  ks.kpi_value,
+  ks.target_value AS kpi_target
+FROM 
+  targets t
+JOIN 
+  DIM_Geography dg ON t.geo_id = dg.geo_id
+JOIN 
+  DIM_Brand db ON t.brand_id = db.brand_id
+JOIN 
+  kpi_summary ks ON t.geo_id = ks.geo_id AND t.brand_id = ks.brand_id
+ORDER BY 
+  country, brand, target_type;
+Handler response: The SQL query you provided is not a SELECT statement, so it cannot be executed to retrieve data. However, I can help you understand the kind of data you would expect to get if the query were to run successfully.
+
+The query you provided appears to be using a CTE (Common Table Expression) to filter data based on fiscal quarter and then joining various fact and dimension tables.
+
+If this query were to run, it would likely return data showing:
+
+- **Country**: The geographic location where the KPIs and targets are measured (e.g., Germany, France, Italy, etc.).
+- **Brand**: The brand of product for which the KPIs and targets are set (e.g., Lunara, Solara, etc.).
+- **Target Type**: The type of target that has been set for the brand (e.g., revenue target, unit target, market share target, coverage target).
+- **Target Value**: The target value that has been set for the brand (e.g., revenue amount, units to be sold, market share percentage).
+- **KPI Name**: The name of the KPI that is being measured (e.g., Field Day Percentage, Target Coverage Rate, Call Plan Adherence, etc.).
+- **KPI Value**: The actual value for the KPI (e.g., the percentage of field days that the employee has completed, the percentage of target coverage achieved, etc.).
+- **KPI Target**: The target value for the KPI (e.g., the target percentage of field days, target percentage of coverage, etc.).
+
+This data would provide a clear picture of how the brand is performing against its targets and KPIs in each country, as well as how the KPIs and targets are changing over time.
+
+To get this data, you would need to run the query on the actual database, which is not possible in this context. However, I can help you understand how to structure a similar query based on the schema and KPIs listed in the documentation you provided.
+Closing resources...
+Resources closed.

@@ -7,6 +7,50 @@ import pandas as pd
 import httpx
 import requests
 from tests.end_to_end_testing.llm_judge import judge
+import datetime
+import sys
+
+# ---------------------------------------------------------------------------
+# Logger
+# ---------------------------------------------------------------------------
+
+class LoggerTee:
+    """
+    A simple class to write to both a file and the standard console output.
+    This captures everything printed via sys.stdout.
+    """
+
+    def __init__(self, log_file):
+        self.terminal = sys.stdout
+        self.log = open(log_file, "a", encoding="utf-8")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+        # Flush ensures logs are written in real-time if the script crashes
+        self.log.flush()
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+
+def setup_logging():
+    """Sets up the logs directory and redirects stdout to a file."""
+    # Using your existing TEST_DIR logic
+    log_dir = TEST_DIR / "logs"
+    log_dir.mkdir(exist_ok=True)
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = log_dir / f"test_run_{timestamp}.log"
+
+    print(f"--- Logging to: {log_filename} ---")
+
+    # Redirect stdout and stderr to the log file
+    sys.stdout = LoggerTee(log_filename)
+    sys.stderr = LoggerTee(log_filename)
+
+    return log_filename
 
 # ---------------------------------------------------------------------------
 # Reference data loader
@@ -137,12 +181,6 @@ def answer_to_human_string(case: dict) -> str:
 # ---------------------------------------------------------------------------
 
 def chat_response_stats(client, reference_cases, timeout_sec=30):
-    """
-    For every entry in a reference JSON file:
-      - Send the question to the chatbot
-      - Judge the response against the reference answer
-      - Return accuracy and average response time
-    """
     count_pass = 0
     count_partial = 0
     count_fail = 0
@@ -150,35 +188,66 @@ def chat_response_stats(client, reference_cases, timeout_sec=30):
     total_errors = 0
 
     for case in reference_cases:
-        print(f"\n[ID {case['id']}] Testing question: {case.get('question', 'N/A')}")
-        # ── 1. Setup ───────────────────────────────────────────────────────
+        print(f"\n[ID {case['id']}] Testing: {case.get('question') or case.get('turns', [{}])[-1].get('prompt', 'N/A')}")
+
         start_res = client.post("/chat/start")
         if start_res.status_code != 200:
             print(f"  Failed to start chat session: {start_res.text}")
             total_errors += 1
             continue
+
         session_id = start_res.json()["session_id"]
 
         try:
-            # ── 2. Act ─────────────────────────────────────────────────────
-            start_time = time.time()
-            response = client.post(
-                "/chat/message",
-                json={"session_id": session_id, "prompt": case["question"]},
-                timeout=timeout_sec,  # ← add this
-            )
-            total_time += time.time() - start_time
-            if response.status_code != 200:
-                print(f"  Failed to get chat response: {response.text}")
-                total_errors += 1
-                continue
-            actual_response: str = response.json()["response"]
-            assert actual_response, f"[ID {case['id']}] Empty response from chatbot"
+            # ── Normalise: single-turn cases get wrapped into turns format ─
+            turns = case.get("turns") or [
+                {"prompt": case["question"], "answer": case["answer"]}
+            ]
 
-            # ── 3. Assert ──────────────────────────────────────────────────
-            reference_answer = answer_to_human_string(case)
+            actual_response = None
+            start_time = time.time()
+
+            for i, turn in enumerate(turns):
+                is_last = i == len(turns) - 1
+                response = client.post(
+                    "/chat/message",
+                    json={"session_id": session_id, "prompt": turn["prompt"]},
+                    timeout=timeout_sec,
+                )
+                if response.status_code != 200:
+                    print(f"  Failed on turn {i+1}: {response.text}")
+                    total_errors += 1
+                    break
+                actual_response = response.json()["response"]
+                assert actual_response, f"[ID {case['id']}] Empty response on turn {i+1}"
+
+                # Only judge intermediate turns if they have an expected answer
+                if not is_last and "answer" in turn:
+                    ref = answer_to_human_string({"question": turn["prompt"], "answer": turn["answer"]})
+                    verdict, reason = judge(
+                        question=turn["prompt"],
+                        reference_answer=ref,
+                        actual_response=actual_response,
+                    )
+                    if verdict == "FAIL":
+                        print(f"  [ID {case['id']}] Turn {i+1} failed, aborting sequence.\n  Reason: {reason}")
+                        total_errors += 1
+                        actual_response = None
+                        break
+
+            total_time += time.time() - start_time
+
+            if actual_response is None:
+                continue
+
+            # ── Judge only the final turn ──────────────────────────────────
+            final_turn = turns[-1]
+            reference_answer = answer_to_human_string({
+                "question": final_turn["prompt"],
+                "answer": final_turn["answer"]
+            })
             verdict, reason = judge(
-                question=case.get("question", "Unknown question"),
+                question=final_turn["prompt"],
                 reference_answer=reference_answer,
                 actual_response=actual_response,
             )
@@ -187,42 +256,39 @@ def chat_response_stats(client, reference_cases, timeout_sec=30):
                 count_pass += 1
             elif verdict == "PARTIAL":
                 count_partial += 1
-                print(
-                    f"\n[ID {case['id']}] {case['question']!r}"
-                    f"\nVerdict : {verdict}"
-                    f"\nReason  : {reason}"
-                    f"\nReference:\n{reference_answer}"
-                    f"\nActual:\n{actual_response[:400]}"
-                )
+                print(f"\n[ID {case['id']}] Verdict: {verdict}\nReason: {reason}")
             else:
                 count_fail += 1
                 print(
-                    f"\n[ID {case['id']}] {case['question']!r}"
-                    f"\nVerdict : {verdict}"
-                    f"\nReason  : {reason}"
-                    f"\nReference:\n{reference_answer}"
-                    f"\nActual:\n{actual_response[:400]}"
+                    f"\n[ID {case['id']}] Verdict: {verdict}"
+                    f"\nReference: {reference_answer}"
+                    f"\nActual: {actual_response[:400]}"
+                    f"\nReason: {reason}"
                 )
+
         except (TimeoutError, httpx.TimeoutException, requests.exceptions.Timeout):
             elapsed = time.time() - start_time
             print(f"  [ID {case['id']}] Timed out after {elapsed:.1f}s — skipping.")
             total_errors += 1
             continue
+        except AssertionError as e:
+            print(f"  [ID {case['id']}] Assertion error: {e}")
+            total_errors += 1
+            continue
         finally:
-            # ── 4. Teardown ────────────────────────────────────────────────
             client.post("/chat/end", json={"session_id": session_id})
 
     n = len(reference_cases)
     return {
-        "count_pass": count_pass,
-        "count_partial": count_partial,
-        "count_fail": count_fail,
+        "ratio_pass": count_pass / n if n else 0,
+        "ratio_partial": count_partial / n if n else 0,
+        "ratio_fail": count_fail / n if n else 0,
         "average_response_time_sec": total_time / n if n else 0,
-        "total_errors": total_errors,
+        "ratio_errors": total_errors / n if n else 0,
     }
 
-
 def test_chat_response_wrapper(client):
+    log_file_path = setup_logging()
     test_data_files = [f for f in os.listdir(TEST_DATA_DIR) if f.endswith(".json")]
     all_stats = pd.DataFrame(columns=["test_file", "accuracy", "average_response_time_sec"])
     for file in test_data_files:
@@ -232,11 +298,11 @@ def test_chat_response_wrapper(client):
         stats = chat_response_stats(client, reference_cases)
         all_stats = pd.concat([all_stats, pd.DataFrame([{
             "test_file": file,
-            "count_pass": stats["count_pass"],
-            "count_partial": stats["count_partial"],
-            "count_fail": stats["count_fail"],
+            "ratio_pass": stats["ratio_pass"],
+            "ratio_partial": stats["ratio_partial"],
+            "ratio_fail": stats["ratio_fail"],
             "average_response_time_sec": stats["average_response_time_sec"],
-            "total_errors": stats["total_errors"]
+            "ratio_errors": stats["ratio_errors"]
         }])], ignore_index=True)
         print(f"Stats for {file}: {stats}")
     results_dir = TEST_DIR / "results"

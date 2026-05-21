@@ -1,3 +1,3 @@
-test_file,accuracy,average_response_time_sec,count_pass,count_partial,count_fail,total_errors
-reference_answers_data.json,,6.780853629112244,2.0,0.0,0.0,0.0
-reference_answers_metadata.json,,2.5879447187696183,20.0,7.0,8.0,0.0
+test_file,accuracy,average_response_time_sec,ratio_pass,ratio_partial,ratio_fail,ratio_errors
+reference_answers_data_handler_easy.json,,13.044009120123727,0.5714285714285714,0.0,0.4,0.02857142857142857
+reference_answers_data_handler_hard.json,,49.74062951405843,0.4166666666666667,0.0,0.4166666666666667,0.16666666666666666

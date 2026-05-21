@@ -1,0 +1,23 @@
+=== File: Customer_Engagement_Dashboard_Decision_Playbook.pdf ===
+[pypdf not installed, cannot parse Customer_Engagement_Dashboard_Decision_Playbook.pdf]
+
+=== File: Customer_Engagement_Dashboard_KPI_Calculations_Training.pdf ===
+[pypdf not installed, cannot parse Customer_Engagement_Dashboard_KPI_Calculations_Training.pdf]
+
+=== File: Customer_Engagement_KPI_Master_Table.docx ===
+Customer Engagement Dashboard
+KPI Master Table
+Business definitions, calculations, and data sources for the NovaCarta customer engagement KPI set
+Use this file as the Word equivalent of the KPI spreadsheet: one place to see what each KPI means, how it is calculated, and which dataset elements support it.
+Customer Engagement KPI Reference
+The table below follows the same logic as the spreadsheet version, but is formatted for human-readable training and documentation. Definitions are written in business language first, calculations are written in dashboard-friendly terms, and the data-source column shows where the KPI is sourced in the NovaCarta model.
+Reference scope
+This document summarizes the core customer-engagement KPIs used in the NovaCarta training materials. It is designed as a quick-reference companion for dashboard users, analysts, and enablement teams.
+KPI Name | KPI Definition | KPI Calculation | Data Source
+Digital Channel Coverage | Percentage of the target HCP universe reached through digital channels. In this dashboard, digital reach combines approved email and web-based interactions. | Digital HCPs Reached ÷ Total Target HCP Universe | FACT_Coverage (kpi006_digital_coverage_pct) derived from FACT_Interactions flags for web and email, plus target universe fields in FACT_Coverage.
+Email Utilization Rate | Percentage of consented HCPs who received at least one approved promotional or informational email in the selected period. | Consented HCPs with ≥1 approved email ÷ Total Consented HCPs | FACT_Interactions (is_email_flag / kpi014_promo_email_flag), filtered by consent logic from DIM_Account[consent_status].
+Event Follow-up Rate | Percentage of HCPs who attended an event and then received a documented follow-up interaction within the expected follow-up window. | Event Attendees with Follow-up ÷ Total Event Attendees | FACT_Interactions using is_event_flag and kpi008_event_followup_flag.
+Interaction Frequency TC1 | Average number of completed interactions delivered to high-priority target-class-1 accounts during the selected period. | Total TC1 Interactions ÷ Distinct TC1 Accounts | FACT_Interactions using kpi012_tc1_interaction_flag; target class sourced from FACT_Account_Metrics[target_class].
+Interaction Frequency TC2 | Average number of completed interactions delivered to medium-priority target-class-2 accounts during the selected period. | Total TC2 Interactions ÷ Distinct TC2 Accounts | FACT_Interactions using kpi013_tc2_interaction_flag; target class sourced from FACT_Account_Metrics[target_class].
+Promotional Email Effectiveness | Share of promotional emails that generated a documented engagement signal, such as interaction continuation, click-through proxy, or follow-up outcome. | Promotional Emails with Engagement ÷ Total Promotional Emails Sent | FACT_Interactions using kpi014_promo_email_flag and related email / follow-up engagement markers.
+Multi-Channel Engagement Score | Weighted score that reflects how well multiple engagement channels are combined for the same HCP or account. This KPI is intended to measure orchestration quality, not just channel volume. | Weighted Composite of Channel Diversity, Sequence, and Recency | FACT_Interactions using kpi015_multichannel_score, supported by channel flags (F2F, web, email, event).

@@ -6,12 +6,15 @@ from src.RAG.resources import Resources
 @register_handler("dashboard_handler")
 class DashboardHandler(Handler):
     description = (
-        "The DashboardHandler answers questions about how to use the dashboards, "
-        "what their KPIs mean, how to navigate them, what features they have, "
-        "and how metrics are calculated. It uses dashboard-specific training "
-        "documentation (PDFs, DOCXs, XLSXs, and video transcripts) as context. "
-        "Use this for any 'how do I...', 'what does X mean', or 'explain the dashboard' "
-        "questions that are NOT about querying live data from the database."
+        "Acts as a user guide for the front-end reporting interface. It answers 'how-to' questions "
+        "based on training manuals, documentation and dashboards. "
+        "Use this for (Positive): Navigation help ('Where is the Monthly Coverage report?'), "
+        "UI instructions ('How do I export this chart to a PDF?'), metric logic/definitions and kpi explanations"
+        "('What logic is used to calculate the Health Score?' or 'What does the red color-coding indicate?')"
+        "and questions about the specific dashboard('What is this chart about'). "
+        "Do NOT use this for (Negative): Requests for live data values ('What is the current Health Score "
+        "for Client X?'), database technical questions ('What is the data type of the health_score column?'), "
+        "or web searches ('What are competitors doing?')."
     )
 
     def __init__(self, resources: Resources):
