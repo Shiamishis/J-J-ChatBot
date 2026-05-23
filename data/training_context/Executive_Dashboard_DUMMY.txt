@@ -1,8 +1,319 @@
+=== File: Executive Dashboard KPI Calculations Explained.mp4 ===
+[GROQ_API_KEY not set, cannot transcribe Executive Dashboard KPI Calculations Explained.mp4]
+
 === File: Executive_Dashboard_Decision_Playbook (1).pdf ===
-[pypdf not installed, cannot parse Executive_Dashboard_Decision_Playbook (1).pdf]
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 1
+ Executive Dashboard Training |
+ Decision-Making Playbook
+How to move from a red executive page to a prioritized action plan using filters, drilldowns, and KPI
+interpretation.
+Document purpose
+This guide is designed for realistic end-user enablement on the Executive Performance Dashboard in the
+NovaCarta EMEA dummy dataset. It explains what each area of the dashboard contains, how to filter and drill
+into data, how the executive KPIs are calculated, and how to turn those signals into actions.
+Reference quarter used for worked examples: FY2025 Q4. In that slice, total revenue is €3.70B, target
+revenue is €6.08B, weighted market share is 19.49%, and weighted YoY growth is 19.62%.
+
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 2
+1. First five clicks: a disciplined start to analysis
+1. Set the fiscal quarter. 2. Read the KPI strip. 3. Scan the brand chart. 4. Read the market share trend. 5.
+Read the country heat table only after the portfolio story is clear.
+Starting with country first can lead to random hunting. Starting with the portfolio cards and brand chart
+preserves executive discipline: first size the problem, then isolate the drivers, then localize ownership.
+
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 3
+2. Decision pattern: when one brand drives most of the
+miss
+In FY2025 Q4, LUNARA is the biggest revenue brand at €1.53B, but it is only at 47.5% of target. This makes it
+the largest single contributor to the quarter gap.
+1. Click the LUNARA bar. 2. Confirm how the KPI strip changes. 3. Open a brand drillthrough page. 4.
+Decide whether the response is commercial, access, or execution focused.
+When one brand contributes a disproportionate share of the variance, do not spread management attention
+across the entire portfolio. First drill into that brand.
+
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 4
+3. Decision pattern: stable share but weak target
+attainment
+The current slice shows 19.49% weighted market share with 60.8% attainment to target. When share remains
+broadly stable while attainment falls sharply, leadership should test whether targets were stretched or whether
+mix shifted toward lower-value channels or markets.
+Questions to ask: Is the miss concentrated in a few brands or broad-based? Are large markets all below target,
+or only one cluster? Do operational KPIs indicate poor execution, or does execution look acceptable relative to
+plan?
+Treat this pattern as a prioritization problem, not automatically as a market share emergency. Move next to the
+scorecard and heat table.
+
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 5
+4. Decision pattern: use the scorecard to identify the lever
+Digital Channel Coverage is slightly above target, Target Coverage and Event Follow-up are close to target,
+but Multi-Channel Engagement Score is severely under target. This is a classic signal that the organization is
+achieving reach but not enough coordinated depth across channels.
+1. Look for KPIs that are green. 2. Look for KPIs that are red but strategically important. 3. Compare one
+red KPI with one near-target KPI to determine whether the next action should increase volume or improve
+orchestration.
+Increase multichannel choreography, revise field-force follow-up after events, or redesign high-priority account
+plans instead of asking teams to “just do more calls”.
+
+NovaCarta Pharma | Executive Dashboard Decision Playbook
+Page 6
+5. Decision pattern: prioritize markets with both size and
+underperformance
+Leadership should not chase the reddest color alone. The correct approach is to combine color with revenue
+contribution. Germany, France, the United Kingdom, Italy, and Spain are all around 60% of target and together
+represent the bulk of revenue in the quarter.
+1. Sort the heat table by Revenue descending. 2. Select the first large red or orange market. 3. Check how
+the brand chart changes under that country filter. 4. Compare the country scorecard with the portfolio
+scorecard. 5. Escalate only after confirming whether the same issue repeats across multiple major markets.
+By the end of the review, the user should be able to name the top two brands driving the miss, the top three
+markets to prioritize, and the two KPI levers most likely to improve the next quarter.
 
 === File: Executive_Dashboard_Features_Training.pdf ===
-[pypdf not installed, cannot parse Executive_Dashboard_Features_Training.pdf]
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 1
+ Executive Dashboard Training | Features &
+ Navigation
+How to read the dashboard, what sits in each zone, where to filter, and how to drill from portfolio view
+to country and brand detail.
+Document purpose
+This guide is designed for realistic end-user enablement on the Executive Performance Dashboard in the
+NovaCarta EMEA dummy dataset. It explains what each area of the dashboard contains, how to filter and drill
+into data, how the executive KPIs are calculated, and how to turn those signals into actions.
+Reference quarter used for worked examples: FY2025 Q4. In that slice, total revenue is €3.70B, target
+revenue is €6.08B, weighted market share is 19.49%, and weighted YoY growth is 19.62%.
+
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 2
+1. Dashboard map: what is on the page
+The executive page is a one-screen portfolio summary. It is built for BU Heads, Country Managers, and
+Commercial Excellence leads who need a quick read on business performance before choosing a market,
+brand, or quarter to investigate.
+What is in the page
+ The top header identifies the active reporting slice. In the mockup it is set to FY2025 Q4.
+ The filter ribbon lets you limit the page by therapeutic area, brand, cluster, country, and fiscal quarter.
+Those slicers should be configured to cross-filter every visual on the page.
+ The KPI strip shows four executive cards: Revenue, % vs Target, Market Share, and YoY Growth. These
+are the fastest indicators of business health.
+ The left main visual is Revenue vs Target by Brand. It exposes which brands are driving the quarter and
+which ones are creating the variance.
+ The right main visual is Market Share Trend. It tells you whether the issue is a one-quarter event or part of
+a longer pattern.
+ The bottom row combines the KPI Scorecard and Country Performance Heat Table. Together they
+answer: what operational drivers are weak, and where should leadership intervene first?
+
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 3
+2. Filters and scope selection
+In Power BI the page should open with global slicers at the top. Each slicer narrows the evaluation context for
+all cards and charts on the page. A leadership user normally starts with fiscal quarter, then chooses a
+geography, then optionally narrows to one therapeutic area or one brand.
+How to change the scope step by step
+1. Select Fiscal Quarter first. The executive page is most stable when one quarter is selected, because
+targets are quarterly and the KPI scorecard in this dataset is stored at quarter level.
+2. Select a Cluster or Country only after confirming the quarter. This prevents confusion between
+time-driven changes and geography-driven changes.
+3. Select Therapeutic Area when you want to compare portfolio behavior within a medical franchise, for
+example Solid Tumors versus Neuroscience.
+4. Select a Brand only when you intentionally want to collapse the page to a single-product view. Once a
+brand is selected, the bar chart and heat table stop functioning as portfolio comparisons and become
+distribution views.
+5. Use the eraser icon on the slicer or the page reset button to return to the starting state after analysis.
+If multiple countries are selected, the heat table should remain sorted by revenue so the largest markets stay
+on top. If a brand is selected, page titles should update dynamically to avoid ambiguity.
+
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 4
+3. KPI strip: how leadership reads the top row
+The KPI strip is the triage layer. Leadership should be able to decide within seconds whether the quarter is on
+plan, growing, or under pressure. In the FY2025 Q4 slice, the page shows Revenue of €3.70B, achievement of
+60.8% to target, weighted market share of 19.49%, and weighted YoY growth of 19.62%.
+How to use the cards
+ Start with % vs Target. At 60.8%, the page immediately tells you the quarter is materially under plan.
+ Use Revenue to size the problem. A 39.2% shortfall against a €6.08B target is a gap of €2.38B.
+ Use Market Share and YoY Growth together. In this dummy slice, share remains close to 19.5% while
+YoY growth is almost 19.6%. That means the business is still growing versus last year, even though it is
+behind an aggressive plan.
+ After reading the cards, go straight to brand contribution. Cards diagnose that a problem exists; the brand
+chart explains where it comes from.
+Cards themselves usually do not support drill-down. Instead, the user clicks a bar in the brand chart or a
+country row in the heat table.
+
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 5
+4. Main analysis visuals: brand contribution and market
+trajectory
+The central work of the executive page happens in the two large visuals. The left chart identifies the portfolio
+components behind the variance. The right chart places the quarter in trend context.
+How to use the bar chart
+Read the bar chart from top to bottom. The first question is not “which brand is biggest?” but “which brand
+contributes most to the target gap?” In FY2025 Q4, LUNARA contributes the largest absolute revenue but is
+only at 47.5% of target, creating the largest variance.
+How to use the trend chart
+The market share chart tells you whether the under-performance is accompanied by structural share loss.
+In this slice, weighted market share remains in a narrow band around 19.5% across twelve quarters.
+1. Click a bar for one brand. The trend line should immediately recalculate for that selected brand only. 2.
+Right-click and choose drillthrough to a Brand Detail page when you need more decomposition. 3. Ctrl-click
+multiple bars when you want to compare a priority set.
+
+NovaCarta Pharma | Executive Dashboard Features & Navigation
+Page 6
+5. Scorecard, heat table, and drill path
+The bottom row converts the headline performance story into action. The KPI scorecard highlights which
+operational signals are lagging. The country heat table localizes where the performance problem is most
+material.
+Reading the scorecard
+Use the scorecard to distinguish between a demand problem and an execution problem. In the FY2025 Q4
+example, Digital Channel Coverage is slightly above target, while Multi-Channel Engagement Score is only
+30.6% of target. That means reach exists, but the quality and orchestration of engagement are weak.
+Reading the heat table
+The heat table shows that large markets such as Germany, France, the United Kingdom, Italy, and Spain all
+sit around 60% to target. Because these are also the largest revenue contributors, they should be
+addressed before small-market noise is investigated.
+Start in the heat table by selecting one underperforming country, for example Germany. Then review the brand
+bars under the Germany filter. Next, drill to the country page or brand page and inspect whether the issue is
+concentrated in one franchise, one brand, or one execution KPI.
 
 === File: Executive_Dashboard_KPI_Calculations_Training.pdf ===
-[pypdf not installed, cannot parse Executive_Dashboard_KPI_Calculations_Training.pdf]
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 1
+ Executive Dashboard Training | KPI
+ Definitions & Calculations
+The KPI logic behind the executive cards, scorecard, and heat table, with dataset-specific formulas
+and worked examples.
+Document purpose
+This guide is designed for realistic end-user enablement on the Executive Performance Dashboard in the
+NovaCarta EMEA dummy dataset. It explains what each area of the dashboard contains, how to filter and drill
+into data, how the executive KPIs are calculated, and how to turn those signals into actions.
+Reference quarter used for worked examples: FY2025 Q4. In that slice, total revenue is €3.70B, target
+revenue is €6.08B, weighted market share is 19.49%, and weighted YoY growth is 19.62%.
+
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 2
+1. Revenue, target revenue, and revenue variance
+Revenue is the sum of FACT_Sales[net_revenue_eur] in the active filter context. Target Revenue is the sum
+of FACT_Targets[target_value] where target_type = REVENUE_TARGET in the same context.
+Revenue = SUM(FACT_Sales[net_revenue_eur])
+Revenue Target = CALCULATE(SUM(FACT_Targets[target_value]), FACT_Targets[target_type] =
+"REVENUE_TARGET")
+Revenue Variance = [Revenue] - [Revenue Target]
+Worked example: Revenue = €3.70B; Revenue Target = €6.08B; Revenue Variance = €-2.38B.
+
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 3
+2. Revenue % vs Target
+Revenue % vs Target converts the variance into a normalized attainment metric so geographies and quarters
+become comparable even when the revenue base differs.
+Revenue % vs Target = DIVIDE([Revenue], [Revenue Target])
+Worked example: €3.70B ÷ €6.08B = 60.8%.
+Interpretation: 100% means exactly on target, above 100% means over-delivery, below 100% means
+under-delivery. At 60.8%, the miss is too large to ignore and must be decomposed by brand and country.
+
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 4
+3. Weighted Market Share and Weighted YoY Growth
+The dataset stores market_share_pct and yoy_growth_pct at transaction level. The executive page uses
+revenue-weighted averages so large sales records contribute proportionally.
+Weighted Market Share = DIVIDE(SUMX(FACT_Sales, FACT_Sales[market_share_pct] *
+FACT_Sales[net_revenue_eur]), SUM(FACT_Sales[net_revenue_eur]))
+Weighted YoY Growth = DIVIDE(SUMX(FACT_Sales, FACT_Sales[yoy_growth_pct] *
+FACT_Sales[net_revenue_eur]), SUM(FACT_Sales[net_revenue_eur]))
+Worked example: weighted market share = 19.49%; weighted YoY growth = 19.62%.
+
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 5
+4. Executive KPI scorecard metrics
+The executive scorecard uses six quarter-level KPIs from FACT_KPI_Summary. Each KPI is stored with a
+numerator, denominator, KPI value, and target value.
+kpi_id
+kpi_name
+Value
+Target
+Attainment
+KPI001
+Field Day Percentage
+45.2
+75.0
+60.2%
+KPI002
+Target Coverage Rate
+77.9
+80.0
+97.4%
+KPI006
+Digital Channel Coverage
+51.2
+50.0
+102.5%
+KPI008
+Event Follow-up Rate
+59.3
+60.0
+98.9%
+KPI012
+Interaction Frequency TC1
+5.2
+6.0
+86.8%
+KPI015
+Multi-Channel Engagement Score
+2.3
+7.5
+30.6%
+KPI Value = AVERAGE(FACT_KPI_Summary[kpi_value])
+KPI Target = AVERAGE(FACT_KPI_Summary[target_value])
+KPI % Attainment = DIVIDE([KPI Value], [KPI Target])
+Status logic example: On Track when attainment is at least 100%; Watch between 90% and 99.9%; At Risk
+below 90%.
+
+NovaCarta Pharma | Executive Dashboard KPI Definitions & Calculations
+Page 6
+5. Country performance and percent to target
+The country heat table is built from revenue actuals and revenue targets in the selected quarter. It answers
+which markets are both large and under target.
+Country % to Target = DIVIDE([Revenue], [Revenue Target])
+geo_name
+country_code
+Revenue
+Target
+% to Target
+Germany
+DE
+€601.3M
+€997.0M
+60.3%
+France
+FR
+€520.8M
+€847.4M
+61.5%
+United Kingdom
+GB
+€461.1M
+€747.7M
+61.7%
+Italy
+IT
+€423.8M
+€697.9M
+60.7%
+Spain
+ES
+€361.9M
+€598.2M
+60.5%
+Poland
+PL
+€153.2M
+€249.2M
+61.5%
+Red should represent severe under-performance, orange moderate under-performance, amber watch, and
+green on-plan or above-plan. Always sort by revenue so that the highest-value markets appear first.
+A country can show low % to target while still growing versus the prior year. That is why the executive page
+shows both attainment and growth.
+
+=== File: Mastering the Executive Dashboard Features & Navigation 1.mp4 ===
+[GROQ_API_KEY not set, cannot transcribe Mastering the Executive Dashboard Features & Navigation 1.mp4]
