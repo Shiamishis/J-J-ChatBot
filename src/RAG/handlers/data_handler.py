@@ -55,7 +55,7 @@ class DataHandler(Handler):
                 "3. Do not mention SQL, tables, or technical terms. "
                 "4. If the data is empty, say 'No data found'."
             ),
-            context=f"Schema Context: {self.resources.schema_context}\n{self.resources.description}"
+            context=f"Schema Context: {self.resources.schema_context}"
         )
 
         return final_answer
@@ -66,7 +66,7 @@ class DataHandler(Handler):
         # Directly calling agent.large_llm.query
         response = self.resources.large_llm.query(
             prompt=f"Given the question: '{prompt}', which tables are relevant?",
-            context=f"Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.description}",
+            context=f"Database Tables: {self.resources.graph.get_nodes()}\n{self.resources.schema_context}",
             system="Return only a Python-style list of relevant table names."
         )
 

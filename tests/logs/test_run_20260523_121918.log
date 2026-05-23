@@ -1,0 +1,43 @@
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID TC001] Testing: What was the total net revenue in EUR across all brands and countries for the full year 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Account', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(fs.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Geography dg ON fs.geo_id = dg.geo_id
+WHERE 
+    dt.year = 2024
+Handler response: The total net revenue in EUR across all brands and countries for the full year 2024 is 11,079,423,905.21 EUR.
+Judge verdict: PASS
+Reason: The actual response conveys the exact amount of net revenue in EUR, matches the reference, and includes the year 2024 as specified.
+
+[ID TC002] Testing: Which brand generated the highest total net revenue in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand', 'FACT_Sales', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2023
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;

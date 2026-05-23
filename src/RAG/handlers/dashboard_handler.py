@@ -1,6 +1,7 @@
 from src.RAG.handlers.base_handler import Handler
 from src.RAG.handlers.registry import register_handler
 from src.RAG.resources import Resources
+from concurrent.futures import ThreadPoolExecutor
 
 
 @register_handler("dashboard_handler")
@@ -19,6 +20,11 @@ class DashboardHandler(Handler):
 
     def __init__(self, resources: Resources):
         super().__init__(resources)
+
+    # TODO implement dashboard retrieval. Implementation idea: Use rest api to retrieve the dashboard in a pdf format
+    #  and then parse it using a similar method as the one that appears in scripts/parse_training_materials.py. Store
+    #  the parsed dashboards in the resources and then use the _pick_context method to select the most relevant
+    #  dashboard based on the prompt, or simply pass all the parsed dashboards as context to the LLM.
 
     def _pick_context(self, prompt: str) -> str:
         """

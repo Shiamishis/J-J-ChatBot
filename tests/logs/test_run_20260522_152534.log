@@ -1,0 +1,108 @@
+
+=== Running tests for reference_answers_data_handler_easy.json ===
+
+[ID 1] Testing: Top 5 products by sales in 2025 with their respective sales
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+  b.brand_name, 
+  SUM(s.net_revenue_eur) AS total_sales
+FROM 
+  FACT_Sales s
+  JOIN DIM_Brand b ON s.brand_id = b.brand_id
+  JOIN DIM_Time t ON s.time_id = t.time_id
+WHERE 
+  t.year = 2025
+GROUP BY 
+  b.brand_name
+ORDER BY 
+  total_sales DESC
+LIMIT 5;
+Handler response: The top 5 products by sales in 2025 are:
+
+1. LUNARA with total sales of 5,461,474,279.82
+2. HEMAVEX with total sales of 2,971,923,120.52
+3. ONCOBREAST with total sales of 1,148,691,329.32
+4. DERMASHIELD with total sales of 797,154,879.01
+5. MIGRANOVA with total sales of 727,435,032.67
+Judge verdict: PASS
+Reason: The ACTUAL response lists the top 5 products by their respective sales in 2025, matching the key facts and numbers provided in the REFERENCE.
+
+[ID 2] Testing: Total revenue by country in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'FACT_Interactions', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name AS country_name, 
+    SUM(FS.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2025
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    total_revenue DESC;
+  Failed on turn 1: {"detail":"Request timed out after 60 seconds"}
+
+[ID 3] Testing: Monthly revenue trend for 2025 across all brands
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    T1.brand_name,
+    T3.year_month,
+    SUM(T2.net_revenue_eur) AS total_revenue
+FROM 
+    DIM_Brand T1
+JOIN 
+    FACT_Sales T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Time T3 ON T2.time_id = T3.time_id
+WHERE 
+    T3.year = 2025
+GROUP BY 
+    T1.brand_name, T3.year_month
+ORDER BY 
+    T3.year_month;
+  Failed on turn 1: {"detail":"Request timed out after 60 seconds"}
+
+[ID 4] Testing: Revenue by therapeutic area in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    db.therapeutic_area_name, 
+    SUM(fs.net_revenue_eur) AS total_revenue
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2025
+GROUP BY 
+    db.therapeutic_area_name;
+  Failed on turn 1: {"detail":"Request timed out after 60 seconds"}
+
+[ID 5] Testing: Average market share percentage per brand in 2025
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+  DB.brand_name, 
+  AVG(FS.market_share_pct) AS average_market_share
+FROM 
+  FACT_Sales FS
+  JOIN DIM_Brand DB ON FS.brand_id = DB.brand_id
+  JOIN DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+  DT.year = 2025
+GROUP BY 
+  DB.brand_name

@@ -1,0 +1,260 @@
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID TC001] Testing: What was the total net revenue in EUR across all brands and countries for the full year 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'DIM_Brand', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(fs.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2024
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot failed to provide the correct numerical value for net revenue as presented in the reference. The actual response is an error message indicating a lack of database access, rather than the actual revenue value.
+
+[ID TC001] Verdict: FAIL
+Reference: For the question "What was the total net revenue in EUR across all brands and countries for the full year 2024?", the expected answer is:
+  The total net revenue across all brands and countries for the full year 2024 was €11,079,423,905.21.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot failed to provide the correct numerical value for net revenue as presented in the reference. The actual response is an error message indicating a lack of database access, rather than the actual revenue value.
+
+[ID TC002] Testing: Which brand generated the highest total net revenue in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Time', 'FACT_Sales', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2023
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The actual response does not convey the key fact about the specific brand with the highest net revenue in 2023, which is a critical piece of information required by the question.
+
+[ID TC002] Verdict: FAIL
+Reference: For the question "Which brand generated the highest total net revenue in 2023?", the expected answer is:
+  LUNARA was the top-performing brand in 2023 with a total net revenue of €3,545,101,933.63.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The actual response does not convey the key fact about the specific brand with the highest net revenue in 2023, which is a critical piece of information required by the question.
+
+[ID TC003] Testing: How many interactions were of type CALL in total across the entire dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(interaction_id) 
+FROM 
+    FACT_Interactions 
+WHERE 
+    interaction_type = 'CALL';
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot's response does not provide the correct answer to the question. The expected answer is '122,578 interactions of type CALL recorded in the dataset.' but the chatbot's actual response is an error message indicating a problem executing a database query, which does not address the user's question.
+
+[ID TC003] Verdict: FAIL
+Reference: For the question "How many interactions were of type CALL in total across the entire dataset?", the expected answer is:
+  There were 122,578 interactions of type CALL recorded in the dataset.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot's response does not provide the correct answer to the question. The expected answer is '122,578 interactions of type CALL recorded in the dataset.' but the chatbot's actual response is an error message indicating a problem executing a database query, which does not address the user's question.
+
+[ID TC004] Testing: What is the average market share percentage for the brand LUNARA across all markets and time periods?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Geography', 'DIM_Time', 'DIM_Brand', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(fs.market_share_pct) 
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Geography dg ON fs.geo_id = dg.geo_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    db.brand_name = 'LUNARA'
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot's response is incorrect because it does not provide the required information. The REFERENCE specifies that LUNARA's average market share across all markets and time periods was 19.58%. The chatbot's response about an error executing a database query does not address the question.
+
+[ID TC004] Verdict: FAIL
+Reference: For the question "What is the average market share percentage for the brand LUNARA across all markets and time periods?", the expected answer is:
+  LUNARA's average market share across all markets and time periods was 19.58%.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot's response is incorrect because it does not provide the required information. The REFERENCE specifies that LUNARA's average market share across all markets and time periods was 19.58%. The chatbot's response about an error executing a database query does not address the question.
+
+[ID TC005] Testing: How many employees are currently active in the organization?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_name) 
+FROM DIM_Employee 
+WHERE is_active = 1;
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot's response does not provide the expected answer and introduces an error message.
+
+[ID TC005] Verdict: FAIL
+Reference: For the question "How many employees are currently active in the organization?", the expected answer is:
+  There are 573 currently active employees in the organization.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot's response does not provide the expected answer and introduces an error message.
+
+[ID TC006] Testing: Which country had the highest total net sales revenue in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Geography', 'DIM_Time', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot's response 'Error executing database query: 'Resources' object has no attribute 'database_service'' does not convey any key facts about the highest total net sales revenue country in 2024, and it introduces an error message instead of providing the requested information.
+
+[ID TC006] Verdict: FAIL
+Reference: For the question "Which country had the highest total net sales revenue in 2024?", the expected answer is:
+  Germany was the highest-revenue country in 2024 with total net sales of €1,777,490,604.89.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot's response 'Error executing database query: 'Resources' object has no attribute 'database_service'' does not convey any key facts about the highest total net sales revenue country in 2024, and it introduces an error message instead of providing the requested information.
+
+[ID TC007] Testing: What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Coverage', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT AVG(FC.kpi002_target_coverage_pct) 
+FROM FACT_Coverage FC
+JOIN DIM_Time DT ON FC.time_id = DT.time_id
+JOIN DIM_Brand DB ON FC.brand_id = DB.brand_id
+WHERE DB.brand_name = 'LUNARA' AND DT.year = 2025
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey the key fact about the actual average Target Coverage Rate (KPI002) for LUNARA in 2025, despite the REFERENCE explicitly stating that it was 71.4% and below the target threshold of 80%.
+
+[ID TC007] Verdict: FAIL
+Reference: For the question "What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?", the expected answer is:
+  LUNARA's average Target Coverage Rate (KPI002) in 2025 was 71.4%, which is below the 80% target threshold.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The ACTUAL response does not convey the key fact about the actual average Target Coverage Rate (KPI002) for LUNARA in 2025, despite the REFERENCE explicitly stating that it was 71.4% and below the target threshold of 80%.
+
+[ID TC008] Testing: What is the total quantity of product samples that have been successfully delivered?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sample_Management'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(T1.sample_quantity) AS total_quantity
+FROM 
+    FACT_Sample_Management T1
+JOIN 
+    DIM_Brand T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Account T3 ON T1.account_id = T3.account_id
+WHERE 
+    T1.sample_status = 'DELIVERED'
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The actual response does not convey any key facts from the reference and contains a significant error.
+
+[ID TC008] Verdict: FAIL
+Reference: For the question "What is the total quantity of product samples that have been successfully delivered?", the expected answer is:
+  A total of 23,546 sample units have been delivered with a status of DELIVERED.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The actual response does not convey any key facts from the reference and contains a significant error.
+
+[ID TC009] Testing: How many HCP accounts are classified as Key Opinion Leaders (KOLs)?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(DISTINCT a.account_id) 
+FROM 
+    DIM_Account a
+WHERE 
+    a.account_type = 'HCP' 
+    AND a.is_key_opinion_leader = 1;
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The chatbot's response lacks the critical information requested in the question. The chatbot's error message does not provide any data regarding the number of KOLs.
+
+[ID TC009] Verdict: FAIL
+Reference: For the question "How many HCP accounts are classified as Key Opinion Leaders (KOLs)?", the expected answer is:
+  There are 70 HCP accounts classified as Key Opinion Leaders (KOLs).
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The chatbot's response lacks the critical information requested in the question. The chatbot's error message does not provide any data regarding the number of KOLs.
+
+[ID TC010] Testing: Which brand and indication combination had the highest number of interactions recorded?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Brand_Indication', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    db.brand_name, 
+    dbi.indication_name, 
+    COUNT(fi.interaction_id) as interaction_count
+FROM 
+    FACT_Interactions fi
+JOIN 
+    DIM_Brand db ON fi.brand_id = db.brand_id
+JOIN 
+    DIM_Brand_Indication dbi ON fi.indication_id = dbi.indication_id AND fi.brand_id = dbi.brand_id
+GROUP BY 
+    db.brand_name, 
+    dbi.indication_name
+ORDER BY 
+    interaction_count DESC
+LIMIT 1;
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Judge verdict: FAIL
+Reason: The ACTUAL response is missing critical facts and contains wrong information. The chatbot should have provided the correct brand and indication combination with the highest number of interactions, but instead an error occurred. The reference clearly states the correct combination and interaction count.
+
+[ID TC010] Verdict: FAIL
+Reference: For the question "Which brand and indication combination had the highest number of interactions recorded?", the expected answer is:
+  The COLONEX / Colorectal Cancer combination had the highest number of interactions with 17,729 recorded interactions.
+Actual: Error executing database query: 'Resources' object has no attribute 'database_service'
+Reason: The ACTUAL response is missing critical facts and contains wrong information. The chatbot should have provided the correct brand and indication combination with the highest number of interactions, but instead an error occurred. The reference clearly states the correct combination and interaction count.
+
+[ID TC011] Testing: What was the total revenue target for FY2024 and how did actual revenue compare to it?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Targets', 'FACT_Sales', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(CASE WHEN T1.target_type = 'REVENUE_TARGET' THEN T1.target_value ELSE 0 END) AS total_revenue_target,
+    SUM(T2.net_revenue_eur) AS actual_revenue
+FROM 
+    FACT_Targets T1
+JOIN 
+    DIM_Brand T3 ON T1.brand_id = T3.brand_id
+JOIN 
+    FACT_Sales T2 ON T1.brand_id = T2.brand_id AND T1.geo_id = T2.geo_id
+WHERE 
+    T1.fiscal_year = 'FY2024'
+Handler response: Error executing database query: 'Resources' object has no attribute 'database_service'
+Closing resources...
+Resources closed.

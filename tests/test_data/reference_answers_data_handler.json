@@ -1,0 +1,212 @@
+[
+  {
+    "id": "TC001",
+    "question": "What was the total net revenue in EUR across all brands and countries for the full year 2024?",
+    "sql": "SELECT SUM(fs.net_revenue_eur) AS total_net_revenue_eur FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024;",
+    "answer": "The total net revenue across all brands and countries for the full year 2024 was €11,079,423,905.21."
+  },
+  {
+    "id": "TC002",
+    "question": "Which brand generated the highest total net revenue in 2023?",
+    "sql": "SELECT db.brand_name, SUM(fs.net_revenue_eur) AS total_revenue FROM FACT_Sales fs JOIN DIM_Brand db ON fs.brand_id = db.brand_id JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2023 GROUP BY db.brand_name ORDER BY total_revenue DESC LIMIT 1;",
+    "answer": "LUNARA was the top-performing brand in 2023 with a total net revenue of €3,545,101,933.63."
+  },
+  {
+    "id": "TC003",
+    "question": "How many interactions were of type CALL in total across the entire dataset?",
+    "sql": "SELECT COUNT(*) AS total_call_interactions FROM FACT_Interactions WHERE interaction_type = 'CALL';",
+    "answer": "There were 122,578 interactions of type CALL recorded in the dataset."
+  },
+  {
+    "id": "TC004",
+    "question": "What is the average market share percentage for the brand LUNARA across all markets and time periods?",
+    "sql": "SELECT AVG(fs.market_share_pct) AS avg_market_share_pct FROM FACT_Sales fs WHERE fs.brand_id = 'BRD001';",
+    "answer": "LUNARA's average market share across all markets and time periods was 19.58%."
+  },
+  {
+    "id": "TC005",
+    "question": "How many employees are currently active in the organization?",
+    "sql": "SELECT COUNT(*) AS active_employee_count FROM DIM_Employee WHERE is_active = 'Y';",
+    "answer": "There are 573 currently active employees in the organization."
+  },
+  {
+    "id": "TC006",
+    "question": "Which country had the highest total net sales revenue in 2024?",
+    "sql": "SELECT dg.geo_name, SUM(fs.net_revenue_eur) AS total_revenue FROM FACT_Sales fs JOIN DIM_Geography dg ON fs.geo_id = dg.geo_id JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024 AND dg.geo_level = 'COUNTRY' GROUP BY dg.geo_name ORDER BY total_revenue DESC LIMIT 1;",
+    "answer": "Germany was the highest-revenue country in 2024 with total net sales of €1,777,490,604.89."
+  },
+  {
+    "id": "TC007",
+    "question": "What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?",
+    "sql": "SELECT AVG(fc.kpi002_target_coverage_pct) AS avg_target_coverage_pct FROM FACT_Coverage fc JOIN DIM_Time dt ON fc.time_id = dt.time_id WHERE fc.brand_id = 'BRD001' AND dt.year = 2025;",
+    "answer": "LUNARA's average Target Coverage Rate (KPI002) in 2025 was 71.4%, which is below the 80% target threshold."
+  },
+  {
+    "id": "TC008",
+    "question": "What is the total quantity of product samples that have been successfully delivered?",
+    "sql": "SELECT SUM(sample_quantity) AS total_delivered_quantity FROM FACT_Sample_Management WHERE sample_status = 'DELIVERED';",
+    "answer": "A total of 23,546 sample units have been delivered with a status of DELIVERED."
+  },
+  {
+    "id": "TC009",
+    "question": "How many HCP accounts are classified as Key Opinion Leaders (KOLs)?",
+    "sql": "SELECT COUNT(*) AS kol_hcp_count FROM DIM_Account WHERE account_type = 'HCP' AND is_key_opinion_leader = 'Y';",
+    "answer": "There are 70 HCP accounts classified as Key Opinion Leaders (KOLs)."
+  },
+  {
+    "id": "TC010",
+    "question": "Which brand and indication combination had the highest number of interactions recorded?",
+    "sql": "SELECT db.brand_name, dbi.indication_name, COUNT(*) AS interaction_count FROM FACT_Interactions fi JOIN DIM_Brand db ON fi.brand_id = db.brand_id JOIN DIM_Brand_Indication dbi ON fi.brand_id = dbi.brand_id AND fi.indication_id = dbi.indication_id GROUP BY db.brand_name, dbi.indication_name ORDER BY interaction_count DESC LIMIT 1;",
+    "answer": "The COLONEX / Colorectal Cancer combination had the highest number of interactions with 17,729 recorded interactions."
+  },
+  {
+    "id": "TC011",
+    "question": "What was the total revenue target for FY2024 and how did actual revenue compare to it?",
+    "sql": "SELECT t.total_target, s.total_actual, ROUND((s.total_actual / t.total_target) * 100, 1) AS attainment_pct FROM (SELECT SUM(target_value) AS total_target FROM FACT_Targets WHERE target_type = 'REVENUE_TARGET' AND fiscal_year = 'FY2024') t, (SELECT SUM(fs.net_revenue_eur) AS total_actual FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024) s;",
+    "answer": "The total revenue target for FY2024 was €17,697,729,302.90. Actual revenue of €11,079,423,905.21 was achieved, representing a target attainment of 62.6%."
+  },
+  {
+    "id": "TC012",
+    "question": "Which employee had the highest total interaction count in 2024, and how many interactions did they have?",
+    "sql": "SELECT de.employee_name, de.employee_id, SUM(fp.interaction_count) AS total_interactions FROM FACT_Performance fp JOIN DIM_Employee de ON fp.employee_id = de.employee_id JOIN DIM_Time dt ON fp.time_id = dt.time_id WHERE dt.year = 2024 GROUP BY de.employee_id, de.employee_name ORDER BY total_interactions DESC LIMIT 1;",
+    "answer": "Aleodor Ionita (EMP0580) had the highest interaction count in 2024 with a total of 225 interactions."
+  },
+  {
+    "id": "TC013",
+    "question": "How many distinct countries are covered in the NovaCarta EMEA dataset?",
+    "sql": "SELECT COUNT(*) AS country_count FROM DIM_Geography WHERE geo_level = 'COUNTRY';",
+    "answer": "The NovaCarta EMEA dataset covers 22 distinct countries."
+  },
+  {
+    "id": "TC014",
+    "question": "What was the average year-over-year (YoY) revenue growth percentage across all brands and countries in 2025?",
+    "sql": "SELECT AVG(fs.yoy_growth_pct) AS avg_yoy_growth_pct FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2025;",
+    "answer": "The average year-over-year revenue growth across all brands and countries in 2025 was 13.72%."
+  },
+  {
+    "id": "TC015",
+    "question": "Which brand had the most TC1 (top-tier) target accounts in Q1 FY2025, and how many were there?",
+    "sql": "SELECT db.brand_name, COUNT(DISTINCT fam.account_id) AS tc1_account_count FROM FACT_Account_Metrics fam JOIN DIM_Brand db ON fam.brand_id = db.brand_id WHERE fam.target_class = 'TC1' AND fam.fiscal_quarter = 'FY2025-Q1' GROUP BY db.brand_name ORDER BY tc1_account_count DESC LIMIT 1;",
+    "answer": "LUNARA had the highest number of TC1 (top-tier) target accounts in Q1 FY2025 with 86 distinct TC1 accounts."
+  },
+  {
+    "id": "TC016",
+    "question": "What was the average Face-to-Face (F2F) coverage rate (KPI005) across all brands in 2024?",
+    "sql": "SELECT AVG(fc.kpi005_f2f_coverage_pct) AS avg_f2f_coverage_pct FROM FACT_Coverage fc JOIN DIM_Time dt ON fc.time_id = dt.time_id WHERE dt.year = 2024;",
+    "answer": "The average Face-to-Face coverage rate (KPI005) across all brands in 2024 was 47.6%, which falls below the 65% target threshold."
+  },
+  {
+    "id": "TC017",
+    "question": "How many brands are currently in the GROWTH lifecycle stage, and which ones are they?",
+    "sql": "SELECT brand_name, lifecycle_stage FROM DIM_Brand WHERE lifecycle_stage = 'GROWTH' ORDER BY brand_name;",
+    "answer": "There are 6 brands in the GROWTH lifecycle stage: COLONEX, HEMAVEX, LUNARA, MIGRANOVA, MIGRANOVA EP, and NEUROMYEL SPMS."
+  },
+  {
+    "id": "TC018",
+    "question": "How many Face-to-Face (F2F) interactions were recorded in 2023?",
+    "sql": "SELECT COUNT(*) AS f2f_interaction_count FROM FACT_Interactions fi JOIN DIM_Time dt ON fi.time_id = dt.time_id WHERE fi.is_f2f_flag = 1 AND dt.year = 2023;",
+    "answer": "There were 23,129 Face-to-Face interactions recorded across all brands and territories in 2023."
+  },
+  {
+    "id": "TC019",
+    "question": "What was the average Call Plan Adherence rate (KPI003) across all employees in 2024?",
+    "sql": "SELECT AVG(fp.kpi003_call_plan_adherence_pct) AS avg_call_plan_adherence FROM FACT_Performance fp JOIN DIM_Time dt ON fp.time_id = dt.time_id WHERE dt.year = 2024;",
+    "answer": "The average Call Plan Adherence (KPI003) across all employees in 2024 was 15.87%, significantly below the 85% target threshold."
+  },
+  {
+    "id": "TC020",
+    "question": "Which country had the lowest average market share percentage across all brands in 2024?",
+    "sql": "SELECT dg.geo_name, AVG(fs.market_share_pct) AS avg_market_share FROM FACT_Sales fs JOIN DIM_Geography dg ON fs.geo_id = dg.geo_id JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024 AND dg.geo_level = 'COUNTRY' GROUP BY dg.geo_name ORDER BY avg_market_share ASC LIMIT 1;",
+    "answer": "Bulgaria had the lowest average market share in 2024 at 19.20% across all brands."
+  },
+  {
+    "id": "TC021",
+    "question": "What was the total number of new patient starts across all brands and countries in 2023?",
+    "sql": "SELECT SUM(fs.new_patient_starts) AS total_new_patient_starts FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2023;",
+    "answer": "There were 513,603 new patient starts across all brands and countries in 2023."
+  },
+  {
+    "id": "TC022",
+    "question": "How many employees belong to the Sales department?",
+    "sql": "SELECT COUNT(*) AS sales_employee_count FROM DIM_Employee WHERE department = 'Sales';",
+    "answer": "There are 385 employees in the Sales department."
+  },
+  {
+    "id": "TC023",
+    "question": "Which therapeutic area has the highest number of brands in the NovaCarta portfolio?",
+    "sql": "SELECT therapeutic_area_name, COUNT(brand_id) AS brand_count FROM DIM_Brand GROUP BY therapeutic_area_name ORDER BY brand_count DESC LIMIT 1;",
+    "answer": "Neuroscience is the largest therapeutic area in the NovaCarta portfolio with 5 brands."
+  },
+  {
+    "id": "TC024",
+    "question": "What was the average number of coaching days per month (KPI009) across all employees in 2024?",
+    "sql": "SELECT AVG(fp.kpi009_coaching_days) AS avg_coaching_days FROM FACT_Performance fp JOIN DIM_Time dt ON fp.time_id = dt.time_id WHERE dt.year = 2024;",
+    "answer": "The average number of coaching days per month in 2024 was 1.50, which is well below the target of 4 coaching days per month."
+  },
+  {
+    "id": "TC025",
+    "question": "What was the total number of units sold across all brands and countries in Q2 2024?",
+    "sql": "SELECT SUM(fs.units_sold) AS total_units_sold FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024 AND dt.quarter = 'Q2';",
+    "answer": "A total of 1,297,154 units were sold across all brands and countries in Q2 2024."
+  },
+  {
+    "id": "TC026",
+    "question": "Which brand had the highest average year-over-year revenue growth in 2024?",
+    "sql": "SELECT db.brand_name, AVG(fs.yoy_growth_pct) AS avg_yoy_growth FROM FACT_Sales fs JOIN DIM_Brand db ON fs.brand_id = db.brand_id JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE dt.year = 2024 GROUP BY db.brand_name ORDER BY avg_yoy_growth DESC LIMIT 1;",
+    "answer": "LUPINOVA had the highest average year-over-year revenue growth in 2024 at 50.02%."
+  },
+  {
+    "id": "TC027",
+    "question": "How many HCO (Healthcare Organization) accounts are registered in the dataset?",
+    "sql": "SELECT COUNT(*) AS hco_count FROM DIM_Account WHERE account_type = 'HCO';",
+    "answer": "There are 266 HCO accounts registered in the dataset."
+  },
+  {
+    "id": "TC028",
+    "question": "How many sample deliveries required a signature and successfully had one collected?",
+    "sql": "SELECT COUNT(*) AS signed_sample_count FROM FACT_Sample_Management WHERE requires_signature = 'Y' AND signature_collected = 'Y';",
+    "answer": "13,297 sample deliveries required a signature and had one successfully collected."
+  },
+  {
+    "id": "TC029",
+    "question": "How did the average Digital Channel Coverage rate (KPI006) change from 2023 to 2025?",
+    "sql": "SELECT dt.year, AVG(fc.kpi006_digital_coverage_pct) AS avg_digital_coverage FROM FACT_Coverage fc JOIN DIM_Time dt ON fc.time_id = dt.time_id WHERE dt.year IN (2023, 2025) GROUP BY dt.year ORDER BY dt.year;",
+    "answer": "Digital Channel Coverage (KPI006) improved from an average of 40.7% in 2023 to 49.2% in 2025, an increase of 8.5 percentage points. Both years remain below the 50% target."
+  },
+  {
+    "id": "TC030",
+    "question": "What percentage of all interactions in the dataset were promotional?",
+    "sql": "SELECT ROUND(SUM(is_promotional_flag) * 100.0 / COUNT(*), 1) AS promotional_pct FROM FACT_Interactions;",
+    "answer": "77.7% of all interactions were promotional, representing 147,551 out of 189,953 total interactions."
+  },
+  {
+    "id": "TC031",
+    "question": "Which brand had the highest total quantity of product samples distributed?",
+    "sql": "SELECT db.brand_name, SUM(sm.sample_quantity) AS total_samples FROM FACT_Sample_Management sm JOIN DIM_Brand db ON sm.brand_id = db.brand_id GROUP BY db.brand_name ORDER BY total_samples DESC LIMIT 1;",
+    "answer": "ONCOBREAST had the highest total sample distribution with 3,720 sample units delivered."
+  },
+  {
+    "id": "TC032",
+    "question": "How many distinct HCP accounts have had at least one interaction recorded in the dataset?",
+    "sql": "SELECT COUNT(DISTINCT fi.account_id) AS distinct_hcp_count FROM FACT_Interactions fi JOIN DIM_Account da ON fi.account_id = da.account_id WHERE da.account_type = 'HCP';",
+    "answer": "1,420 distinct HCP accounts have had at least one interaction recorded across the dataset."
+  },
+  {
+    "id": "TC033",
+    "question": "What was the average price per unit in EUR for LUNARA in 2024?",
+    "sql": "SELECT AVG(fs.price_per_unit_eur) AS avg_price_per_unit FROM FACT_Sales fs JOIN DIM_Time dt ON fs.time_id = dt.time_id WHERE fs.brand_id = 'BRD001' AND dt.year = 2024;",
+    "answer": "The average price per unit for LUNARA in 2024 was €2,509.30."
+  },
+  {
+    "id": "TC034",
+    "question": "How many employees have the role of Field Sales Representative?",
+    "sql": "SELECT COUNT(*) AS fsr_count FROM DIM_Employee WHERE employee_role = 'Field_Sales_Representative';",
+    "answer": "There are 340 employees with the role of Field Sales Representative."
+  },
+  {
+    "id": "TC035",
+    "question": "Which country achieved the highest average Target Coverage Rate (KPI002) across all brands in 2024?",
+    "sql": "SELECT dg.geo_name, AVG(fc.kpi002_target_coverage_pct) AS avg_coverage FROM FACT_Coverage fc JOIN DIM_Geography dg ON fc.geo_id = dg.geo_id JOIN DIM_Time dt ON fc.time_id = dt.time_id WHERE dt.year = 2024 AND dg.geo_level = 'COUNTRY' GROUP BY dg.geo_name ORDER BY avg_coverage DESC LIMIT 1;",
+    "answer": "Portugal achieved the highest average Target Coverage Rate (KPI002) in 2024 at 89.1%, exceeding the 80% target threshold."
+  }
+]

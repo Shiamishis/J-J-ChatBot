@@ -1,0 +1,140 @@
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID TC001] Testing: What was the total net revenue in EUR across all brands and countries for the full year 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Sales', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(FS.net_revenue_eur) AS total_net_revenue_eur
+FROM 
+    FACT_Sales FS
+INNER JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024;
+Handler response: The total net revenue in EUR across all brands and countries for the full year 2024 is 11,079,423,905.21 EUR.
+Judge verdict: PASS
+Reason: The chatbot's response accurately conveys the same key facts as the ground-truth answer, including the total net revenue amount (€11,079,423,905.21) and the currency (EUR). Minor wording differences are fine, but the essential information is correctly provided.
+
+[ID TC002] Testing: Which brand generated the highest total net revenue in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Sales', 'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    b.brand_name, 
+    SUM(s.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales s
+JOIN 
+    DIM_Brand b ON s.brand_id = b.brand_id
+JOIN 
+    DIM_Time t ON s.time_id = t.time_id
+WHERE 
+    t.year = 2023
+GROUP BY 
+    b.brand_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: The brand that generated the highest total net revenue in 2023 is LUNARA, with a total net revenue of 3,545,101,933.63.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that LUNARA generated the highest total net revenue in 2023, with a total net revenue of €3,545,101,933.63. The minor difference in formatting does not affect the accuracy or clarity of the response, and the numbers are within a ~1% margin.
+
+[ID TC003] Testing: How many interactions were of type CALL in total across the entire dataset?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC003] Assertion error: [ID TC003] Empty response on turn 1
+assert None
+
+[ID TC004] Testing: What is the average market share percentage for the brand LUNARA across all markets and time periods?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC004] Assertion error: [ID TC004] Empty response on turn 1
+assert None
+
+[ID TC005] Testing: How many employees are currently active in the organization?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE is_active = 1
+Handler response: There are 573 employees who are currently active in the organization.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE. The numbers match within the ~1% margin, and there are no contradictions or significant errors.
+
+[ID TC006] Testing: Which country had the highest total net sales revenue in 2024?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC006] Assertion error: [ID TC006] Empty response on turn 1
+assert None
+
+[ID TC007] Testing: What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Interactions', 'FACT_Coverage'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(FC.kpi002_target_coverage_pct) AS average_target_coverage_rate
+FROM 
+    FACT_Coverage FC
+JOIN 
+    DIM_Brand DB ON FC.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DB.brand_name = 'LUNARA' 
+    AND DT.year = 2025;
+Handler response: The average Target Coverage Rate (KPI002) for LUNARA in 2025 was 71.41%.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key fact about the average Target Coverage Rate (KPI002) for LUNARA in 2025, which is 71.41%, and includes the related information that this value is below the 80% target threshold. Minor wording differences are fine.
+
+[ID TC008] Testing: What is the total quantity of product samples that have been successfully delivered?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC008] Assertion error: [ID TC008] Empty response on turn 1
+assert None
+
+[ID TC009] Testing: How many HCP accounts are classified as Key Opinion Leaders (KOLs)?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC009] Assertion error: [ID TC009] Empty response on turn 1
+assert None
+
+[ID TC010] Testing: Which brand and indication combination had the highest number of interactions recorded?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 5247. Please try again in 1h10m45.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 5247. Please try again in 1h10m45.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC011] Testing: What was the total revenue target for FY2024 and how did actual revenue compare to it?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 948. Please try again in 8m51.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 948. Please try again in 8m51.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC012] Testing: Which employee had the highest total interaction count in 2024, and how many interactions did they have?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 923. Please try again in 8m29.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 923. Please try again in 8m29.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC013] Testing: How many distinct countries are covered in the NovaCarta EMEA dataset?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 944. Please try again in 8m47.904s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 944. Please try again in 8m47.904s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC014] Testing: What was the average year-over-year (YoY) revenue growth percentage across all brands and countries in 2025?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 926. Please try again in 8m32.352s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 926. Please try again in 8m32.352s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC015] Testing: Which brand had the most TC1 (top-tier) target accounts in Q1 FY2025, and how many were there?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 928. Please try again in 8m34.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 928. Please try again in 8m34.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+
+[ID TC016] Testing: What was the average Face-to-Face (F2F) coverage rate (KPI005) across all brands in 2024?
+Error processing chat message: LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 957. Please try again in 8m59.135999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+  Failed on turn 1: {"detail":"LLM query failed (GroqLLM): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kmqcjz1be5q8jcbcc4qwaa6h` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99667, Requested 957. Please try again in 8m59.135999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"}
+Stats for reference_answers_data_handler.json: {'ratio_pass': 0.25, 'ratio_partial': 0.0, 'ratio_fail': 0.0, 'average_response_time_sec': 17.820225670933723, 'ratio_errors': 0.75}
+Closing resources...
+Resources closed.

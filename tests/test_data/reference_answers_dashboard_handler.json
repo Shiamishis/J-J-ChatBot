@@ -1,0 +1,212 @@
+[
+  {
+    "id": "DASH001",
+    "source": "Field_Force_Dashboard",
+    "question": "How is Field Day Percentage calculated?",
+    "answer": "Field Day Percentage is calculated by dividing the total number of field days by the total number of working days: SUM(field_days) / SUM(total_working_days). It measures the proportion of working days a rep spends in the field engaging customers."
+  },
+  {
+    "id": "DASH002",
+    "source": "Field_Force_Dashboard",
+    "question": "What does Call Plan Adherence measure and how is it calculated?",
+    "answer": "Call Plan Adherence measures the percentage of planned calls that were actually completed. It is calculated as SUM(actual_calls) / SUM(planned_calls). The data is sourced from FACT_Performance[actual_calls] and FACT_Performance[planned_calls]."
+  },
+  {
+    "id": "DASH003",
+    "source": "Field_Force_Dashboard",
+    "question": "What is the data source for the Interactions per Day KPI?",
+    "answer": "Interactions per Day is sourced from FACT_Performance, specifically the fields FACT_Performance[interaction_count] and FACT_Performance[field_days]."
+  },
+  {
+    "id": "DASH004",
+    "source": "Field_Force_Dashboard",
+    "question": "How is Interactions per Day calculated?",
+    "answer": "Interactions per Day is calculated as SUM(interaction_count) / SUM(field_days). It represents the average number of customer interactions a rep completes per day spent in the field."
+  },
+  {
+    "id": "DASH005",
+    "source": "Field_Force_Dashboard",
+    "question": "What does the Coaching Days KPI represent and how is it calculated?",
+    "answer": "Coaching Days represents the average number of coaching days per manager per month. It is calculated using AVERAGE(coaching_days), sourced from FACT_Performance[coaching_days]."
+  },
+  {
+    "id": "DASH006",
+    "source": "Field_Force_Dashboard",
+    "question": "How is Target Coverage Rate defined and where does its data come from?",
+    "answer": "Target Coverage Rate is the percentage of target accounts reached within a given period. It is calculated as COUNT(distinct accounts reached) / COUNT(target accounts), using data from FACT_Interactions and DIM_Targets."
+  },
+  {
+    "id": "DASH007",
+    "source": "Field_Force_Dashboard",
+    "question": "What is Leading Specialist Coverage and how is it calculated?",
+    "answer": "Leading Specialist Coverage measures the percentage of priority specialists that have been engaged. It is calculated as COUNT(distinct specialists reached) / COUNT(total priority specialists), using data from FACT_Interactions and DIM_HCP."
+  },
+  {
+    "id": "DASH008",
+    "source": "Field_Force_Dashboard",
+    "question": "How is Total Interactions calculated and where is it sourced from?",
+    "answer": "Total Interactions is the sum of all customer interactions completed in a period. It is calculated as SUM(interaction_count) and is sourced directly from FACT_Interactions[interaction_count]."
+  },
+  {
+    "id": "DASH009",
+    "source": "Field_Force_Dashboard",
+    "question": "What is the difference between Planned Calls and Actual Calls in the Field Force Dashboard?",
+    "answer": "Planned Calls is the total number of calls scheduled in the period, calculated as SUM(planned_calls) from FACT_Performance[planned_calls]. Actual Calls is the total number of calls that were completed, calculated as SUM(actual_calls) from FACT_Performance[actual_calls]. The ratio of these two figures forms the Call Plan Adherence KPI."
+  },
+  {
+    "id": "DASH010",
+    "source": "Field_Force_Dashboard",
+    "question": "How is KPI Attainment % calculated and what tables does it use?",
+    "answer": "KPI Attainment % is calculated as KPI Value / KPI Target. It uses FACT_KPI_Summary[kpi_value] as the numerator and FACT_KPI_Summary[target_value] as the denominator, allowing performance to be benchmarked against predefined targets for any KPI."
+  },
+  {
+    "id": "DASH011",
+    "source": "Field_Force_Dashboard",
+    "question": "Which Field Force KPIs are sourced exclusively from FACT_Performance?",
+    "answer": "The following KPIs are sourced exclusively from FACT_Performance: Field Day % (field_days and total_working_days), Call Plan Adherence (actual_calls and planned_calls), Interactions per Day (interaction_count and field_days), Coaching Days (coaching_days), Planned Calls (planned_calls), and Actual Calls (actual_calls)."
+  },
+  {
+    "id": "DASH012",
+    "source": "Field_Force_Dashboard",
+    "question": "How many KPIs are defined in the Field Force Dashboard?",
+    "answer": "There are 10 KPIs defined in the Field Force Dashboard: Field Day %, Call Plan Adherence, Interactions per Day, Coaching Days, Target Coverage Rate, Leading Specialist Coverage, Total Interactions, Planned Calls, Actual Calls, and KPI Attainment %."
+  },
+  {
+    "id": "DASH013",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "How is Digital Channel Coverage defined and calculated?",
+    "answer": "Digital Channel Coverage is the percentage of the target HCP universe reached through digital channels, combining approved email and web-based interactions. It is calculated as Digital HCPs Reached / Total Target HCP Universe, and is sourced from FACT_Coverage (kpi006_digital_coverage_pct), derived from FACT_Interactions channel flags for web and email, alongside target universe fields in FACT_Coverage."
+  },
+  {
+    "id": "DASH014",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What does the Email Utilization Rate measure and how is it calculated?",
+    "answer": "Email Utilization Rate measures the percentage of consented HCPs who received at least one approved promotional or informational email in the selected period. It is calculated as Consented HCPs with at least one approved email / Total Consented HCPs. It is sourced from FACT_Interactions using is_email_flag and kpi014_promo_email_flag, filtered by consent status from DIM_Account[consent_status]."
+  },
+  {
+    "id": "DASH015",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "Which table and field drives the consent filtering logic for Email Utilization Rate?",
+    "answer": "The consent filtering logic for Email Utilization Rate is driven by DIM_Account[consent_status], which holds the consent status for each HCP account."
+  },
+  {
+    "id": "DASH016",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "How is Event Follow-up Rate defined and what fields are used to calculate it?",
+    "answer": "Event Follow-up Rate measures the percentage of HCPs who attended an event and then received a documented follow-up interaction within the expected follow-up window. It is calculated as Event Attendees with Follow-up / Total Event Attendees. The calculation uses FACT_Interactions and relies on the is_event_flag and kpi008_event_followup_flag fields."
+  },
+  {
+    "id": "DASH017",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What is the business definition of Interaction Frequency TC1?",
+    "answer": "Interaction Frequency TC1 is the average number of completed interactions delivered to high-priority target-class-1 (TC1) accounts during the selected period. It is intended to track engagement depth with the most strategically important accounts."
+  },
+  {
+    "id": "DASH018",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "How is Interaction Frequency TC1 calculated and where does the target class come from?",
+    "answer": "Interaction Frequency TC1 is calculated as Total TC1 Interactions / Distinct TC1 Accounts. The interaction data comes from FACT_Interactions using the kpi012_tc1_interaction_flag, while the target class classification (TC1) is sourced from FACT_Account_Metrics[target_class]."
+  },
+  {
+    "id": "DASH019",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What is the difference between Interaction Frequency TC1 and Interaction Frequency TC2?",
+    "answer": "Both KPIs measure average completed interactions per account, but they apply to different account tiers. Interaction Frequency TC1 covers high-priority accounts (TC1) and uses kpi012_tc1_interaction_flag. Interaction Frequency TC2 covers medium-priority accounts (TC2) and uses kpi013_tc2_interaction_flag. Both source target class from FACT_Account_Metrics[target_class]."
+  },
+  {
+    "id": "DASH020",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "How is Promotional Email Effectiveness calculated?",
+    "answer": "Promotional Email Effectiveness is calculated as Promotional Emails with Engagement / Total Promotional Emails Sent. An engagement signal includes documented interaction continuation, click-through proxy, or a follow-up outcome. It is sourced from FACT_Interactions using kpi014_promo_email_flag and related email and follow-up engagement markers."
+  },
+  {
+    "id": "DASH021",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What is the Multi-Channel Engagement Score intended to measure?",
+    "answer": "The Multi-Channel Engagement Score is intended to measure orchestration quality — how well multiple engagement channels are combined for the same HCP or account. It is not simply a volume count of channels used, but a weighted composite that reflects channel diversity, sequence, and recency."
+  },
+  {
+    "id": "DASH022",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What are the three components that make up the Multi-Channel Engagement Score calculation?",
+    "answer": "The Multi-Channel Engagement Score is a weighted composite of three components: Channel Diversity (the range of channels used), Sequence (the order and logic of channel use), and Recency (how recently the channels were used). It is sourced from FACT_Interactions using kpi015_multichannel_score, supported by channel flags for F2F, web, email, and event interactions."
+  },
+  {
+    "id": "DASH023",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "Which interaction flags in FACT_Interactions support the Multi-Channel Engagement Score?",
+    "answer": "The Multi-Channel Engagement Score is supported by four channel flags in FACT_Interactions: the F2F flag (is_f2f_flag), the web call flag (is_web_call_flag), the email flag (is_email_flag), and the event flag (is_event_flag), alongside the kpi015_multichannel_score field."
+  },
+  {
+    "id": "DASH024",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "How many KPIs are defined in the Customer Engagement Dashboard?",
+    "answer": "There are 7 KPIs defined in the Customer Engagement Dashboard: Digital Channel Coverage, Email Utilization Rate, Event Follow-up Rate, Interaction Frequency TC1, Interaction Frequency TC2, Promotional Email Effectiveness, and Multi-Channel Engagement Score."
+  },
+  {
+    "id": "DASH025",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "Which Customer Engagement KPIs involve FACT_Account_Metrics as a data source?",
+    "answer": "Interaction Frequency TC1 and Interaction Frequency TC2 both reference FACT_Account_Metrics[target_class] to determine which accounts belong to the TC1 and TC2 target classes respectively."
+  },
+  {
+    "id": "DASH026",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What is the primary fact table used across all Customer Engagement Dashboard KPIs?",
+    "answer": "FACT_Interactions is the primary fact table used across all Customer Engagement Dashboard KPIs. Every KPI in this dashboard sources its interaction-level data from FACT_Interactions, using various flags such as is_email_flag, is_event_flag, kpi008_event_followup_flag, kpi012_tc1_interaction_flag, kpi013_tc2_interaction_flag, kpi014_promo_email_flag, and kpi015_multichannel_score."
+  },
+  {
+    "id": "DASH027",
+    "source": "Cross_Dashboard",
+    "question": "Which KPI appears in both the Field Force Dashboard and the Customer Engagement Dashboard, and how does its definition differ?",
+    "answer": "Target Coverage Rate appears in the Field Force Dashboard. The Customer Engagement Dashboard covers a related concept through Digital Channel Coverage and interaction frequency KPIs, but focuses on channel-specific reach rather than overall target account coverage. In the Field Force Dashboard, Target Coverage Rate is a general measure of target account reach; in the Customer Engagement context, coverage is broken down by channel type (F2F, digital, email) to assess engagement quality."
+  },
+  {
+    "id": "DASH028",
+    "source": "Cross_Dashboard",
+    "question": "Which KPIs reference the kpi014_promo_email_flag field?",
+    "answer": "Two KPIs reference kpi014_promo_email_flag: Email Utilization Rate (from the Customer Engagement Dashboard) uses it alongside is_email_flag to identify consented HCPs who received approved emails, and Promotional Email Effectiveness uses it as the basis for counting total promotional emails sent and those generating an engagement signal."
+  },
+  {
+    "id": "DASH029",
+    "source": "Cross_Dashboard",
+    "question": "What is the difference between how the Field Force Dashboard and Customer Engagement Dashboard use FACT_Interactions?",
+    "answer": "The Field Force Dashboard uses FACT_Interactions primarily for aggregate counts — total interactions, coverage rates, and call volumes — to assess rep productivity and reach. The Customer Engagement Dashboard uses FACT_Interactions at a more granular level, examining specific interaction flags (email, event, F2F, web, TC1/TC2 flags, multichannel scores) to assess the quality, channel mix, and effectiveness of individual customer engagement activities."
+  },
+  {
+    "id": "DASH030",
+    "source": "Cross_Dashboard",
+    "question": "Which dashboards have KPIs that use FACT_KPI_Summary as a data source?",
+    "answer": "The Field Force Dashboard uses FACT_KPI_Summary for its KPI Attainment % metric, referencing FACT_KPI_Summary[kpi_value] and FACT_KPI_Summary[target_value] to compute performance against targets. FACT_KPI_Summary serves as a pre-aggregated summary layer that consolidates KPI values per country, brand, and quarter."
+  },
+  {
+    "id": "DASH031",
+    "source": "Field_Force_Dashboard",
+    "question": "A sales manager wants to track how often their reps are completing their planned visits. Which KPI should they use and how is it calculated?",
+    "answer": "The appropriate KPI is Call Plan Adherence. It is calculated as SUM(actual_calls) / SUM(planned_calls) and is sourced from FACT_Performance. A value of 100% means all planned calls were completed; values below indicate gaps between planning and execution."
+  },
+  {
+    "id": "DASH032",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "A brand manager wants to understand whether field teams are effectively following up with HCPs after events. Which KPI is relevant and what does it measure?",
+    "answer": "The relevant KPI is Event Follow-up Rate. It measures the percentage of HCPs who attended an event and subsequently received a documented follow-up interaction within the expected follow-up window. It is calculated as Event Attendees with Follow-up / Total Event Attendees, using is_event_flag and kpi008_event_followup_flag from FACT_Interactions."
+  },
+  {
+    "id": "DASH033",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "What is the difference between Digital Channel Coverage and Email Utilization Rate?",
+    "answer": "Digital Channel Coverage measures the percentage of the total target HCP universe reached through any digital channel (approved email or web-based interactions). Email Utilization Rate is narrower — it measures specifically the percentage of consented HCPs who received at least one approved email. Digital Channel Coverage is a reach metric across the full target universe; Email Utilization Rate is an activation metric scoped only to consented accounts."
+  },
+  {
+    "id": "DASH034",
+    "source": "Field_Force_Dashboard",
+    "question": "What is the denominator used in the Field Day % calculation?",
+    "answer": "The denominator in the Field Day % calculation is SUM(total_working_days), sourced from FACT_Performance[total_working_days]. This represents the total number of business days available in the period, against which actual field days are measured."
+  },
+  {
+    "id": "DASH035",
+    "source": "Customer_Engagement_Dashboard",
+    "question": "Why is the Multi-Channel Engagement Score described as measuring orchestration quality rather than channel volume?",
+    "answer": "Because the score is a weighted composite that accounts for channel diversity, the sequence in which channels are used, and the recency of those interactions — not just the raw count of channels or interactions. Two reps could have the same number of touchpoints but achieve very different scores depending on whether they combined channels in a coordinated, timely, and varied way for each HCP."
+  }
+]

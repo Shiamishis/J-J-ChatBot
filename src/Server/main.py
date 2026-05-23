@@ -7,6 +7,8 @@ from pydantic import BaseModel
 from src.RAG.resources import Resources
 from src.Server.session_manager import SessionManager
 
+import asyncio
+
 class ChatMessage(BaseModel):
     session_id: str
     prompt: str
@@ -45,19 +47,23 @@ async def chat_endpoint(data: ChatMessage):
     """
     # Notice we don't need `await request.json()` anymore!
     # FastAPI parses and validates it automatically.
+
     prompt = data.prompt
     session_id = data.session_id
 
     try:
         session = app.state.session_manager.get_session(session_id)
-        response = session.prompt(prompt)
+        response = await asyncio.wait_for(
+            asyncio.to_thread(session.prompt, prompt),
+            timeout=600.0
+        )
         return {"response": response}
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Request timed out after 60 seconds")
     except ValueError as e:
-        # This sends a REAL 404 status code
         print("Session not found:", str(e))
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        # This sends a REAL 500 status code
         print("Error processing chat message:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 

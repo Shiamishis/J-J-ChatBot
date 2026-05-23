@@ -1,0 +1,727 @@
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID TC001] Testing: What was the total net revenue in EUR across all brands and countries for the full year 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Sales', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(FS.net_revenue_eur) AS total_net_revenue_eur
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+Handler response: The total net revenue in EUR across all brands and countries for the full year 2024 is 11,079,423,905.21 EUR.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE within a ~1% numerical margin. No contradictions or significant errors are present.
+
+[ID TC002] Testing: Which brand generated the highest total net revenue in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2023
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: The brand that generated the highest total net revenue in 2023 is LUNARA, with a total net revenue of 3,545,101,933.63.
+Judge verdict: PASS
+Reason: The actual response conveys the same key facts as the reference, including the brand name (LUNARA), the total net revenue (€3,545,101,933.63), and the year (2023).
+
+[ID TC003] Testing: How many interactions were of type CALL in total across the entire dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(*) 
+FROM 
+    FACT_Interactions 
+WHERE 
+    interaction_type = 'CALL';
+Handler response: There were 122578 interactions of type CALL in total across the entire dataset.
+Judge verdict: PASS
+Reason: The ACTUAL response is a direct conveyance of the key fact from the REFERENCE, with no significant discrepancies. The number of interactions of type CALL matches the value provided in the REFERENCE.
+
+[ID TC004] Testing: What is the average market share percentage for the brand LUNARA across all markets and time periods?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT AVG(fs.market_share_pct) 
+FROM FACT_Sales fs 
+JOIN DIM_Brand db ON fs.brand_id = db.brand_id 
+WHERE db.brand_name = 'LUNARA';
+Handler response: The average market share percentage for the brand LUNARA across all markets and time periods is 19.58%.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key fact that LUNARA's average market share across all markets and time periods is 19.58%, matching the reference.
+
+[ID TC005] Testing: How many employees are currently active in the organization?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE is_active = 1;
+Handler response: There are 573 employees who are currently active in the organization.
+Judge verdict: PASS
+Reason: The actual response 'There are 573 employees who are currently active in the organization.' conveys the same key fact as the reference, which states there are 573 currently active employees. The wording is slightly different, but the numerical information is the same and there are no contradictions or significant errors. Minor wording differences are fine.
+
+[ID TC006] Testing: Which country had the highest total net sales revenue in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+INNER JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+INNER JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: The country with the highest total net sales revenue in 2024 is Germany, with a total net revenue of 1,777,490,604.89.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that Germany had the highest total net sales revenue in 2024, with the exact same number as the REFERENCE. No significant errors or contradictions are present.
+
+[ID TC007] Testing: What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Coverage', 'FACT_Interactions', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi002_target_coverage_pct) AS average_target_coverage_rate
+FROM 
+    FACT_Coverage T1
+JOIN 
+    DIM_Brand T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Time T3 ON T1.time_id = T3.time_id
+WHERE 
+    T2.brand_name = 'LUNARA' AND T3.year = 2025
+Handler response: The average Target Coverage Rate (KPI002) for LUNARA in 2025 was 71.41%.
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveys the key fact that LUNARA's average Target Coverage Rate (KPI002) in 2025 was 71.41%, which matches the reference's mention of 71.4%. The response does not include other critical information, such as the target threshold or the fact that it was below the target, but it is correct within the ~1% margin for numerical values.
+
+[ID TC008] Testing: What is the total quantity of product samples that have been successfully delivered?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sample_Management'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(T1.sample_quantity) AS total_quantity
+FROM 
+    FACT_Sample_Management T1
+JOIN 
+    DIM_Brand T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Account T3 ON T1.account_id = T3.account_id
+WHERE 
+    T1.sample_status = 'DELIVERED'
+Handler response: The total quantity of product samples that have been successfully delivered is 23,546.
+Judge verdict: PASS
+Reason: The chatbot's response conveys the key fact that '23,546' is the total quantity of product samples delivered successfully, matching the reference's numerical value.
+
+[ID TC009] Testing: How many HCP accounts are classified as Key Opinion Leaders (KOLs)?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account'}
+[DataHandler] SQL Generated: SELECT COUNT(DISTINCT a.account_name) 
+FROM DIM_Account a 
+WHERE a.account_type = 'HCP' AND a.is_key_opinion_leader = 1;
+Handler response: There are 70 HCP accounts classified as Key Opinion Leaders (KOLs).
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveys the key fact from the reference: there are 70 HCP accounts classified as Key Opinion Leaders (KOLs).
+
+[ID TC010] Testing: Which brand and indication combination had the highest number of interactions recorded?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand_Indication', 'FACT_Interactions', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name,
+    DBI.indication_name,
+    COUNT(FI.interaction_id) AS interaction_count
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Brand_Indication DBI ON FI.indication_id = DBI.indication_id
+JOIN 
+    DIM_Brand DB ON DBI.brand_id = DB.brand_id
+GROUP BY 
+    DB.brand_name, DBI.indication_name
+ORDER BY 
+    interaction_count DESC
+LIMIT 1;
+Handler response: The brand and indication combination with the highest number of interactions recorded is COLONEX for Colorectal Cancer, with 17,729 interactions.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact: the brand and indication combination with the highest number of interactions is COLONEX / Colorectal Cancer, with 17,729 interactions. Minor wording differences are fine.
+
+[ID TC011] Testing: What was the total revenue target for FY2024 and how did actual revenue compare to it?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'DIM_Brand', 'DIM_Account', 'FACT_Targets', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(CASE WHEN T1.fiscal_year = 'FY2024' AND T1.target_type = 'REVENUE_TARGET' THEN T1.target_value ELSE 0 END) AS total_revenue_target,
+    SUM(CASE WHEN T2.fiscal_year = 'FY2024' THEN T2.net_revenue_eur ELSE 0 END) AS actual_revenue
+FROM 
+    FACT_Targets T1
+LEFT JOIN 
+    FACT_Sales T2 ON T1.geo_id = T2.geo_id AND T1.brand_id = T2.brand_id AND T1.fiscal_year = (SELECT fiscal_year FROM DIM_Time WHERE time_id = T2.time_id)
+WHERE 
+    T1.fiscal_year = 'FY2024' OR T2.fiscal_year = 'FY2024'
+Database Error: no such column: T2.fiscal_year
+Handler response: No data found for the total revenue target for FY2024 and the comparison to actual revenue. The provided data does not contain any information about FY2024 targets or actual revenue.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey any key facts about the total revenue target for FY2024 or the comparison to actual revenue, which are critical components of the question.
+
+[ID TC011] Verdict: FAIL
+Reference: For the question "What was the total revenue target for FY2024 and how did actual revenue compare to it?", the expected answer is:
+  The total revenue target for FY2024 was €17,697,729,302.90. Actual revenue of €11,079,423,905.21 was achieved, representing a target attainment of 62.6%.
+Actual: No data found for the total revenue target for FY2024 and the comparison to actual revenue. The provided data does not contain any information about FY2024 targets or actual revenue.
+Reason: The ACTUAL response does not convey any key facts about the total revenue target for FY2024 or the comparison to actual revenue, which are critical components of the question.
+
+[ID TC012] Testing: Which employee had the highest total interaction count in 2024, and how many interactions did they have?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'DIM_Employee', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT 
+    de.employee_name, 
+    SUM(fp.interaction_count) as total_interaction_count
+FROM 
+    FACT_Performance fp
+JOIN 
+    DIM_Employee de ON fp.employee_id = de.employee_id
+JOIN 
+    DIM_Time dt ON fp.time_id = dt.time_id
+WHERE 
+    dt.year = 2024
+GROUP BY 
+    de.employee_name
+ORDER BY 
+    total_interaction_count DESC
+LIMIT 1
+Handler response: Aleodor Ioniță had the highest total interaction count in 2024, with 225 interactions.
+Judge verdict: PASS
+Reason: The ACTUAL response matches all key facts from the REFERENCE: it correctly identifies Aleodor Ioniță as the employee with the highest interaction count in 2024 and provides the correct number of interactions (225). No minor wording differences or contradictions are present.
+
+[ID TC013] Testing: How many distinct countries are covered in the NovaCarta EMEA dataset?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC013] Assertion error: [ID TC013] Empty response on turn 1
+assert None
+
+[ID TC014] Testing: What was the average year-over-year (YoY) revenue growth percentage across all brands and countries in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Sales', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(CASE 
+            WHEN T1.year = 2025 AND T2.year = 2024 
+            THEN ((T3.net_revenue_eur - T4.net_revenue_eur) / T4.net_revenue_eur) * 100 
+        END) AS average_yoy_growth
+FROM 
+    DIM_Time T1
+JOIN 
+    FACT_Sales T3 ON T1.time_id = T3.time_id
+JOIN 
+    DIM_Time T2 ON T2.time_id = T3.time_id - 100
+JOIN 
+    FACT_Sales T4 ON T2.time_id = T4.time_id AND T3.geo_id = T4.geo_id AND T3.brand_id = T4.brand_id
+JOIN 
+    DIM_Geography T5 ON T3.geo_id = T5.geo_id
+JOIN 
+    DIM_Brand T6 ON T3.brand_id = T6.brand_id
+WHERE 
+    T1.year = 2025 AND T2.year = 2024
+Handler response: No data found for the average year-over-year revenue growth percentage across all brands and countries in 2025. The provided data contains no information for the year 2025.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey the key fact that there is no data available for the year 2025. It only states that no data was found, without providing any context or explanation for the absence of data.
+
+[ID TC014] Verdict: FAIL
+Reference: For the question "What was the average year-over-year (YoY) revenue growth percentage across all brands and countries in 2025?", the expected answer is:
+  The average year-over-year revenue growth across all brands and countries in 2025 was 13.72%.
+Actual: No data found for the average year-over-year revenue growth percentage across all brands and countries in 2025. The provided data contains no information for the year 2025.
+Reason: The ACTUAL response does not convey the key fact that there is no data available for the year 2025. It only states that no data was found, without providing any context or explanation for the absence of data.
+
+[ID TC015] Testing: Which brand had the most TC1 (top-tier) target accounts in Q1 FY2025, and how many were there?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Time', 'FACT_Account_Metrics', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    COUNT(DISTINCT FA.account_id) AS num_tc1_accounts
+FROM 
+    FACT_Account_Metrics FA
+JOIN 
+    DIM_Brand DB ON FA.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FA.time_id = DT.time_id
+WHERE 
+    FA.target_class = 'TC1' 
+    AND DT.fiscal_quarter = 'FY2025-Q1'
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    num_tc1_accounts DESC
+LIMIT 1
+Handler response: The brand with the most TC1 target accounts in Q1 FY2025 is LUNARA, with 86 accounts.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that LUNARA had the most TC1 target accounts in Q1 FY2025 with 86 distinct accounts. The wording is minor and does not affect the accuracy of the response.
+
+[ID TC016] Testing: What was the average Face-to-Face (F2F) coverage rate (KPI005) across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Coverage', 'FACT_Interactions', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi005_f2f_coverage_pct) AS average_f2f_coverage_rate
+FROM 
+    FACT_Coverage T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN 
+    DIM_Brand T3 ON T1.brand_id = T3.brand_id
+WHERE 
+    T2.year = 2024
+Handler response: The average Face-to-Face (F2F) coverage rate across all brands in 2024 was 47.57%.
+Judge verdict: PASS
+Reason: The ACTUAL response is correct as it conveys the key fact and number from the REFERENCE within a ~1% margin of error.
+
+[ID TC017] Testing: How many brands are currently in the GROWTH lifecycle stage, and which ones are they?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(*) AS number_of_brands,
+    brand_name
+FROM 
+    DIM_Brand
+WHERE 
+    lifecycle_stage = 'GROWTH'
+Handler response: There are 6 brands currently in the GROWTH lifecycle stage, and one of them is LUNARA. However, the data does not provide the names of the other 5 brands.
+Judge verdict: PARTIAL
+Reason: The ACTUAL response conveys some key facts (e.g., there are 6 brands in the GROWTH lifecycle stage), but it is missing critical information (the names of the other 5 brands) and is vague about which one of them is LUNARA.
+
+[ID TC017] Verdict: PARTIAL
+Reason: The ACTUAL response conveys some key facts (e.g., there are 6 brands in the GROWTH lifecycle stage), but it is missing critical information (the names of the other 5 brands) and is vague about which one of them is LUNARA.
+
+[ID TC018] Testing: How many Face-to-Face (F2F) interactions were recorded in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(f.interaction_id) 
+FROM 
+    FACT_Interactions f
+JOIN 
+    DIM_Time t ON f.time_id = t.time_id
+WHERE 
+    f.is_f2f_flag = 1 AND t.year = 2023
+Handler response: There were 23,129 Face-to-Face (F2F) interactions recorded in 2023.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the same key fact as the REFERENCE, namely the number of Face-to-Face (F2F) interactions recorded in 2023. The response is within a ~1% numerical margin, and there are no contradictions or significant errors.
+
+[ID TC019] Testing: What was the average Call Plan Adherence rate (KPI003) across all employees in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Time', 'DIM_Employee', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT AVG(T1.kpi003_call_plan_adherence_pct) AS average_call_plan_adherence
+FROM FACT_Performance T1
+JOIN DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN DIM_Employee T3 ON T1.employee_id = T3.employee_id
+WHERE T2.year = 2024
+Handler response: The average Call Plan Adherence rate (KPI003) across all employees in 2024 was 15.87%.
+Judge verdict: PASS
+Reason: The actual response accurately conveys the average Call Plan Adherence rate (KPI003) across all employees in 2024, matching the ground-truth answer's number (15.87%). The context provided is irrelevant to the evaluation.
+
+[ID TC020] Testing: Which country had the lowest average market share percentage across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    AVG(FS.market_share_pct) AS average_market_share
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    average_market_share ASC
+LIMIT 1;
+Handler response: The country with the lowest average market share percentage across all brands in 2024 is Bulgaria, with an average market share of 19.20%.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys all key facts from the REFERENCE, including the specific country (Bulgaria) and the exact market share percentage (19.20%).
+
+[ID TC021] Testing: What was the total number of new patient starts across all brands and countries in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Sales', 'FACT_Interactions', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(FS.new_patient_starts) AS total_new_patient_starts,
+    DB.brand_name,
+    DG.geo_name
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2023
+GROUP BY 
+    DB.brand_name, DG.geo_name
+Handler response: The total number of new patient starts across all brands and countries in 2023 can be calculated by summing up the 'total_new_patient_starts' for each brand and country.
+
+Here are the results:
+
+- COGNIVEX: 3 (Austria) + 2 (Belgium) + 0 (Bulgaria) + 0 (Croatia) + 0 (Czech Republic) + 1 (Denmark) + 0 (Finland) + 17 (France) + 21 (Germany) + 0 (Greece) + 0 (Hungary) + 0 (Ireland) + 13 (Italy) + 3 (Netherlands) + 0 (Norway) + 1 (Poland) + 0 (Portugal) + 2 (Romania) + 8 (Spain) + 1 (Sweden) + 4 (Switzerland) + 13 (United Kingdom) = 88
+- COLONEX: 88 (Austria) + 54 (Belgium) + 6 (Bulgaria) + 12 (Croatia) + 77 (Czech Republic) + 56 (Denmark) + 35 (Finland) + 542 (France) + 675 (Germany) + 31 (Greece) + 24 (Hungary) + 32 (Ireland) + 490 (Italy) + 93 (Netherlands) + 35 (Norway) + 130 (Poland) + 64 (Portugal) + 52 (Romania) + 332 (Spain) + 92 (Sweden) + 143 (Switzerland) + 492 (United Kingdom) = 3224
+- DERMA SHIELD: 1628 (Austria) + 966 (Belgium) + 318 (Bulgaria) + 397 (Croatia) + 662 (Czech Republic) + 888 (Denmark) + 754 (Finland) + 7515 (France) + 8315 (Germany) + 724 (Greece) + 626 (Hungary) + 684 (Ireland) + 6167 (Italy) + 1489 (Netherlands) + 895 (Norway) + 2043 (Poland) + 952 (Portugal) + 1028 (Romania) + 4670 (Spain) + 1285 (Sweden) + 2137 (Switzerland) + 5871 (United Kingdom) = 34030
+- HEMAVEX: 2943 (Austria) + 2189 (Belgium) + 515 (Bulgaria) + 533 (Croatia) + 1597 (Czech Republic) + 1544 (Denmark) + 1688 (Finland) + 12612 (France) + 15431 (Germany) + 1113 (Greece) + 1093 (Hungary) + 994 (Ireland) + 9396 (Italy) + 2217 (Netherlands) + 1720 (Norway) + 3936 (Poland) + 1892 (Portugal) + 1782 (Romania) + 9282 (Spain) + 2342 (Sweden) + 3546 (Switzerland) + 11215 (United Kingdom) = 68275
+- LUNARA: 6433 (Austria) + 4343 (Belgium) + 1153 (Bulgaria) + 1230 (Croatia) + 3343 (Czech Republic) + 3993 (Denmark) + 3365 (Finland) + 28750 (France) + 30846 (Germany) + 2527 (Greece) + 2247 (Hungary) + 2675 (Ireland) + 22433 (Italy) + 6659 (Netherlands) + 3801 (Norway) + 9070 (Poland) + 3818 (Portugal) + 3563 (Romania) + 20859 (Spain) + 5428 (Sweden) + 10976 (Switzerland) + 22650 (United Kingdom) = 144130
+- LYMPHACLEAR: 757 (Austria) + 533 (Belgium) + 138 (Bulgaria) + 135 (Croatia) + 359 (Czech Republic) + 398 (Denmark) + 365 (Finland) + 2935 (France) + 3650 (Germany) + 225 (Greece) + 235 (Hungary) + 276 (Ireland) + 2725 (Italy) + 571 (Netherlands) + 387 (Norway) + 904 (Poland) + 459 (Portugal) + 391 (Romania) + 2131 (Spain) + 606 (Sweden) + 1106 (Switzerland) + 2747 (United Kingdom) = 16822
+- MIGRANOVA: 937 (Austria) + 632 (Belgium) + 201 (Bulgaria) + 128 (Croatia) + 424 (Czech Republic) + 491 (Denmark) + 411 (Finland) + 3807 (France) + 4749 (Germany) + 306 (Greece) + 374 (Hungary) + 380 (Ireland) + 3339 (Italy) + 731 (Netherlands) + 480 (Norway) + 1162 (Poland) + 513 (Portugal) + 561 (Romania) + 2521 (Spain) + 744 (Sweden) + 1046 (Switzerland) + 3609 (United Kingdom) = 23402
+- MIGRANOVA EP: 23 (Austria) + 6 (Belgium) + 3 (Bulgaria) + 2 (Croatia) + 9 (Czech Republic) + 10 (Denmark) + 4 (Finland) + 130 (France) + 165 (Germany) + 3 (Greece) + 5 (Hungary) + 3 (Ireland) + 120 (Italy) + 18 (Netherlands) + 6 (Norway) + 23 (Poland) + 9 (Portugal) + 4 (Romania) + 81 (Spain) + 10 (Sweden) + 27 (Switzerland) + 110 (United Kingdom) = 792
+- MYELOGUARD: 270 (Austria) + 192 (Belgium) + 52 (Bulgaria) + 74 (Croatia) + 163 (Czech Republic) + 151 (Denmark) + 138 (Finland) + 1355 (France) + 1536 (Germany) + 102 (Greece) + 103 (Hungary) + 78 (Ireland) + 966 (Italy) + 241 (Netherlands) + 174 (Norway) + 341 (Poland) + 158 (Portugal) + 175 (Romania) + 834 (Spain) + 208 (Sweden) + 360 (Switzerland) + 1105 (United Kingdom) = 7833
+- NEUROMYEL: 1140 (Austria) + 974 (Belgium) + 235 (Bulgaria) + 205 (Croatia) + 533 (Czech Republic) + 718 (Denmark) + 600 (Finland) + 5046 (France) + 5976 (Germany) + 486 (Greece) + 447 (Hungary) + 408 (Ireland) + 4559 (Italy) + 1054 (Netherlands) + 669 (Norway) + 1338 (Poland) + 682 (Portugal) + 675 (Romania) + 4482 (Spain) + 1063 (Sweden) + 1411 (Switzerland) + 4241 (United Kingdom) = 28633
+- NEUROMYEL SPMS: 211 (Austria) + 129 (Belgium) + 42 (Bulgaria) + 22 (Croatia) + 96 (Czech Republic) + 118 (Denmark) + 66 (Finland) + 1103 (France) + 1023 (Germany) + 74 (Greece) + 53 (Hungary) + 58 (Ireland) + 702 (Italy) + 170 (Netherlands) + 125 (Norway) + 198 (Poland) + 114 (Portugal) + 110 (Romania) + 598 (Spain) + 194 (Sweden) + 272 (Switzerland) + 773 (United Kingdom) = 5920
+- ONCOBREAST: 2080 (Austria) + 1672 (Belgium) + 420 (Bulgaria) + 361 (Croatia) + 1121 (Czech Republic) + 1319 (Denmark) + 1058 (Finland) + 8227 (France) + 9746 (Germany) + 933 (Greece) + 732 (Hungary) + 1042 (Ireland) + 8178 (Italy) + 1801 (Netherlands) + 1202 (Norway) + 2577 (Poland) + 1160 (Portugal) + 1118 (Romania) + 6466 (Spain) + 2064 (Sweden) + 2679 (Switzerland) + 8309 (United Kingdom) = 44747
+- RHEUMAVEX: 110 (Austria) + 50 (Belgium) + 10 (Bulgaria) + 9 (Croatia) + 37 (Czech Republic) + 59 (Denmark) + 52 (Finland) + 554 (France) + 636 (Germany) + 26 (Greece) + 33 (Hungary) + 18 (Ireland) + 420 (Italy) + 86 (Netherlands) + 56 (Norway) + 123 (Poland) + 55 (Portugal) + 55 (Romania) + 381 (Spain) + 81 (Sweden) + 150 (Switzerland) + 618 (United Kingdom) = 3501
+
+The total number of new patient starts across all brands and countries in 2023 is: 88 (COGNIVEX) + 3224 (COLONEX) + 34030 (DERMA SHIELD) + 68275 (HEM AVEX) + 144130 (LUNARA) + 16822 (LYMPHACLEAR) + 23402 (MIGRANOVA) + 792 (MIGRANOVA EP) + 7833 (MYELOGUARD) + 28633 (NEUROMYEL) + 5920 (NEUROMYEL SPMS) + 44747 (ONCOBREAST) + 3501 (RHEUMAVEX) = 244997.
+Judge verdict: PASS
+Reason: The chatbot correctly calculates the total number of new patient starts across all brands and countries in 2023 by summing up the 'total_new_patient_starts' for each brand and country. The result matches the ground-truth answer provided in plain English.
+
+[ID TC022] Testing: How many employees belong to the Sales department?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE department = 'Sales';
+Handler response: There are 385 employees that belong to the Sales department.
+Judge verdict: PASS
+Reason: The chatbot response matches the reference in terms of the number of employees in the Sales department, and the key fact is conveyed correctly.
+
+[ID TC023] Testing: Which therapeutic area has the highest number of brands in the NovaCarta portfolio?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    therapeutic_area_name, 
+    COUNT(brand_id) AS number_of_brands
+FROM 
+    DIM_Brand
+GROUP BY 
+    therapeutic_area_name
+ORDER BY 
+    number_of_brands DESC
+LIMIT 1;
+Handler response: The therapeutic area with the highest number of brands in the NovaCarta portfolio is Neuroscience, with 5 brands.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that Neuroscience has 5 brands, matching the REFERENCE.
+
+[ID TC024] Testing: What was the average number of coaching days per month (KPI009) across all employees in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Time', 'DIM_Employee', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi009_coaching_days) 
+FROM 
+    FACT_Performance T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN 
+    DIM_Employee T3 ON T1.employee_id = T3.employee_id
+WHERE 
+    T2.year = 2024
+Handler response: The average number of coaching days per month (KPI009) across all employees in 2024 was 1.5 days.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that the average number of coaching days per month (KPI009) across all employees in 2024 was 1.5 days, which is within a ~1% margin of the reference's 1.50 days. The response does not introduce any contradictions or significant errors.
+
+[ID TC025] Testing: What was the total number of units sold across all brands and countries in Q2 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'DIM_Time', 'DIM_Geography', 'DIM_Brand', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(FS.units_sold) AS total_units_sold
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+WHERE 
+    DT.quarter = 'Q2' AND DT.year = 2024;
+Handler response: The total number of units sold across all brands and countries in Q2 2024 is 1,297,154.
+Judge verdict: PASS
+Reason: The ACTUAL response matches the REFERENCE in terms of the total number of units sold and the specific timeframe mentioned (Q2 2024). The wording is nearly identical, with differences in punctuation and formatting. This aligns with the scoring rules for a PASS verdict.
+
+[ID TC026] Testing: Which brand had the highest average year-over-year revenue growth in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    db.brand_name,
+    AVG(CASE WHEN dt.year = 2024 THEN fs.yoy_growth_pct ELSE NULL END) AS avg_yoy_growth_2024,
+    AVG(CASE WHEN dt.year = 2023 THEN fs.yoy_growth_pct ELSE NULL END) AS avg_yoy_growth_2023
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+GROUP BY 
+    db.brand_name
+ORDER BY 
+    avg_yoy_growth_2024 - avg_yoy_growth_2023 DESC
+LIMIT 1;
+Handler response: The brand with the highest average year-over-year revenue growth in 2024 is LYMPHACLEAR, but it actually had a negative growth of -2.83%. Since there is only one brand in the data, it is the only one to consider, despite its negative growth.
+Judge verdict: FAIL
+Reason: The actual answer only partially conveys the key fact from the reference. It states the brand with the highest growth but does not specify the exact percentage. It also incorrectly states that LYMPHACLEAR had a negative growth, which contradicts the reference.
+
+[ID TC026] Verdict: FAIL
+Reference: For the question "Which brand had the highest average year-over-year revenue growth in 2024?", the expected answer is:
+  LUPINOVA had the highest average year-over-year revenue growth in 2024 at 50.02%.
+Actual: The brand with the highest average year-over-year revenue growth in 2024 is LYMPHACLEAR, but it actually had a negative growth of -2.83%. Since there is only one brand in the data, it is the only one to consider, despite its negative growth.
+Reason: The actual answer only partially conveys the key fact from the reference. It states the brand with the highest growth but does not specify the exact percentage. It also incorrectly states that LYMPHACLEAR had a negative growth, which contradicts the reference.
+
+[ID TC027] Testing: How many HCO (Healthcare Organization) accounts are registered in the dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account'}
+[DataHandler] SQL Generated: SELECT COUNT(*) 
+FROM DIM_Account 
+WHERE account_type = 'HCO'
+Handler response: There are 266 HCO (Healthcare Organization) accounts registered in the dataset.
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveys all key facts from the reference: the number of HCO accounts (266) and the fact that they are healthcare organization accounts.
+
+[ID TC028] Testing: How many sample deliveries required a signature and successfully had one collected?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sample_Management'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(*) 
+FROM 
+    FACT_Sample_Management 
+WHERE 
+    requires_signature = 1 
+    AND signature_collected = 1;
+Handler response: There were 13297 sample deliveries that required a signature and had one collected.
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveys the key fact that 13,297 sample deliveries required a signature and had one collected, matching the reference.
+
+[ID TC029] Testing: How did the average Digital Channel Coverage rate (KPI006) change from 2023 to 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions', 'FACT_Coverage', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    T1.year, 
+    T2.brand_name, 
+    AVG(T3.kpi006_digital_coverage_pct) AS avg_kpi006_digital_coverage_pct
+FROM 
+    DIM_Time T1
+INNER JOIN 
+    DIM_Brand T2 ON T1.time_id = T3.time_id
+INNER JOIN 
+    FACT_Coverage T3 ON T2.brand_id = T3.brand_id
+WHERE 
+    T1.year IN (2023, 2025)
+GROUP BY 
+    T1.year, 
+    T2.brand_name
+ORDER BY 
+    T1.year, 
+    T2.brand_name;
+Handler response: To answer the question of how the average Digital Channel Coverage rate (KPI006) changed from 2023 to 2025, let's examine the provided data.
+
+In 2023, the average Digital Channel Coverage rates for the brands were:
+- COGNIVEX: 38.21%
+- COLONEX: 38.16%
+- DERMASHIELD: 45.30%
+- HEMAVEX: 42.87%
+- LUNARA: 36.34%
+- LYMPHACLEAR: 44.02%
+- MIGRANOVA: 39.56%
+- MIGRANOVA EP: 40.52%
+- MYELOGUARD: 43.23%
+- NEUROMYEL: 37.36%
+- NEUROMYEL SPMS: 40.31%
+- ONCOBREAST: 37.58%
+- RHEUMAVEX: 44.50%
+
+In 2025, the average Digital Channel Coverage rates for the brands were:
+- COGNIVEX: 44.38%
+- COLONEX: 43.53%
+- DERMASHIELD: 55.03%
+- HEMAVEX: 55.92%
+- HEMAVEX COMBO: 53.27%
+- LUNARA: 42.29%
+- LUPINOVA: 55.55%
+- LYMPHACLEAR: 51.67%
+- MIGRANOVA: 46.43%
+- MIGRANOVA EP: 43.11%
+- MYELOGUARD: 53.50%
+- NEUROMYEL: 45.00%
+- NEUROMYEL SPMS: 48.08%
+- ONCOBREAST: 45.54%
+- RHEUMAVEX: 53.70%
+
+Comparing the rates between 2023 and 2025, we can see that all brands experienced an increase in their average Digital Channel Coverage rates. The increases range from approximately 4% for some brands like MIGRANOVA EP to over 10% for brands like DERMASHIELD, HEMAVEX, and RHEUMAVEX. This indicates a general improvement in digital channel coverage across the board from 2023 to 2025.
+Judge verdict: FAIL
+Reason: The ACTUAL response fails to provide the required numerical increase in the average Digital Channel Coverage (KPI006) rate from 2023 to 2025. While it mentions that all brands experienced an increase, it does not specify the exact percentage increase. The REFERENCE clearly states that the rate improved from 40.7% in 2023 to 49.2% in 2025, an increase of 8.5 percentage points.
+
+[ID TC029] Verdict: FAIL
+Reference: For the question "How did the average Digital Channel Coverage rate (KPI006) change from 2023 to 2025?", the expected answer is:
+  Digital Channel Coverage (KPI006) improved from an average of 40.7% in 2023 to 49.2% in 2025, an increase of 8.5 percentage points. Both years remain below the 50% target.
+Actual: To answer the question of how the average Digital Channel Coverage rate (KPI006) changed from 2023 to 2025, let's examine the provided data.
+
+In 2023, the average Digital Channel Coverage rates for the brands were:
+- COGNIVEX: 38.21%
+- COLONEX: 38.16%
+- DERMASHIELD: 45.30%
+- HEMAVEX: 42.87%
+- LUNARA: 36.34%
+- LYMPHACLEAR: 44.02%
+- MIGRANOVA: 39.56%
+- MIGRANOVA EP: 40.52%
+- MYELOGUARD: 43.23%
+- NEU
+Reason: The ACTUAL response fails to provide the required numerical increase in the average Digital Channel Coverage (KPI006) rate from 2023 to 2025. While it mentions that all brands experienced an increase, it does not specify the exact percentage increase. The REFERENCE clearly states that the rate improved from 40.7% in 2023 to 49.2% in 2025, an increase of 8.5 percentage points.
+
+[ID TC030] Testing: What percentage of all interactions in the dataset were promotional?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    CAST(SUM(CASE WHEN is_promotional_flag = 1 THEN 1 ELSE 0 END) AS REAL) * 100 / 
+    COUNT(interaction_id) AS percentage_of_promotional_interactions
+FROM 
+    FACT_Interactions
+Handler response: The percentage of all interactions in the dataset that were promotional is 77.68%.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact from the REFERENCE within the acceptable margin of error. The percentage (77.68%) matches the reference (77.7% within ~1%), and the numbers of interactions (147,551 and 189,953) are correctly provided.
+
+[ID TC031] Testing: Which brand had the highest total quantity of product samples distributed?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sample_Management', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FSM.sample_quantity) AS total_sample_quantity
+FROM 
+    FACT_Sample_Management FSM
+JOIN 
+    DIM_Brand DB ON FSM.brand_id = DB.brand_id
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_sample_quantity DESC
+LIMIT 1;
+Handler response: The brand with the highest total quantity of product samples distributed is ONCOBREAST, with a total of 3720 samples.
+Judge verdict: PASS
+Reason: The actual response matches the reference in terms of the brand name (ONCOBREAST) and the total quantity of samples (3720). Minor wording differences are fine.
+
+[ID TC032] Testing: How many distinct HCP accounts have had at least one interaction recorded in the dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(DISTINCT T1.account_name) 
+FROM 
+    DIM_Account T1
+JOIN 
+    FACT_Interactions T2 ON T1.account_id = T2.account_id
+Handler response: There are 1419 distinct HCP accounts that have had at least one interaction recorded in the dataset.
+Judge verdict: PASS
+Reason: The actual response is very close to the reference, with a difference of 1 account (1419 vs 1420). Thus, the key fact is conveyed correctly.
+
+[ID TC033] Testing: What was the average price per unit in EUR for LUNARA in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'FACT_Sales', 'DIM_Time', 'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.price_per_unit_eur) AS average_price_per_unit_eur
+FROM 
+    FACT_Sales T1
+JOIN 
+    DIM_Brand T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Time T3 ON T1.time_id = T3.time_id
+WHERE 
+    T2.brand_name = 'LUNARA' 
+    AND T3.year = 2024;
+Handler response: The average price per unit in EUR for LUNARA in 2024 is 2509.30 EUR.
+Judge verdict: PASS
+Reason: The chatbot's response is almost identical to the reference in terms of content and numerical values. The only difference is the formatting of the number (with a decimal point), but this does not affect the accuracy or the meaning of the answer.
+
+[ID TC034] Testing: How many employees have the role of Field Sales Representative?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE employee_role = 'Field Sales Representative';
+Handler response: There are 0 employees with the role of Field Sales Representative.
+Judge verdict: FAIL
+Reason: The ACTUAL response 'There are 0 employees with the role of Field Sales Representative' contradicts the REFERENCE which states there are 340 employees with this role.
+
+[ID TC034] Verdict: FAIL
+Reference: For the question "How many employees have the role of Field Sales Representative?", the expected answer is:
+  There are 340 employees with the role of Field Sales Representative.
+Actual: There are 0 employees with the role of Field Sales Representative.
+Reason: The ACTUAL response 'There are 0 employees with the role of Field Sales Representative' contradicts the REFERENCE which states there are 340 employees with this role.
+
+[ID TC035] Testing: Which country achieved the highest average Target Coverage Rate (KPI002) across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Coverage', 'DIM_Geography', 'DIM_Brand', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    AVG(FC.kpi002_target_coverage_pct) AS avg_target_coverage_rate
+FROM 
+    FACT_Coverage FC
+JOIN 
+    DIM_Geography DG ON FC.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    avg_target_coverage_rate DESC
+LIMIT 1;
+Handler response: Portugal achieved the highest average Target Coverage Rate (KPI002) across all brands in 2024, with an average rate of 89.05%.
+Judge verdict: PASS
+Reason: Portugal is correctly identified as the country with the highest average Target Coverage Rate (KPI002). The ACTUAL response provides the correct numerical value (89.05%).
+Stats for reference_answers_data_handler.json: {'ratio_pass': 0.8, 'ratio_partial': 0.02857142857142857, 'ratio_fail': 0.14285714285714285, 'average_response_time_sec': 3.9531511647360666, 'ratio_errors': 0.02857142857142857}
+Closing resources...
+Resources closed.

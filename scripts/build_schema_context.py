@@ -62,6 +62,27 @@ def find_technical_documentation_file(data_dir: Path) -> Path:
     return matching_files[0]
 
 
+def parse_docx(path: Path) -> str:
+    try:
+        import docx
+    except ImportError:
+        return f"[python-docx not installed, cannot parse {path.name}]"
+    try:
+        doc = docx.Document(str(path))
+        parts = []
+        for para in doc.paragraphs:
+            if para.text.strip():
+                parts.append(para.text.strip())
+        for tbl in doc.tables:
+            for row in tbl.rows:
+                cells = [c.text.strip() for c in row.cells if c.text.strip()]
+                if cells:
+                    parts.append(" | ".join(cells))
+        return "\n".join(parts)
+    except Exception as e:
+        return f"[docx load_error={e}]"
+
+
 def parse_documentation_file(file_path: Path) -> str:
     """
     Parse a documentation file into a plain text string.
@@ -83,9 +104,7 @@ def parse_documentation_file(file_path: Path) -> str:
         return file_path.read_text(encoding="utf-8")
 
     if suffix == ".docx":
-        document = Document(file_path)
-        paragraphs = [paragraph.text for paragraph in document.paragraphs]
-        return "\n".join(paragraphs)
+        return parse_docx(file_path)
 
     raise ValueError(
         f"Unsupported documentation format: '{suffix}'. "
