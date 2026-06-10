@@ -1,0 +1,1827 @@
+
+=== Running tests for reference_answers_dashboard_handler.json ===
+
+[ID DASH001] Testing: How is Field Day Percentage calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Field Day Percentage is calculated by dividing the sum of field days by the sum of total working days. The formula is Field Day % = SUM(field_days) / SUM(total_working_days). This measures how much of the available month is actually spent in the field rather than in internal meetings, administration, travel preparation, or training. It is a proxy for customer-facing capacity. For example, if a team logged 10 field days out of 22 total working days, the Field Day Percentage would be 10 ÷ 22 = 45.5%.
+Judge verdict: PASS
+Reason: The ACTUAL response provides the correct formula for calculating Field Day Percentage and explains the concept clearly, matching the REFERENCE.
+
+[ID DASH002] Testing: What does Call Plan Adherence measure and how is it calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Call Plan Adherence measures how reliably a team converts planned customer activity into completed calls. It is calculated as the percentage of planned calls that were actually completed during the selected period. The formula for Call Plan Adherence is DIVIDE(SUM(FACT_Performance[actual_calls]), SUM(FACT_Performance[planned_calls])). This means that if a team planned 100 calls and completed 80 of them, the Call Plan Adherence would be 80%. This KPI is a discipline metric rather than a pure productivity metric, and it helps managers understand whether their teams are executing their plans as intended.
+Judge verdict: PASS
+Reason: The ACTUAL response accurately conveys the definition and calculation method of Call Plan Adherence, including the formula and the implications of the metric. It also correctly identifies the data source and the discipline nature of the metric, making it a clear and correct representation of the reference answer.
+
+[ID DASH003] Testing: What is the data source for the Interactions per Day KPI?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The data source for the Interactions per Day KPI is the FACT_Interactions table, which stores information about interactions between employees and accounts, including the date and type of interaction. The FACT_Performance table also contains relevant information, such as the daily interaction rate, which can be used to calculate the Interactions per Day KPI. Additionally, the DIM_Time table provides time-related dimensions that can be used to aggregate and analyze interactions by day. 
+
+To calculate the Interactions per Day KPI, you would need to join the FACT_Interactions table with the DIM_Time table to get the date of each interaction, and then aggregate the interactions by day. You can also use the FACT_Performance table to get the daily interaction rate, which can be used as a proxy for the Interactions per Day KPI. 
+
+The relevant columns for calculating the Interactions per Day KPI are interaction_id, time_id, and interaction_type in the FACT_Interactions table, and time_id, year_month, and month in the DIM_Time table. The kpi004_daily_interaction_rate column in the FACT_Performance table can also be used as a proxy for the Interactions per Day KPI. 
+
+By joining and aggregating these tables, you can calculate the Interactions per Day KPI and gain insights into the frequency and type of interactions between employees and accounts.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly identifies the data source for the Interactions per Day KPI, including the relevant tables (FACT_Interactions, DIM_Time, and FACT_Performance), and provides detailed steps for calculating the KPI. The information aligns closely with the REFERENCE, confirming the ACTUAL response accurately conveys the key facts.
+
+[ID DASH004] Testing: How is Interactions per Day calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Interactions per Day is calculated by dividing the total number of interactions by the total number of field days. The formula for this calculation is Interactions / Day = DIVIDE(SUM(FACT_Performance[interaction_count]), SUM(FACT_Performance[field_days])). This means that the average number of interactions per field day is calculated by summing up all the interactions and dividing by the total number of days spent in the field.
+Judge verdict: PASS
+Reason: The chatbot's response accurately conveys the formula for calculating Interactions per Day, which is dividing the total number of interactions by the total number of field days. This matches the reference answer, which states it as SUM(interaction_count) / SUM(field_days). Minor wording differences are present, but the key facts are conveyed correctly.
+
+[ID DASH005] Testing: What does the Coaching Days KPI represent and how is it calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: The Coaching Days KPI represents the average number of days per manager per month spent in formal coaching, ride-alongs, or structured rep development activity. It is calculated by taking the average of the coaching days for each manager, as shown in the formula: Coaching Days = AVERAGE(FACT_Performance[kpi009_coaching_days]). This KPI is used to quantify the amount of manager attention being invested in capability-building and is an important context variable for explaining why adherence or productivity is improving or stagnating.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE. The Coaching Days KPI is defined as the average number of days per manager per month spent in formal coaching, and it is calculated using the AVERAGE function from FACT_Performance[kpi009_coaching_days]. Minor wording differences are fine.
+
+[ID DASH006] Testing: How is Target Coverage Rate defined and where does its data come from?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The Target Coverage Rate is defined as the percentage of covered accounts out of the total target universe count. The data for Target Coverage Rate comes from the FACT_Coverage table, specifically from the columns covered_accounts_count and target_universe_count. The Target Coverage Rate is calculated by dividing the covered_accounts_count by the target_universe_count and multiplying by 100. 
+
+For example, in the FACT_Coverage table, for the row with coverage_id 'COV000001', the target_universe_count is 118 and the covered_accounts_count is 54. Therefore, the Target Coverage Rate would be (54 / 118) * 100 = 45.8%. This value is also directly available in the kpi002_target_coverage_pct column of the FACT_Coverage table. 
+
+Additionally, the Target Coverage Rate is also available in the FACT_KPI_Summary table, where it is represented by the kpi_name 'Target Coverage Rate' and the kpi_id 'KPI002'. In this table, the numerator_value represents the covered_accounts_count, the denominator_value represents the target_universe_count, and the kpi_value represents the calculated Target Coverage Rate.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the definition of Target Coverage Rate and the source of its data. The response also includes an example calculation and additional context about the availability of the Target Coverage Rate in the FACT_Coverage and FACT_KPI_Summary tables.
+
+[ID DASH007] Testing: What is Leading Specialist Coverage and how is it calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Leading Specialist Coverage is the percentage of priority specialists engaged. It is calculated by dividing the count of distinct specialists reached by the count of total priority specialists. This KPI helps show whether weak execution is also limiting reach to key specialists.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE: Leading Specialist Coverage measures the percentage of priority specialists engaged and how it is calculated (distinct specialists reached / total priority specialists). Minor wording differences are fine.
+
+[ID DASH008] Testing: How is Total Interactions calculated and where is it sourced from?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The Total Interactions metric is calculated from the FACT_Interactions table, which contains information about all interactions between employees and accounts. The interaction_count column in the FACT_Performance table also provides a count of interactions, but it is aggregated at the employee level. To get the total interactions, you would need to count the number of rows in the FACT_Interactions table, possibly filtered by specific criteria such as time period, brand, or geography. 
+
+The FACT_Interactions table contains various columns that describe the interaction, such as interaction_type, interaction_channel, and is_promotional_flag, which could be used to filter or categorize the interactions. The table is connected to other tables in the database through foreign keys, allowing for more complex analysis and filtering of the interaction data. 
+
+For example, you could join the FACT_Interactions table with the DIM_Time table to analyze interactions over time, or with the DIM_Geography table to analyze interactions by region. You could also join it with the DIM_Brand table to analyze interactions by brand, or with the DIM_Employee table to analyze interactions by employee. 
+
+The Total Interactions metric can be used to evaluate the level of engagement between employees and accounts, and to track changes in interaction volume over time. It can also be used as a denominator to calculate other metrics, such as interaction rates or response rates.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE. It mentions the FACT_Interactions table as the source of Total Interactions, and explains the calculation method and possible filtering and analysis methods. The information is presented in a clear and detailed manner that aligns with the REFERENCE's explanation.
+
+[ID DASH009] Testing: What is the difference between Planned Calls and Actual Calls in the Field Force Dashboard?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: The difference between Planned Calls and Actual Calls in the Field Force Dashboard is that Planned Calls refer to the total number of calls that were planned to be made during a period, while Actual Calls refer to the total number of calls that were actually completed during that period. The ratio of Actual Calls to Planned Calls is used to calculate the Call Plan Adherence KPI, which measures the percentage of planned calls that were actually completed. This helps to assess the execution discipline of the field force team.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the same key facts as the reference: the definitions of Planned Calls and Actual Calls, and the use of their ratio to calculate the Call Plan Adherence KPI.
+
+[ID DASH010] Testing: How is KPI Attainment % calculated and what tables does it use?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: KPI Attainment percentage is calculated by comparing the actual performance to the target value. The actual performance data is stored in the FACT_KPI_Summary table in the kpi_value column, and the target values are stored in the FACT_Targets table in the target_value column. 
+
+To calculate KPI Attainment percentage, you would need to join these two tables on the brand_id, geo_id, and time_id columns, and then divide the actual kpi_value by the target_value and multiply by 100 to get the percentage. 
+
+The relevant tables used in this calculation are FACT_KPI_Summary and FACT_Targets, as well as the DIM_Brand, DIM_Geography, and DIM_Time tables to provide additional context and filtering options. 
+
+For example, to calculate the KPI Attainment percentage for a specific brand and time period, you would use a query that joins these tables and performs the necessary calculations. 
+
+Note that the exact calculation may vary depending on the specific KPI being measured and the requirements of your organization.
+Judge verdict: PASS
+Reason: The ACTUAL response accurately conveys the calculation method and the relevant tables used for KPI Attainment %. It provides the same key facts as the REFERENCE, including the calculation method, the tables used, and the data columns involved. Minor wording differences are fine, and the response does not introduce significant errors or contradictions.
+
+[ID DASH011] Testing: Which Field Force KPIs are sourced exclusively from FACT_Performance?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The Field Force KPIs that are sourced exclusively from FACT_Performance are kpi001_field_day_pct, kpi003_call_plan_adherence_pct, kpi004_daily_interaction_rate, and kpi009_coaching_days. These KPIs are calculated based on the data in the FACT_Performance table, which contains information about employee performance, such as field days, total working days, coaching days, interaction count, and planned and actual calls. 
+
+The kpi001_field_day_pct is the percentage of field days, kpi003_call_plan_adherence_pct is the percentage of planned calls that were actually made, kpi004_daily_interaction_rate is the average number of interactions per day, and kpi009_coaching_days is the number of coaching days. These KPIs are used to evaluate the performance of field force employees and are sourced exclusively from the FACT_Performance table. 
+
+Other tables, such as FACT_KPI_Summary, may also contain these KPIs, but the data is ultimately sourced from FACT_Performance. The FACT_KPI_Summary table appears to be a summary table that contains KPI data from various sources, including FACT_Performance.
+Judge verdict: PASS
+Reason: The ACTUAL response contains all key facts from the REFERENCE, including the correct KPIs sourced exclusively from FACT_Performance and their definitions. The wording is mostly consistent with the REFERENCE, with minor differences in phrasing and formatting.
+
+[ID DASH012] Testing: How many KPIs are defined in the Field Force Dashboard?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: There are four key performance indicators defined in the Field Force Dashboard: Field Day %, Call Plan Adherence, Interactions / Day, and Coaching Days. These four KPIs are displayed in the KPI strip at the top of the dashboard and are considered the fastest indicators of field health. Additionally, there are other KPIs defined in the Field Force KPIs sheet, including Target Coverage Rate, Leading Specialist Coverage, Total Interactions, Planned Calls, Actual Calls, and KPI Attainment %, but the four mentioned are the primary ones used for quick assessment of field performance.
+Judge verdict: PASS
+Reason: The ACTUAL response mentions four primary KPIs (Field Day %, Call Plan Adherence, Interactions per Day, and Coaching Days) and notes additional KPIs (Target Coverage Rate, Leading Specialist Coverage, Total Interactions, Planned Calls, Actual Calls, and KPI Attainment %) in the Field Force KPIs sheet. This matches the key facts in the REFERENCE, which states there are 10 KPIs in total, including the listed four and the additional six.
+
+[ID DASH013] Testing: How is Digital Channel Coverage defined and calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Digital Channel Coverage is defined as the percentage of the target HCP universe reached through digital channels, which includes web calls and approved email activity. It is calculated by dividing the number of distinct HCPs reached by digital channels by the total target HCP universe. For example, if 512 target HCPs were reached digitally out of a target universe of 1,000, the Digital Channel Coverage would be 51.2%. This KPI measures the breadth of digital reach, but does not indicate the depth or quality of the interaction.
+Judge verdict: PASS
+Reason: The actual response conveys the same key facts as the reference, including the definition of Digital Channel Coverage, the calculation method, and the example provided. Minor wording differences are present, but the key points are maintained.
+
+[ID DASH014] Testing: What does the Email Utilization Rate measure and how is it calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: The Email Utilization Rate measures the proportion of consented healthcare professionals (HCPs) who actually receive at least one approved email. It is calculated by dividing the number of consented HCPs who received at least one approved email by the total number of consented HCPs. This KPI helps determine whether the team is using the approved-email capability enough and if the emails are being deployed widely enough among consented accounts.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE about the Email Utilization Rate, its calculation method, and its purpose in determining email deployment effectiveness. The wording varies but the information remains consistent.
+
+[ID DASH015] Testing: Which table and field drives the consent filtering logic for Email Utilization Rate?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The table that drives the consent filtering logic for Email Utilization Rate is the DIM_Account table and the field is consent_status. This field indicates whether an account has given consent or not, which is used to filter the email utilization rate. 
+
+Additionally, the FACT_Performance table contains the email_utilization_pct field which is likely used to calculate the email utilization rate. However, the consent filtering logic is driven by the DIM_Account table's consent_status field. 
+
+It is also worth noting that the FACT_Interactions table contains fields related to email interactions, such as is_email_flag, which may also be relevant to the email utilization rate calculation, but the consent filtering logic is driven by the DIM_Account table.
+Judge verdict: PASS
+Reason: The chatbot correctly identifies the DIM_Account table and consent_status field as the driver of the consent filtering logic for Email Utilization Rate. It also refers to additional tables and fields that may be relevant to the calculation but correctly states that the consent filtering logic is driven by the specified table and field.
+
+[ID DASH016] Testing: How is Event Follow-up Rate defined and what fields are used to calculate it?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: Event Follow-up Rate is defined as the percentage of events that have been followed up. The fields used to calculate it are kpi008_event_followup_flag from the FACT_Interactions table, which indicates whether an interaction is an event follow-up, and event_covered_count from the FACT_Coverage table, which represents the total number of events covered. 
+
+To calculate the Event Follow-up Rate, you would need to count the number of interactions where kpi008_event_followup_flag is 1 and divide it by the total number of events covered. 
+
+Additionally, the event_followup_count field in the FACT_Performance table can also be used to calculate the Event Follow-up Rate, as it represents the total number of event follow-ups for an employee. 
+
+The formula to calculate Event Follow-up Rate would be: (number of event follow-ups) / (total number of events) * 100. 
+
+The exact calculation may vary depending on the specific requirements and the level of granularity needed.
+Judge verdict: FAIL
+Reason: The ACTUAL response contains incorrect information about the calculation of Event Follow-up Rate. The reference states that the calculation is Event Attendees with Follow-up / Total Event Attendees, while the ACTUAL response incorrectly states that the calculation is (number of event follow-ups) / (total number of events) * 100. This introduces a significant error because it changes the basis of the calculation.
+
+[ID DASH016] Verdict: FAIL
+Reference: For the question "How is Event Follow-up Rate defined and what fields are used to calculate it?", the expected answer is:
+  Event Follow-up Rate measures the percentage of HCPs who attended an event and then received a documented follow-up interaction within the expected follow-up window. It is calculated as Event Attendees with Follow-up / Total Event Attendees. The calculation uses FACT_Interactions and relies on the is_event_flag and kpi008_event_followup_flag fields.
+Actual: Event Follow-up Rate is defined as the percentage of events that have been followed up. The fields used to calculate it are kpi008_event_followup_flag from the FACT_Interactions table, which indicates whether an interaction is an event follow-up, and event_covered_count from the FACT_Coverage table, which represents the total number of events covered. 
+
+To calculate the Event Follow-up Rate, you w
+Reason: The ACTUAL response contains incorrect information about the calculation of Event Follow-up Rate. The reference states that the calculation is Event Attendees with Follow-up / Total Event Attendees, while the ACTUAL response incorrectly states that the calculation is (number of event follow-ups) / (total number of events) * 100. This introduces a significant error because it changes the basis of the calculation.
+
+[ID DASH017] Testing: What is the business definition of Interaction Frequency TC1?
+Determined intent: conversationalhandler
+Instantiated handler: Handler
+Handler response: None
+  [ID DASH017] Assertion error: [ID DASH017] Empty response on turn 1
+assert None
+
+[ID DASH018] Testing: How is Interaction Frequency TC1 calculated and where does the target class come from?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Interaction Frequency TC1 is calculated by dividing the total number of interactions with high-priority target-class-1 accounts by the number of distinct high-priority target-class-1 accounts. The target class comes from the FACT_Account_Metrics table, where target class is sourced. This means that the classification of accounts into different target classes, such as TC1, is predetermined and stored in this table, and is used to calculate the Interaction Frequency TC1 metric.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key facts from the REFERENCE, including the calculation of Interaction Frequency TC1 and the source of the target class. The wording differences are minor and do not affect the accuracy or completeness of the information provided.
+
+[ID DASH019] Testing: What is the difference between Interaction Frequency TC1 and Interaction Frequency TC2?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: There is no context provided to explain the difference between Interaction Frequency TC1 and Interaction Frequency TC2, so I would need more information to give a specific answer. Generally, the terms TC1 and TC2 could refer to different types of transactions, categories, or test cases, but without further context, it's difficult to determine the exact difference. If you could provide more details about what these terms refer to, I may be able to provide a more helpful response.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey the same key facts as the REFERENCE. The chatbot's response is overly vague and does not provide the expected information about the difference between Interaction Frequency TC1 and Interaction Frequency TC2.
+
+[ID DASH019] Verdict: FAIL
+Reference: For the question "What is the difference between Interaction Frequency TC1 and Interaction Frequency TC2?", the expected answer is:
+  Both KPIs measure average completed interactions per account, but they apply to different account tiers. Interaction Frequency TC1 covers high-priority accounts (TC1) and uses kpi012_tc1_interaction_flag. Interaction Frequency TC2 covers medium-priority accounts (TC2) and uses kpi013_tc2_interaction_flag. Both source target class from FACT_Account_Metrics[target_class].
+Actual: There is no context provided to explain the difference between Interaction Frequency TC1 and Interaction Frequency TC2, so I would need more information to give a specific answer. Generally, the terms TC1 and TC2 could refer to different types of transactions, categories, or test cases, but without further context, it's difficult to determine the exact difference. If you could provide more details
+Reason: The ACTUAL response does not convey the same key facts as the REFERENCE. The chatbot's response is overly vague and does not provide the expected information about the difference between Interaction Frequency TC1 and Interaction Frequency TC2.
+
+[ID DASH020] Testing: How is Promotional Email Effectiveness calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: Promotional Email Effectiveness is calculated as the percentage of promotional emails that generated a documented engagement signal, such as interaction continuation, click-through proxy, or follow-up outcome. This is calculated by dividing the number of promotional emails with documented engagement by the total number of promotional emails sent.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key facts of the reference: the definition of Promotional Email Effectiveness and the calculation method. Minor wording differences are acceptable, and the numerical discrepancies (if any) are within the acceptable margin.
+
+[ID DASH021] Testing: What is the Multi-Channel Engagement Score intended to measure?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: The Multi-Channel Engagement Score is intended to measure the level of engagement a customer has with a brand across multiple channels, such as social media, email, and in-store interactions, to provide a comprehensive view of the customer's overall relationship with the brand.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the key fact that the Multi-Channel Engagement Score measures a customer's overall relationship with a brand across multiple channels. Minor wording differences exist, but the essential information is present.
+
+[ID DASH022] Testing: What are the three components that make up the Multi-Channel Engagement Score calculation?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The Multi-Channel Engagement Score calculation consists of three components which are email interactions, web interactions, and face-to-face interactions. These components can be found in the FACT_Interactions table, specifically in the columns is_email_flag, is_web_call_flag, and is_f2f_flag, which indicate whether an interaction was via email, web call, or face-to-face, respectively.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not mention Channel Diversity, Sequence, or Recency, which are critical components of the Multi-Channel Engagement Score as per the REFERENCE.
+
+[ID DASH022] Verdict: FAIL
+Reference: For the question "What are the three components that make up the Multi-Channel Engagement Score calculation?", the expected answer is:
+  The Multi-Channel Engagement Score is a weighted composite of three components: Channel Diversity (the range of channels used), Sequence (the order and logic of channel use), and Recency (how recently the channels were used). It is sourced from FACT_Interactions using kpi015_multichannel_score, supported by channel flags for F2F, web, email, and event interactions.
+Actual: The Multi-Channel Engagement Score calculation consists of three components which are email interactions, web interactions, and face-to-face interactions. These components can be found in the FACT_Interactions table, specifically in the columns is_email_flag, is_web_call_flag, and is_f2f_flag, which indicate whether an interaction was via email, web call, or face-to-face, respectively.
+Reason: The ACTUAL response does not mention Channel Diversity, Sequence, or Recency, which are critical components of the Multi-Channel Engagement Score as per the REFERENCE.
+
+[ID DASH023] Testing: Which interaction flags in FACT_Interactions support the Multi-Channel Engagement Score?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The interaction flags in FACT_Interactions that support the Multi-Channel Engagement Score are is_f2f_flag, is_web_call_flag, is_email_flag, and is_event_flag. These flags indicate whether an interaction was a face-to-face interaction, a web call, an email, or an event, respectively. The Multi-Channel Engagement Score, represented by the column kpi015_multichannel_score, is calculated based on the combination of these interaction channels. 
+
+For example, if an interaction has is_f2f_flag and is_email_flag both set to 1, it means the interaction involved both face-to-face and email channels, which would contribute to a higher Multi-Channel Engagement Score. The specific calculation of the score may depend on the weights assigned to each channel, but the flags provide the necessary information to determine the score.
+Judge verdict: PASS
+Reason: The actual answer correctly lists the four interaction flags (is_f2f_flag, is_web_call_flag, is_email_flag, and is_event_flag) in FACT_Interactions that support the Multi-Channel Engagement Score. It also explains the purpose of these flags, how they contribute to the score, and provides context about the calculation of the score. The answer is clear and accurate, conveying the same key facts as the reference.
+
+[ID DASH024] Testing: How many KPIs are defined in the Customer Engagement Dashboard?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: There are 7 KPIs defined in the Customer Engagement Dashboard. They are Digital Channel Coverage, Email Utilization Rate, Event Follow-up Rate, Interaction Frequency, Promotional Email Effectiveness, and Multi-Channel Engagement Score, with Interaction Frequency further divided into TC1 and TC2 for high-priority and medium-priority target-class accounts respectively.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys all key facts from the REFERENCE: the number of KPIs (7) and their names (Digital Channel Coverage, Email Utilization Rate, Event Follow-up Rate, Interaction Frequency TC1, Interaction Frequency TC2, Promotional Email Effectiveness, and Multi-Channel Engagement Score). Minor differences in wording (e.g., 'Interaction Frequency' instead of 'Interaction Frequency TC1 and TC2') do not introduce significant errors.
+
+[ID DASH025] Testing: Which Customer Engagement KPIs involve FACT_Account_Metrics as a data source?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The customer engagement KPIs that involve FACT_Account_Metrics as a data source are related to the metrics stored in this table such as penetration percentage, potential score, target class, and adoption stage. 
+
+One example of such a KPI could be the percentage of accounts that have reached a certain adoption stage, which can be calculated by aggregating the adoption_stage field in FACT_Account_Metrics. 
+
+Another example could be the average potential score of accounts for a specific brand, which can be calculated by aggregating the potential_score field in FACT_Account_Metrics and filtering by the brand_id field. 
+
+Additionally, the share of voice percentage and the prescription volume change percentage can also be used to calculate KPIs related to customer engagement, such as the share of voice for a specific brand or the average prescription volume change across all accounts. 
+
+These KPIs can provide insights into how well the company is engaging with its customers and how effective its sales and marketing strategies are. 
+
+It's also worth noting that FACT_Account_Metrics can be joined with other tables such as DIM_Account, DIM_Brand, and DIM_Geography to provide more detailed and filtered KPIs, for example, KPIs by account type, brand, or geographic region. 
+
+In general, the specific KPIs that can be calculated using FACT_Account_Metrics will depend on the business requirements and the goals of the analysis.
+Judge verdict: FAIL
+Reason: The ACTUAL response mentions several KPIs that involve FACT_Account_Metrics as a data source, but it does not specifically mention the Interaction Frequency TC1 and Interaction Frequency TC2 KPIs, which are mentioned in the REFERENCE. The ACTUAL response provides some additional KPI examples, but it does not convey the same key facts as the REFERENCE.
+
+[ID DASH025] Verdict: FAIL
+Reference: For the question "Which Customer Engagement KPIs involve FACT_Account_Metrics as a data source?", the expected answer is:
+  Interaction Frequency TC1 and Interaction Frequency TC2 both reference FACT_Account_Metrics[target_class] to determine which accounts belong to the TC1 and TC2 target classes respectively.
+Actual: The customer engagement KPIs that involve FACT_Account_Metrics as a data source are related to the metrics stored in this table such as penetration percentage, potential score, target class, and adoption stage. 
+
+One example of such a KPI could be the percentage of accounts that have reached a certain adoption stage, which can be calculated by aggregating the adoption_stage field in FACT_Account_M
+Reason: The ACTUAL response mentions several KPIs that involve FACT_Account_Metrics as a data source, but it does not specifically mention the Interaction Frequency TC1 and Interaction Frequency TC2 KPIs, which are mentioned in the REFERENCE. The ACTUAL response provides some additional KPI examples, but it does not convey the same key facts as the REFERENCE.
+
+[ID DASH026] Testing: What is the primary fact table used across all Customer Engagement Dashboard KPIs?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The primary fact table used across all Customer Engagement Dashboard KPIs is likely to be FACT_Interactions, as it contains interaction data between employees and accounts, which is a key aspect of customer engagement. This table has foreign keys to several dimension tables, including DIM_Account, DIM_Employee, DIM_Brand, and DIM_Geography, allowing for analysis of interactions by account, employee, brand, and geography. Additionally, FACT_Interactions has several KPI-related columns, such as kpi008_event_followup_flag, kpi012_tc1_interaction_flag, and kpi015_multichannel_score, indicating its importance in calculating customer engagement metrics.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE, including the fact that FACT_Interactions is the primary fact table, the presence of KPI-related columns, and the foreign keys to several dimension tables. Minor wording differences are fine, and there are no significant errors or contradictions.
+
+[ID DASH027] Testing: Which KPI appears in both the Field Force Dashboard and the Customer Engagement Dashboard, and how does its definition differ?
+Determined intent: dashboardhandler
+Instantiated handler: Handler
+Handler response: None
+  [ID DASH027] Assertion error: [ID DASH027] Empty response on turn 1
+assert None
+
+[ID DASH028] Testing: Which KPIs reference the kpi014_promo_email_flag field?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The kpi014_promo_email_flag field is referenced in the FACT_Interactions table, which is a fact table that stores information about interactions between employees and accounts. This field is likely used to track whether an interaction was a promotional email or not. 
+
+Additionally, there are other KPI fields in the FACT_Interactions table, such as kpi008_event_followup_flag, kpi012_tc1_interaction_flag, and kpi013_tc2_interaction_flag, that may be related to the kpi014_promo_email_flag field. 
+
+There are also KPI fields in other fact tables, such as FACT_Performance and FACT_KPI_Summary, that may be related to the kpi014_promo_email_flag field, but without more information, it is difficult to determine the exact relationships. 
+
+It's also worth noting that the FACT_KPI_Summary table has a column called kpi_id, which could potentially be used to reference the kpi014_promo_email_flag field, but without more information, it is difficult to determine the exact relationships. 
+
+In general, the KPI fields in the fact tables seem to be used to track and measure various performance metrics, and the kpi014_promo_email_flag field is likely used to track the performance of promotional emails.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide the exact KPIs that reference the kpi014_promo_email_flag field. Instead, it provides information about other fields and tables that may be related to the field but does not answer the question directly. The REFERENCE clearly states two KPIs (Email Utilization Rate and Promotional Email Effectiveness) that reference the kpi014_promo_email_flag field, while the ACTUAL response does not convey this information.
+
+[ID DASH028] Verdict: FAIL
+Reference: For the question "Which KPIs reference the kpi014_promo_email_flag field?", the expected answer is:
+  Two KPIs reference kpi014_promo_email_flag: Email Utilization Rate (from the Customer Engagement Dashboard) uses it alongside is_email_flag to identify consented HCPs who received approved emails, and Promotional Email Effectiveness uses it as the basis for counting total promotional emails sent and those generating an engagement signal.
+Actual: The kpi014_promo_email_flag field is referenced in the FACT_Interactions table, which is a fact table that stores information about interactions between employees and accounts. This field is likely used to track whether an interaction was a promotional email or not. 
+
+Additionally, there are other KPI fields in the FACT_Interactions table, such as kpi008_event_followup_flag, kpi012_tc1_interaction
+Reason: The ACTUAL response does not provide the exact KPIs that reference the kpi014_promo_email_flag field. Instead, it provides information about other fields and tables that may be related to the field but does not answer the question directly. The REFERENCE clearly states two KPIs (Email Utilization Rate and Promotional Email Effectiveness) that reference the kpi014_promo_email_flag field, while the ACTUAL response does not convey this information.
+
+[ID DASH029] Testing: What is the difference between how the Field Force Dashboard and Customer Engagement Dashboard use FACT_Interactions?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The Field Force Dashboard and Customer Engagement Dashboard use the FACT_Interactions table in different ways. 
+
+The Field Force Dashboard likely uses FACT_Interactions to analyze the interactions between field force employees and accounts, such as the number of interactions, interaction types, and interaction channels. This information can help field force managers to evaluate employee performance and optimize their field force strategies.
+
+On the other hand, the Customer Engagement Dashboard probably uses FACT_Interactions to examine the interactions between customers and the company, such as the number of interactions, customer engagement levels, and interaction outcomes. This information can help customer engagement managers to assess customer satisfaction and develop targeted marketing campaigns.
+
+In terms of specific columns, the Field Force Dashboard may focus on columns like employee_id, interaction_type, interaction_channel, and is_f2f_flag, while the Customer Engagement Dashboard may focus on columns like account_id, interaction_type, interaction_channel, and kpi012_tc1_interaction_flag. 
+
+However, without more information about the specific requirements and goals of each dashboard, it is difficult to provide a more detailed analysis of how FACT_Interactions is used in each case. 
+
+It is also worth noting that both dashboards may use other tables in addition to FACT_Interactions, such as DIM_Account, DIM_Employee, and FACT_Sales, to provide a more comprehensive view of field force performance and customer engagement. 
+
+Overall, the use of FACT_Interactions in the Field Force Dashboard and Customer Engagement Dashboard reflects the different goals and priorities of each dashboard, with the Field Force Dashboard focusing on employee performance and the Customer Engagement Dashboard focusing on customer satisfaction and engagement.
+Judge verdict: FAIL
+Reason: The actual response only mentions the general use of FACT_Interactions in the Field Force Dashboard and Customer Engagement Dashboard without providing the specific details mentioned in the reference. The actual response does not convey the key facts from the reference.
+
+[ID DASH029] Verdict: FAIL
+Reference: For the question "What is the difference between how the Field Force Dashboard and Customer Engagement Dashboard use FACT_Interactions?", the expected answer is:
+  The Field Force Dashboard uses FACT_Interactions primarily for aggregate counts — total interactions, coverage rates, and call volumes — to assess rep productivity and reach. The Customer Engagement Dashboard uses FACT_Interactions at a more granular level, examining specific interaction flags (email, event, F2F, web, TC1/TC2 flags, multichannel scores) to assess the quality, channel mix, and effectiveness of individual customer engagement activities.
+Actual: The Field Force Dashboard and Customer Engagement Dashboard use the FACT_Interactions table in different ways. 
+
+The Field Force Dashboard likely uses FACT_Interactions to analyze the interactions between field force employees and accounts, such as the number of interactions, interaction types, and interaction channels. This information can help field force managers to evaluate employee performanc
+Reason: The actual response only mentions the general use of FACT_Interactions in the Field Force Dashboard and Customer Engagement Dashboard without providing the specific details mentioned in the reference. The actual response does not convey the key facts from the reference.
+
+[ID DASH030] Testing: Which dashboards have KPIs that use FACT_KPI_Summary as a data source?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: To determine which dashboards have KPIs that use FACT_KPI_Summary as a data source, we need to look at the FACT_KPI_Summary table. The FACT_KPI_Summary table contains KPI information such as kpi_id, kpi_name, geo_id, brand_id, time_id, and kpi_value. 
+
+Since there is no direct information about dashboards in the provided schema, we can assume that the dashboards are related to the KPIs in the FACT_KPI_Summary table. The KPIs in this table are identified by the kpi_id column, and each KPI has a corresponding kpi_name. 
+
+To find the dashboards that use FACT_KPI_Summary as a data source, we would need to know which KPIs are used in each dashboard. However, based on the provided schema, we can identify the KPIs that are available in the FACT_KPI_Summary table, such as 'Field Day Percentage' and 'Target Coverage Rate'. 
+
+Therefore, the dashboards that have KPIs that use FACT_KPI_Summary as a data source are likely to be the dashboards that display these KPIs, such as a sales performance dashboard or a marketing effectiveness dashboard. 
+
+Without more information about the dashboards and how they are related to the KPIs in the FACT_KPI_Summary table, we cannot provide a more specific answer.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide the ground-truth answer for the question. It does not mention the specific KPIs or dashboards that use FACT_KPI_Summary, which is the key information required to answer the question.
+
+[ID DASH030] Verdict: FAIL
+Reference: For the question "Which dashboards have KPIs that use FACT_KPI_Summary as a data source?", the expected answer is:
+  The Field Force Dashboard uses FACT_KPI_Summary for its KPI Attainment % metric, referencing FACT_KPI_Summary[kpi_value] and FACT_KPI_Summary[target_value] to compute performance against targets. FACT_KPI_Summary serves as a pre-aggregated summary layer that consolidates KPI values per country, brand, and quarter.
+Actual: To determine which dashboards have KPIs that use FACT_KPI_Summary as a data source, we need to look at the FACT_KPI_Summary table. The FACT_KPI_Summary table contains KPI information such as kpi_id, kpi_name, geo_id, brand_id, time_id, and kpi_value. 
+
+Since there is no direct information about dashboards in the provided schema, we can assume that the dashboards are related to the KPIs in the FACT
+Reason: The ACTUAL response does not provide the ground-truth answer for the question. It does not mention the specific KPIs or dashboards that use FACT_KPI_Summary, which is the key information required to answer the question.
+
+[ID DASH031] Testing: A sales manager wants to track how often their reps are completing their planned visits. Which KPI should they use and how is it calculated?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: To track how often sales reps are completing their planned visits, the sales manager should use the Call Plan Adherence KPI. This KPI measures the percentage of planned calls that were actually completed during the selected period. The calculation for Call Plan Adherence is DIVIDE(SUM(FACT_Performance[actual_calls]), SUM(FACT_Performance[planned_calls])). This means that if a rep completed 58 calls against a plan of 76, the result would be 58 ÷ 76 = 76.3%. The target for Call Plan Adherence is 85.0%, so a result of 80.9% would indicate that the team is below target but not in collapse territory. A low adherence rate can be a sign of execution discipline, scheduling quality, or account access issues.
+Judge verdict: PASS
+Reason: The actual response correctly conveys all key facts from the reference. The KPI is correctly identified as Call Plan Adherence, its calculation is accurately provided, and the context for interpreting results is explained in detail.
+
+[ID DASH032] Testing: A brand manager wants to understand whether field teams are effectively following up with HCPs after events. Which KPI is relevant and what does it measure?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: The relevant KPI for understanding whether field teams are effectively following up with HCPs after events is Call Plan Adherence. It measures the percentage of planned calls that were actually completed during the selected period, which indicates how reliably the team converts planned customer activity into completed calls. This KPI can help the brand manager identify if the field teams are executing their plans and following up with HCPs as intended.
+Judge verdict: FAIL
+Reason: The ACTUAL response incorrectly identifies the relevant KPI as Call Plan Adherence, which does not align with the provided reference. The reference clearly states that the relevant KPI is Event Follow-up Rate, which measures the percentage of HCPs who attended an event and received a documented follow-up interaction.
+
+[ID DASH032] Verdict: FAIL
+Reference: For the question "A brand manager wants to understand whether field teams are effectively following up with HCPs after events. Which KPI is relevant and what does it measure?", the expected answer is:
+  The relevant KPI is Event Follow-up Rate. It measures the percentage of HCPs who attended an event and subsequently received a documented follow-up interaction within the expected follow-up window. It is calculated as Event Attendees with Follow-up / Total Event Attendees, using is_event_flag and kpi008_event_followup_flag from FACT_Interactions.
+Actual: The relevant KPI for understanding whether field teams are effectively following up with HCPs after events is Call Plan Adherence. It measures the percentage of planned calls that were actually completed during the selected period, which indicates how reliably the team converts planned customer activity into completed calls. This KPI can help the brand manager identify if the field teams are execu
+Reason: The ACTUAL response incorrectly identifies the relevant KPI as Call Plan Adherence, which does not align with the provided reference. The reference clearly states that the relevant KPI is Event Follow-up Rate, which measures the percentage of HCPs who attended an event and received a documented follow-up interaction.
+
+[ID DASH033] Testing: What is the difference between Digital Channel Coverage and Email Utilization Rate?
+Determined intent: conversational_handler
+Instantiated handler: ConversationalHandler
+Handler response: Digital Channel Coverage refers to the extent to which a company's message or product is visible and accessible across various digital platforms, such as social media, websites, and search engines. It measures how well a company is able to reach its target audience through different online channels.
+
+On the other hand, Email Utilization Rate is a metric that measures the percentage of email addresses that are actively used by customers or subscribers to interact with a company or receive communications from them. It helps to evaluate the effectiveness of an email marketing campaign and identify areas for improvement.
+
+In essence, Digital Channel Coverage is about the breadth of online presence, while Email Utilization Rate is about the engagement and effectiveness of email marketing efforts.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the key facts about Digital Channel Coverage and Email Utilization Rate accurately, including the definitions of both metrics, their scopes (target HCP universe vs. consented HCPs), and the differences in their purposes (reach vs. activation and engagement). Minor differences in wording do not affect the accuracy of the information presented.
+
+[ID DASH034] Testing: What is the denominator used in the Field Day % calculation?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The denominator used in the Field Day percentage calculation is the total working days. This information can be found in the FACT_Performance table, which contains a column named total_working_days. The Field Day percentage is calculated as field_days divided by total_working_days, and this calculation is represented by the kpi001_field_day_pct column in the same table. Additionally, the FACT_KPI_Summary table also contains a column named denominator_value which stores the denominator value for different KPIs, including the Field Day percentage.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly identifies the denominator for the Field Day percentage calculation as 'total_working_days', sourced from the FACT_Performance table, and explains the calculation process (divided by total_working_days). It also references the FACT_KPI_Summary table for additional context, which aligns with the information provided in the REFERENCE.
+
+[ID DASH035] Testing: Why is the Multi-Channel Engagement Score described as measuring orchestration quality rather than channel volume?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: The Multi-Channel Engagement Score is described as measuring orchestration quality rather than channel volume because it is a weighted composite score of multi-channel touchpoints per HCP, taking into account channel diversity, sequence, and recency, rather than just the number of interactions or touches. This means it evaluates how well different channels are combined to create a meaningful engagement pattern, rather than just measuring the volume of interactions.
+Judge verdict: PASS
+Reason: The chatbot response is accurate and conveys the key facts provided in the reference. It explains that the score is a weighted composite that accounts for channel diversity, sequence, and recency, rather than just channel volume. This is consistent with the reference, making the response correct.
+Stats for reference_answers_dashboard_handler.json: {'ratio_pass': 0.7142857142857143, 'ratio_partial': 0.0, 'ratio_fail': 0.22857142857142856, 'average_response_time_sec': 2.6560520785195485, 'ratio_errors': 0.05714285714285714}
+
+=== Running tests for reference_answers_data_handler.json ===
+
+[ID TC001] Testing: What was the total net revenue in EUR across all brands and countries for the full year 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'FACT_Interactions', 'DIM_Geography', 'DIM_Brand', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(fs.net_revenue_eur) AS total_net_revenue_eur,
+    dg.geo_name AS country_name,
+    db.brand_name AS brand_name
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Geography dg ON fs.geo_id = dg.geo_id
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2024
+GROUP BY 
+    dg.geo_name, db.brand_name
+Handler response: To find the total net revenue in EUR across all brands and countries for the full year 2024, we need to sum up the 'total_net_revenue_eur' for each country and brand.
+
+Here are the results:
+
+The total net revenue in EUR for each brand in each country is as follows:
+- In Austria: 
+  - COGNIVEX: 1100876.89 EUR
+  - COLONEX: 7497710.63 EUR
+  - DERMASHIELD: 26658784.0 EUR
+  - HEMAVEX: 72111398.53 EUR
+  - HEMAVEX COMBO: 469084.19 EUR
+  - LUNARA: 143110411.66 EUR
+  - LUPINOVA: 658396.14 EUR
+  - LYMPHACLEAR: 13007631.85 EUR
+  - MIGRANOVA: 20405209.86 EUR
+  - MIGRANOVA EP: 3229578.93 EUR
+  - MYELOGUARD: 5902868.18 EUR
+  - NEUROMYEL: 21218753.61 EUR
+  - NEUROMYEL SPMS: 8509550.23 EUR
+  - ONCOBREAST: 37280341.98 EUR
+  - RHEUMAVEX: 2192706.56 EUR
+- In Belgium: 
+  - COGNIVEX: 740108.63 EUR
+  - COLONEX: 5364043.0 EUR
+  - DERMASHIELD: 19147493.46 EUR
+  - HEMAVEX: 47381939.08 EUR
+  - HEMAVEX COMBO: 325368.96 EUR
+  - LUNARA: 100490187.57 EUR
+  - LUPINOVA: 480265.52 EUR
+  - LYMPHACLEAR: 9209429.46 EUR
+  - MIGRANOVA: 14203584.54 EUR
+  - MIGRANOVA EP: 2196974.73 EUR
+  - MYELOGUARD: 4051895.65 EUR
+  - NEUROMYEL: 15253241.1 EUR
+  - NEUROMYEL SPMS: 5866156.73 EUR
+  - ONCOBREAST: 26459489.77 EUR
+  - RHEUMAVEX: 1652185.34 EUR
+- In Bulgaria: 
+  - COGNIVEX: 215053.7 EUR
+  - COLONEX: 1499203.62 EUR
+  - DERMASHIELD: 5542038.44 EUR
+  - HEMAVEX: 14352573.8 EUR
+  - HEMAVEX COMBO: 91858.65 EUR
+  - LUNARA: 29068789.740000002 EUR
+  - LUPINOVA: 133321.92 EUR
+  - LYMPHACLEAR: 2610407.4 EUR
+  - MIGRANOVA: 3882079.89 EUR
+  - MIGRANOVA EP: 621872.42 EUR
+  - MYELOGUARD: 1201327.15 EUR
+  - NEUROMYEL: 4166872.65 EUR
+  - NEUROMYEL SPMS: 1621800.27 EUR
+  - ONCOBREAST: 7500013.91 EUR
+  - RHEUMAVEX: 439777.12 EUR
+- In Croatia: 
+  - COGNIVEX: 229976.22 EUR
+  - COLONEX: 1517741.04 EUR
+  - DERMASHIELD: 5451765.21 EUR
+  - HEMAVEX: 14292574.22 EUR
+  - HEMAVEX COMBO: 89891.84 EUR
+  - LUNARA: 29115419.19 EUR
+  - LUPINOVA: 129979.53 EUR
+  - LYMPHACLEAR: 2578555.95 EUR
+  - MIGRANOVA: 3926709.16 EUR
+  - MIGRANOVA EP: 645374.62 EUR
+  - MYELOGUARD: 1150733.51 EUR
+  - NEUROMYEL: 4169106.21 EUR
+  - NEUROMYEL SPMS: 1674658.58 EUR
+  - ONCOBREAST: 7697128.33 EUR
+  - RHEUMAVEX: 446520.02 EUR
+- In Czech Republic: 
+  - COGNIVEX: 547571.54 EUR
+  - COLONEX: 3761511.61 EUR
+  - DERMASHIELD: 13456697.540000001 EUR
+  - HEMAVEX: 34101647.33 EUR
+  - HEMAVEX COMBO: 229743.87 EUR
+  - LUNARA: 72285783.85 EUR
+  - LUPINOVA: 328300.66 EUR
+  - LYMPHACLEAR: 6434037.48 EUR
+  - MIGRANOVA: 9848307.86 EUR
+  - MIGRANOVA EP: 1574653.18 EUR
+  - MYELOGUARD: 2963709.04 EUR
+  - NEUROMYEL: 10204096.459999999 EUR
+  - NEUROMYEL SPMS: 4158378.34 EUR
+  - ONCOBREAST: 18710321.59 EUR
+  - RHEUMAVEX: 1138608.27 EUR
+- In Denmark: 
+  - COGNIVEX: 665430.78 EUR
+  - COLONEX: 4537523.53 EUR
+  - DERMASHIELD: 17054911.3 EUR
+  - HEMAVEX: 43354360.18 EUR
+  - HEMAVEX COMBO: 292195.14 EUR
+  - LUNARA: 86295879.58 EUR
+  - LUPINOVA: 392285.77999999997 EUR
+  - LYMPHACLEAR: 7949713.06 EUR
+  - MIGRANOVA: 12049125.47 EUR
+  - MIGRANOVA EP: 1852307.66 EUR
+  - MYELOGUARD: 3500929.92 EUR
+  - NEUROMYEL: 13231137.11 EUR
+  - NEUROMYEL SPMS: 4981134.84 EUR
+  - ONCOBREAST: 22278420.86 EUR
+  - RHEUMAVEX: 1330571.0 EUR
+- In Finland: 
+  - COGNIVEX: 541558.53 EUR
+  - COLONEX: 3925555.17 EUR
+  - DERMASHIELD: 14147650.209999999 EUR
+  - HEMAVEX: 36084671.46 EUR
+  - HEMAVEX COMBO: 228379.39 EUR
+  - LUNARA: 71907786.22 EUR
+  - LUPINOVA: 344530.39 EUR
+  - LYMPHACLEAR: 6622145.55 EUR
+  - MIGRANOVA: 9961344.96 EUR
+  - MIGRANOVA EP: 1584059.46 EUR
+  - MYELOGUARD: 2933043.53 EUR
+  - NEUROMYEL: 10464569.34 EUR
+  - NEUROMYEL SPMS: 4304358.31 EUR
+  - ONCOBREAST: 19338224.55 EUR
+  - RHEUMAVEX: 1122486.97 EUR
+- In France: 
+  - COGNIVEX: 4865178.47 EUR
+  - COLONEX: 31715968.84 EUR
+  - DERMASHIELD: 117962646.75 EUR
+  - HEMAVEX: 307286702.64 EUR
+  - HEMAVEX COMBO: 1945660.97 EUR
+  - LUNARA: 625428367.95 EUR
+  - LUPINOVA: 2734507.07 EUR
+  - LYMPHACLEAR: 56048536.43 EUR
+  - MIGRANOVA: 85703459.43 EUR
+  - MIGRANOVA EP: 13181240.03 EUR
+  - MYELOGUARD: 24670114.99 EUR
+  - NEUROMYEL: 86179582.61 EUR
+  - NEUROMYEL SPMS: 36652461.41 EUR
+  - ONCOBREAST: 162962590.44 EUR
+  - RHEUMAVEX: 9137032.25 EUR
+- In Germany: 
+  - COGNIVEX: 5668444.15 EUR
+  - COLONEX: 36246573.61 EUR
+  - DERMASHIELD: 139342742.85 EUR
+  - HEMAVEX: 342713870.77 EUR
+  - HEMAVEX COMBO: 2202625.56 EUR
+  - LUNARA: 688409157.68 EUR
+  - LUPINOVA: 3344631.42 EUR
+  - LYMPHACLEAR: 64509640.23 EUR
+  - MIGRANOVA: 98337851.76 EUR
+  - MIGRANOVA EP: 15335252.36 EUR
+  - MYELOGUARD: 29733361.38 EUR
+  - NEUROMYEL: 108883234.09 EUR
+  - NEUROMYEL SPMS: 42908666.73 EUR
+  - ONCOBREAST: 189047714.85 EUR
+  - RHEUMAVEX: 10806837.45 EUR
+- In Greece: 
+  - COGNIVEX: 438195.3 EUR
+  - COLONEX: 2994819.55 EUR
+  - DERMASHIELD: 11278789.01 EUR
+  - HEMAVEX: 27896021.86 EUR
+  - HEMAVEX COMBO: 188231.73 EUR
+  - LUNARA: 56231397.84 EUR
+  - LUPINOVA: 261778.69 EUR
+  - LYMPHACLEAR: 5352092.4 EUR
+  - MIGRANOVA: 7729094.67 EUR
+  - MIGRANOVA EP: 1269756.83 EUR
+  - MYELOGUARD: 2429147.32 EUR
+  - NEUROMYEL: 8357435.5 EUR
+  - NEUROMYEL SPMS: 3235404.93 EUR
+  - ONCOBREAST: 15215973.97 EUR
+  - RHEUMAVEX: 911550.14 EUR
+- In Hungary: 
+  - COGNIVEX: 440962.35 EUR
+  - COLONEX: 3086177.96 EUR
+  - DERMASHIELD: 11423067.3 EUR
+  - HEMAVEX: 27752363.53 EUR
+  - HEMAVEX COMBO: 174774.9 EUR
+  - LUNARA: 57852087.64 EUR
+  - LUPINOVA: 268569.9 EUR
+  - LYMPHACLEAR: 5465906.5200000005 EUR
+  - MIGRANOVA: 7997402.13 EUR
+  - MIGRANOVA EP: 1266088.93 EUR
+  - MYELOGUARD: 2375633.14 EUR
+  - NEUROMYEL: 8436528.93 EUR
+  - NEUROMYEL SPMS: 3439959.2 EUR
+  - ONCOBREAST: 15397281.08 EUR
+  - RHEUMAVEX: 882088.28 EUR
+- In Ireland: 
+  - COGNIVEX: 436344.36 EUR
+  - COLONEX: 3020689.25 EUR
+  - DERMASHIELD: 11099299.38 EUR
+  - HEMAVEX: 28270542.07 EUR
+  - HEMAVEX COMBO: 182213.35 EUR
+  - LUNARA: 57287136.45 EUR
+  - LUPINOVA: 256124.93 EUR
+  - LYMPHACLEAR: 5400414.44 EUR
+  - MIGRANOVA: 8171055.25 EUR
+  - MIGRANOVA EP: 1251302.82 EUR
+  - MYELOGUARD: 2377562.91 EUR
+  - NEUROMYEL: 8217206.16 EUR
+  - NEUROMYEL SPMS: 3237830.55 EUR
+  - ONCOBREAST: 15187859.05 EUR
+  - RHEUMAVEX: 928380.52 EUR
+- In Italy: 
+  - COGNIVEX: 3823153.46 EUR
+  - COLONEX: 26972482.43 EUR
+  - DERMASHIELD: 93013422.71 EUR
+  - HEMAVEX: 252108426.04 EUR
+  - HEMAVEX COMBO: 1611289.0 EUR
+  - LUNARA: 508018328.01 EUR
+  - LUPINOVA: 2334704.5100000002 EUR
+  - LYMPHACLEAR: 45675850.09 EUR
+  - MIGRANOVA: 71210629.49 EUR
+  - MIGRANOVA EP: 11053728.38 EUR
+  - MYELOGUARD: 21032358.48 EUR
+  - NEUROMYEL: 72512008.06 EUR
+  - NEUROMYEL SPMS: 30077009.48 EUR
+  - ONCOBREAST: 133390942.2 EUR
+  - RHEUMAVEX: 7661025.38 EUR
+- In Netherlands: 
+  - COGNIVEX: 971235.07 EUR
+  - COLONEX: 7146156.51 EUR
+  - DERMASHIELD: 25076204.44 EUR
+  - HEMAVEX: 62050687.37 EUR
+  - HEMAVEX COMBO: 427388.92 EUR
+  - LUNARA: 128226597.31 EUR
+  - LUPINOVA: 621105.19 EUR
+  - LYMPHACLEAR: 11325142.6 EUR
+  - MIGRANOVA: 18859218.76 EUR
+  - MIGRANOVA EP: 2847598.24 EUR
+  - MYELOGUARD: 5197682.71 EUR
+  - NEUROMYEL: 18878176.49 EUR
+  - NEUROMYEL SPMS: 7729939.62 EUR
+  - ONCOBREAST: 32906096.1 EUR
+  - RHEUMAVEX: 2064686.72 EUR
+- In Norway: 
+  - COGNIVEX: 675548.16 EUR
+  - COLONEX: 4717996.33 EUR
+  - DERMASHIELD: 16827865.88 EUR
+  - HEMAVEX: 43403911.96 EUR
+  - HEMAVEX COMBO: 277888.93 EUR
+  - LUNARA: 86905442.82 EUR
+  - LUPINOVA: 399801.91 EUR
+  - LYMPHACLEAR: 7750889.23 EUR
+  - MIGRANOVA: 12497147.23 EUR
+  - MIGRANOVA EP: 1818757.67 EUR
+  - MYELOGUARD: 3499647.67 EUR
+  - NEUROMYEL: 13055241.16 EUR
+  - NEUROMYEL SPMS: 5278433.79 EUR
+  - ONCOBREAST: 22984969.46 EUR
+  - RHEUMAVEX: 1292797.03 EUR
+- In Poland: 
+  - COGNIVEX: 1435026.71 EUR
+  - COLONEX: 9870985.14 EUR
+  - DERMASHIELD: 34903787.95 EUR
+  - HEMAVEX: 91393706.58 EUR
+  - HEMAVEX COMBO: 587144.71 EUR
+  - LUNARA: 181477258.13 EUR
+  - LUPINOVA: 807827.66 EUR
+  - LYMPHACLEAR: 16619600.0 EUR
+  - MIGRANOVA: 24399388.45 EUR
+  - MIGRANOVA EP: 3901980.69 EUR
+  - MYELOGUARD: 7369594.74 EUR
+  - NEUROMYEL: 25593616.5 EUR
+  - NEUROMYEL SPMS: 10454398.92 EUR
+  - ONCOBREAST: 47226529.68 EUR
+  - RHEUMAVEX: 2786069.58 EUR
+- In Portugal: 
+  - COGNIVEX: 656516.93 EUR
+  - COLONEX: 4755006.0200000005 EUR
+  - DERMASHIELD: 16676616.25 EUR
+  - HEMAVEX: 43619808.71 EUR
+  - HEMAVEX COMBO: 265913.76 EUR
+  - LUNARA: 83526272.9 EUR
+  - LUPINOVA: 393675.08 EUR
+  - LYMPHACLEAR: 7786624.36 EUR
+  - MIGRANOVA: 12533455.94 EUR
+  - MIGRANOVA EP: 1842760.74 EUR
+  - MYELOGUARD: 3596358.19 EUR
+  - NEUROMYEL: 12901231.45 EUR
+  - NEUROMYEL SPMS: 5068517.96 EUR
+  - ONCOBREAST: 22747815.42 EUR
+  - RHEUMAVEX: 1298399.05 EUR
+- In Romania: 
+  - COGNIVEX: 639012.9 EUR
+  - COLONEX: 4599157.1 EUR
+  - DERMASHIELD: 16807538.8 EUR
+  - HEMAVEX: 40620586.95 EUR
+  - HEMAVEX COMBO: 271199.0 EUR
+  - LUNARA: 87347588.67999999 EUR
+  - LUPINOVA: 400440.06 EUR
+  - LYMPHACLEAR: 7956050.25 EUR
+  - MIGRANOVA: 12232280.19 EUR
+  - MIGRANOVA EP: 1906926.67 EUR
+  - MYELOGUARD: 3455848.7 EUR
+  - NEUROMYEL: 12567829.1 EUR
+  - NEUROMYEL SPMS: 5159725.4 EUR
+  - ONCOBREAST: 22930121.03 EUR
+  - RHEUMAVEX: 1328541.97 EUR
+- In Spain: 
+  - COGNIVEX: 3322048.55 EUR
+  - COLONEX: 23003689.13 EUR
+  - DERMASHIELD: 83849091.76 EUR
+  - HEMAVEX: 221922321.21 EUR
+  - HEMAVEX COMBO: 1337651.25 EUR
+  - LUNARA: 421694325.09 EUR
+  - LUPINOVA: 1992322.84 EUR
+  - LYMPHACLEAR: 39053141.17 EUR
+  - MIGRANOVA: 58256000.8 EUR
+  - MIGRANOVA EP: 9405220.63 EUR
+  - MYELOGUARD: 17389997.52 EUR
+  - NEUROMYEL: 65699313.17 EUR
+  - NEUROMYEL SPMS: 24912138.71 EUR
+  - ONCOBREAST: 115967806.92 EUR
+  - RHEUMAVEX: 6653412.06 EUR
+- In Sweden: 
+  - COGNIVEX: 1004284.97 EUR
+  - COLONEX: 7057487.91 EUR
+  - DERMASHIELD: 24126075.330000002 EUR
+  - HEMAVEX: 64205290.43 EUR
+  - HEMAVEX COMBO: 421070.63 EUR
+  - LUNARA: 132983138.56 EUR
+  - LUPINOVA: 582214.08 EUR
+  - LYMPHACLEAR: 12418121.95 EUR
+  - MIGRANOVA: 18054725.94 EUR
+  - MIGRANOVA EP: 2863716.97 EUR
+  - MYELOGUARD: 5399865.62 EUR
+  - NEUROMYEL: 18814155.04 EUR
+  - NEUROMYEL SPMS: 7273227.11 EUR
+  - ONCOBREAST: 34230748.87 EUR
+  - RHEUMAVEX: 2027450.92 EUR
+- In Switzerland: 
+  - COGNIVEX: 1449680.54 EUR
+  - COLONEX: 9864034.7 EUR
+  - DERMASHIELD: 33861512.49 EUR
+  - HEMAVEX: 87391629.82 EUR
+  - HEMAVEX COMBO: 610690.39 EUR
+  - LUNARA: 181674338.75 EUR
+  - LUPINOVA: 854709.24 EUR
+  - LYMPHACLEAR: 16388902.290000001 EUR
+  - MIGRANOVA: 24949690.1 EUR
+  - MIGRANOVA EP: 3942390.26 EUR
+  - MYELOGUARD: 7397209.25 EUR
+  - NEUROMYEL: 26054511.71 EUR
+  - NEUROMYEL SPMS: 11063654.97 EUR
+  - ONCOBREAST: 47101586.06 EUR
+  - RHEUMAVEX: 2850485.89 EUR
+- In United Kingdom: 
+  - COGNIVEX: 4032841.88 EUR
+  - COLONEX: 28840602.0 EUR
+  - DERMASHIELD: 106005636.49 EUR
+  - HEMAVEX: 262187445.77 EUR
+  - HEMAVEX COMBO: 1657110.29 EUR
+  - LUNARA: 526592023.06 EUR
+  - LUPINOVA: 2556399.46 EUR
+  - LYMPHACLEAR: 49060818.81 EUR
+  - MIGRANOVA: 74204129.74 EUR
+  - MIGRANOVA EP: 11493592.33 EUR
+  - MYELOGUARD: 22592537.31 EUR
+  - NEUROMYEL: 78144701.89 EUR
+  - NEUROMYEL SPMS: 31366909.93 EUR
+  - ONCOBREAST: 145497252.09 EUR
+  - RHEUMAVEX: 8292826.41 EUR
+
+The total net revenue in EUR across all brands and countries for the full year 2024 is 4,231,941,131.45 EUR.
+Judge verdict: PASS
+Reason: The chatbot provided the total net revenue across all brands and countries as 4,231,941,131.45 EUR, which matches the total calculated from the provided data. The data is correct and consistent with the total calculated.
+
+[ID TC002] Testing: Which brand generated the highest total net revenue in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FS.net_revenue_eur) AS total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Brand DB ON FS.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2023
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: The brand that generated the highest total net revenue in 2023 is LUNARA, with a total net revenue of 3,545,101,933.63.
+Judge verdict: PASS
+Reason: The actual response conveys the key fact that LUNARA generated the highest total net revenue in 2023, with the exact same number as the reference. Minor wording differences are fine here.
+
+[ID TC003] Testing: How many interactions were of type CALL in total across the entire dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(*) 
+FROM 
+    FACT_Interactions 
+WHERE 
+    interaction_type = 'CALL'
+Handler response: There were 122578 interactions of type CALL in total across the entire dataset.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that there were 122,578 interactions of type CALL recorded in the dataset. The minor difference in wording is acceptable.
+
+[ID TC004] Testing: What is the average market share percentage for the brand LUNARA across all markets and time periods?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Sales'}
+[DataHandler] SQL Generated: SELECT AVG(fs.market_share_pct) 
+FROM FACT_Sales fs 
+JOIN DIM_Brand db ON fs.brand_id = db.brand_id 
+WHERE db.brand_name = 'LUNARA';
+Handler response: The average market share percentage for the brand LUNARA across all markets and time periods is 19.58%.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key fact that LUNARA's average market share across all markets and time periods is 19.58%. The wording is nearly identical to the reference.
+
+[ID TC005] Testing: How many employees are currently active in the organization?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_name) 
+FROM DIM_Employee 
+WHERE is_active = 1;
+Handler response: There are 573 employees who are currently active in the organization.
+Judge verdict: PASS
+Reason: The chatbot's response 'There are 573 employees who are currently active in the organization.' conveys the same key fact as the reference, and the numbers match within the ~1% margin.
+
+[ID TC006] Testing: Which country had the highest total net sales revenue in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Sales', 'FACT_Interactions', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    SUM(FS.net_revenue_eur) as total_net_revenue
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    total_net_revenue DESC
+LIMIT 1;
+Handler response: The country with the highest total net sales revenue in 2024 is Germany, with a total net revenue of 1,777,490,604.89.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that Germany had the highest total net sales revenue in 2024, matching the REFERENCE's amount €1,777,490,604.89 (rounded to 1,777,490,605 in ACTUAL). No significant errors or contradictions are present.
+
+[ID TC007] Testing: What was the average Target Coverage Rate (KPI002) for LUNARA in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Coverage', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi002_target_coverage_pct) 
+FROM 
+    FACT_Coverage T1
+JOIN 
+    DIM_Brand T2 ON T1.brand_id = T2.brand_id
+JOIN 
+    DIM_Time T3 ON T1.time_id = T3.time_id
+WHERE 
+    T2.brand_name = 'LUNARA' 
+    AND T3.year = 2025
+Handler response: The average Target Coverage Rate (KPI002) for LUNARA in 2025 was 71.41%.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key fact from the reference: LUNARA's average Target Coverage Rate (KPI002) in 2025 was 71.41%. The value is within ~1% margin of error, and there are no significant contradictions or missing facts.
+
+[ID TC008] Testing: What is the total quantity of product samples that have been successfully delivered?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sample_Management'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(T1.sample_quantity) AS total_quantity
+FROM 
+    FACT_Sample_Management T1
+WHERE 
+    T1.sample_status = 'DELIVERED'
+Handler response: The total quantity of product samples that have been successfully delivered is 23546.
+Judge verdict: PASS
+Reason: The ACTUAL response '23546' matches the REFERENCE '23,546' within the ~1% margin.
+
+[ID TC009] Testing: How many HCP accounts are classified as Key Opinion Leaders (KOLs)?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(DISTINCT a.account_name) 
+FROM 
+    DIM_Account a
+WHERE 
+    a.account_type = 'HCP' 
+    AND a.is_key_opinion_leader = 1;
+Handler response: There are 70 HCP accounts classified as Key Opinion Leaders (KOLs).
+Judge verdict: PASS
+Reason: The actual response matches the reference in both content and fact.
+
+[ID TC010] Testing: Which brand and indication combination had the highest number of interactions recorded?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Brand_Indication', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+  DB.brand_name, 
+  DBI.indication_name, 
+  COUNT(FI.interaction_id) AS interaction_count
+FROM 
+  FACT_Interactions FI
+JOIN 
+  DIM_Brand DB ON FI.brand_id = DB.brand_id
+JOIN 
+  DIM_Brand_Indication DBI ON FI.brand_id = DBI.brand_id AND FI.indication_id = DBI.indication_id
+GROUP BY 
+  DB.brand_name, 
+  DBI.indication_name
+ORDER BY 
+  interaction_count DESC
+LIMIT 1;
+Handler response: The brand and indication combination with the highest number of interactions recorded is COLONEX for Colorectal Cancer, with 17,729 interactions.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key facts of the REFERENCE, including the brand (COLONEX), indication (Colorectal Cancer), and the highest number of interactions (17,729). Minor wording differences are acceptable.
+
+[ID TC011] Testing: What was the total revenue target for FY2024 and how did actual revenue compare to it?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Sales', 'FACT_Targets'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(CASE WHEN T1.fiscal_year = 'FY2024' AND T1.target_type = 'REVENUE_TARGET' THEN T1.target_value ELSE 0 END) AS total_revenue_target,
+    SUM(CASE WHEN T2.fiscal_year = 'FY2024' THEN T2.net_revenue_eur ELSE 0 END) AS total_actual_revenue
+FROM 
+    FACT_Targets T1
+LEFT JOIN 
+    FACT_Sales T2 ON T1.brand_id = T2.brand_id AND T1.geo_id = T2.geo_id AND T1.fiscal_year = (SELECT fiscal_year FROM DIM_Time WHERE time_id = T2.time_id)
+WHERE 
+    T1.fiscal_year = 'FY2024'
+Database Error: no such column: T2.fiscal_year
+Handler response: No data found for the total revenue target for FY2024. However, I can tell you that the provided data does contain information about revenue targets for FY2023. 
+
+For example, the total revenue target for FY2023 is 234,365,130.15 EUR for the brand BRD001 in the geo_id GEO_0003. 
+
+If you're looking for information about FY2024, I would need more data or a different query to provide a more accurate answer.
+Judge verdict: FAIL
+Reason: The actual response does not provide the information requested in the question. The ground-truth answer contains the total revenue target for FY2024 and how actual revenue compared to it, but the actual response does not provide any information about FY2024's target or actual revenue.
+
+[ID TC011] Verdict: FAIL
+Reference: For the question "What was the total revenue target for FY2024 and how did actual revenue compare to it?", the expected answer is:
+  The total revenue target for FY2024 was €17,697,729,302.90. Actual revenue of €11,079,423,905.21 was achieved, representing a target attainment of 62.6%.
+Actual: No data found for the total revenue target for FY2024. However, I can tell you that the provided data does contain information about revenue targets for FY2023. 
+
+For example, the total revenue target for FY2023 is 234,365,130.15 EUR for the brand BRD001 in the geo_id GEO_0003. 
+
+If you're looking for information about FY2024, I would need more data or a different query to provide a more accurate 
+Reason: The actual response does not provide the information requested in the question. The ground-truth answer contains the total revenue target for FY2024 and how actual revenue compared to it, but the actual response does not provide any information about FY2024's target or actual revenue.
+
+[ID TC012] Testing: Which employee had the highest total interaction count in 2024, and how many interactions did they have?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Employee', 'DIM_Time', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT 
+    DE.employee_name, 
+    SUM(FP.interaction_count) AS total_interactions
+FROM 
+    FACT_Performance FP
+JOIN 
+    DIM_Employee DE ON FP.employee_id = DE.employee_id
+JOIN 
+    DIM_Time DT ON FP.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DE.employee_name
+ORDER BY 
+    total_interactions DESC
+LIMIT 1
+Handler response: The employee with the highest total interaction count in 2024 is Aleodor Ioniță, with a total of 225 interactions.
+Judge verdict: PASS
+Reason: The chatbot correctly identified Aleodor Ioniță as the employee with the highest total interaction count in 2024 and provided the correct number of interactions (225).
+
+[ID TC013] Testing: How many distinct countries are covered in the NovaCarta EMEA dataset?
+Determined intent: datahandler
+Instantiated handler: Handler
+Handler response: None
+  [ID TC013] Assertion error: [ID TC013] Empty response on turn 1
+assert None
+
+[ID TC014] Testing: What was the average year-over-year (YoY) revenue growth percentage across all brands and countries in 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sales', 'FACT_Interactions', 'DIM_Geography', 'DIM_Brand', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(CASE 
+            WHEN T2.year = 2025 AND T1.time_id LIKE 'T2025%' 
+            THEN T1.yoy_growth_pct 
+        END) AS average_yoy_growth
+FROM 
+    FACT_Sales T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN 
+    DIM_Brand T3 ON T1.brand_id = T3.brand_id
+JOIN 
+    DIM_Geography T4 ON T1.geo_id = T4.geo_id;
+Handler response: The average year-over-year revenue growth percentage across all brands and countries in 2025 was 13.72%.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the same key fact as the REFERENCE. The numbers match within the allowed ~1% margin and there are no contradictions.
+
+[ID TC015] Testing: Which brand had the most TC1 (top-tier) target accounts in Q1 FY2025, and how many were there?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Account_Metrics', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    COUNT(FAM.account_id) AS num_tc1_accounts
+FROM 
+    FACT_Account_Metrics FAM
+JOIN 
+    DIM_Brand DB ON FAM.brand_id = DB.brand_id
+JOIN 
+    DIM_Time DT ON FAM.time_id = DT.time_id
+WHERE 
+    FAM.target_class = 'TC1' 
+    AND DT.fiscal_quarter = 'FY2025-Q1'
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    num_tc1_accounts DESC
+LIMIT 1;
+Handler response: The brand with the most TC1 target accounts in Q1 FY2025 is LUNARA, with 86 accounts.
+Judge verdict: PASS
+Reason: The actual response correctly states the brand (LUNARA) and the number of TC1 accounts (86), matching the reference exactly.
+
+[ID TC016] Testing: What was the average Face-to-Face (F2F) coverage rate (KPI005) across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Coverage', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi005_f2f_coverage_pct) AS average_f2f_coverage_rate
+FROM 
+    FACT_Coverage T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN 
+    DIM_Brand T3 ON T1.brand_id = T3.brand_id
+WHERE 
+    T2.year = 2024
+Handler response: The average Face-to-Face (F2F) coverage rate (KPI005) across all brands in 2024 was 47.57%.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the key fact that the average Face-to-Face coverage rate was 47.57%, which is very close to the reference value of 47.6%. Minor rounding errors are acceptable within the given ~1% margin.
+
+[ID TC017] Testing: How many brands are currently in the GROWTH lifecycle stage, and which ones are they?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(*) AS number_of_brands,
+    brand_name
+FROM 
+    DIM_Brand
+WHERE 
+    lifecycle_stage = 'GROWTH'
+GROUP BY 
+    brand_name
+Handler response: There are 6 brands currently in the GROWTH lifecycle stage. The brands are: 
+1. COLONEX
+2. HEMAVEX
+3. LUNARA
+4. MIGRANOVA
+5. MIGRANOVA EP
+6. NEUROMYEL SPMS
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the same key facts as the REFERENCE, including the number of brands in the GROWTH lifecycle stage and the specific brands. Minor wording differences are present but do not impact the key information conveyed.
+
+[ID TC018] Testing: How many Face-to-Face (F2F) interactions were recorded in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(CASE WHEN FI.is_f2f_flag = 1 THEN FI.interaction_id END) AS f2f_interactions
+FROM 
+    FACT_Interactions FI
+JOIN 
+    DIM_Time DT ON FI.time_id = DT.time_id
+WHERE 
+    DT.year = 2023;
+Handler response: In 2023, there were 23,129 Face-to-Face (F2F) interactions recorded.
+Judge verdict: PASS
+Reason: The chatbot's response 'In 2023, there were 23,129 Face-to-Face (F2F) interactions recorded' directly conveys the key fact from the reference: the number of Face-to-Face interactions recorded in 2023. Minor wording differences are fine, and the number provided is accurate within the ~1% margin.
+
+[ID TC019] Testing: What was the average Call Plan Adherence rate (KPI003) across all employees in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Employee', 'DIM_Time', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi003_call_plan_adherence_pct) AS average_call_plan_adherence_rate
+FROM 
+    FACT_Performance T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+JOIN 
+    DIM_Employee T3 ON T1.employee_id = T3.employee_id
+WHERE 
+    T2.year = 2024
+Handler response: The average Call Plan Adherence rate (KPI003) across all employees in 2024 was 15.87%.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that the average Call Plan Adherence rate (KPI003) across all employees in 2024 was 15.87% and is consistent with the REFERENCE.
+
+[ID TC020] Testing: Which country had the lowest average market share percentage across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'FACT_Sales', 'FACT_Interactions', 'DIM_Geography'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    AVG(FS.market_share_pct) as average_market_share
+FROM 
+    FACT_Sales FS
+JOIN 
+    DIM_Geography DG ON FS.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FS.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    average_market_share ASC
+LIMIT 1;
+Handler response: The country with the lowest average market share percentage across all brands in 2024 is Bulgaria, with an average market share of 19.20%.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly states that Bulgaria had the lowest average market share percentage in 2024, and specifies the percentage value (19.20%). This matches the REFERENCE, so it is correct.
+
+[ID TC021] Testing: What was the total number of new patient starts across all brands and countries in 2023?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'DIM_Account', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(fs.new_patient_starts) AS total_new_patient_starts,
+    dt.year,
+    db.brand_name,
+    dg.geo_name
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Geography dg ON fs.geo_id = dg.geo_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2023
+GROUP BY 
+    db.brand_name, dg.geo_name, dt.year
+Handler response: To answer the question, "What was the total number of new patient starts across all brands and countries in 2023?" we need to sum up the `total_new_patient_starts` for all the entries in the provided data where the `year` is 2023.
+
+Here is the step-by-step process:
+
+1. Filter the data to only include entries where the `year` is 2023.
+2. Sum up the `total_new_patient_starts` for the filtered entries.
+
+After going through the data, we can see that there are multiple brands and countries, and each has a `total_new_patient_starts` value for the year 2023. 
+
+To calculate the total, we add up all the `total_new_patient_starts` values. 
+
+COGNIVEX: 3 + 2 + 0 + 0 + 0 + 1 + 0 + 17 + 21 + 0 + 0 + 0 + 13 + 3 + 0 + 1 + 0 + 2 + 8 + 1 + 4 + 13 = 88
+COLONEX: 88 + 54 + 6 + 12 + 77 + 56 + 35 + 542 + 675 + 31 + 24 + 32 + 490 + 93 + 35 + 130 + 64 + 52 + 332 + 92 + 143 + 492 = 2934
+DERMASHIELD: 1628 + 966 + 318 + 397 + 662 + 888 + 754 + 7515 + 8315 + 724 + 626 + 684 + 6167 + 1489 + 895 + 2043 + 952 + 1028 + 4670 + 1285 + 2137 + 5871 = 28051
+HEMAVEX: 2943 + 2189 + 515 + 533 + 1597 + 1544 + 1688 + 12612 + 15431 + 1113 + 1093 + 994 + 9396 + 2217 + 1720 + 3936 + 1892 + 1782 + 9282 + 2342 + 3546 + 11215 = 55732
+LUNARA: 6433 + 4343 + 1153 + 1230 + 3343 + 3993 + 3365 + 28750 + 30846 + 2527 + 2247 + 2675 + 22433 + 6659 + 3801 + 9070 + 3818 + 3563 + 20859 + 5428 + 10976 + 22650 = 113170
+LYMPHACLEAR: 757 + 533 + 138 + 135 + 359 + 398 + 365 + 2935 + 3650 + 225 + 235 + 276 + 2725 + 571 + 387 + 904 + 459 + 391 + 2131 + 606 + 1106 + 2747 = 14652
+MIGRANOVA: 937 + 632 + 201 + 128 + 424 + 491 + 411 + 3807 + 4749 + 306 + 374 + 380 + 3339 + 731 + 480 + 1162 + 513 + 561 + 2521 + 744 + 1046 + 3609 = 19210
+MIGRANOVA EP: 23 + 6 + 3 + 2 + 9 + 10 + 4 + 130 + 165 + 3 + 5 + 3 + 120 + 18 + 6 + 23 + 9 + 4 + 81 + 10 + 27 + 110 = 702
+MYELOGUARD: 270 + 192 + 52 + 74 + 163 + 151 + 138 + 1355 + 1536 + 102 + 103 + 78 + 966 + 241 + 174 + 341 + 158 + 175 + 834 + 208 + 360 + 1105 = 6875
+NEUROMYEL: 1140 + 974 + 235 + 205 + 533 + 718 + 600 + 5046 + 5976 + 486 + 447 + 408 + 4559 + 1054 + 669 + 1338 + 682 + 675 + 4482 + 1063 + 1411 + 4241 = 24602
+NEUROMYEL SPMS: 211 + 129 + 42 + 22 + 96 + 118 + 66 + 1103 + 1023 + 74 + 53 + 58 + 702 + 170 + 125 + 198 + 114 + 110 + 598 + 194 + 272 + 773 = 4971
+ONCOBREAST: 2080 + 1672 + 420 + 361 + 1121 + 1319 + 1058 + 8227 + 9746 + 933 + 732 + 1042 + 8178 + 1801 + 1202 + 2577 + 1160 + 1118 + 6466 + 2064 + 2679 + 8309 = 42162
+RHEUMAVEX: 110 + 50 + 10 + 9 + 37 + 59 + 52 + 554 + 636 + 26 + 33 + 18 + 420 + 86 + 56 + 123 + 55 + 55 + 381 + 81 + 150 + 618 = 3140
+
+Adding up the total `total_new_patient_starts` for all brands:
+88 + 2934 + 28051 + 55732 + 113170 + 14652 + 19210 + 702 + 6875 + 24602 + 4971 + 42162 + 3140 = 254990
+
+So, the total number of new patient starts across all brands and countries in 2023 is 254,990.
+Judge verdict: FAIL
+Reason: The actual response is missing the ground truth value and instead presents a step-by-step process to calculate the total. The final value provided (254,990) does not match the reference value (513,603).
+
+[ID TC021] Verdict: FAIL
+Reference: For the question "What was the total number of new patient starts across all brands and countries in 2023?", the expected answer is:
+  There were 513,603 new patient starts across all brands and countries in 2023.
+Actual: To answer the question, "What was the total number of new patient starts across all brands and countries in 2023?" we need to sum up the `total_new_patient_starts` for all the entries in the provided data where the `year` is 2023.
+
+Here is the step-by-step process:
+
+1. Filter the data to only include entries where the `year` is 2023.
+2. Sum up the `total_new_patient_starts` for the filtered entrie
+Reason: The actual response is missing the ground truth value and instead presents a step-by-step process to calculate the total. The final value provided (254,990) does not match the reference value (513,603).
+
+[ID TC022] Testing: How many employees belong to the Sales department?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE department = 'Sales';
+Handler response: There are 385 employees who belong to the Sales department.
+Judge verdict: PASS
+Reason: The chatbot's response 'There are 385 employees who belong to the Sales department' correctly conveys the fact that there are 385 employees in the Sales department, matching the ground-truth answer.
+
+[ID TC023] Testing: Which therapeutic area has the highest number of brands in the NovaCarta portfolio?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand'}
+[DataHandler] SQL Generated: SELECT therapeutic_area_name, COUNT(brand_id) as num_brands
+FROM DIM_Brand
+GROUP BY therapeutic_area_name
+ORDER BY num_brands DESC
+LIMIT 1;
+Handler response: The therapeutic area with the highest number of brands in the NovaCarta portfolio is Neuroscience, with 5 brands.
+Judge verdict: PASS
+Reason: The ACTUAL response matches the REFERENCE in terms of the therapeutic area (Neuroscience) and the number of brands (5). The wording is nearly identical.
+
+[ID TC024] Testing: What was the average number of coaching days per month (KPI009) across all employees in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions', 'DIM_Employee', 'DIM_Time', 'FACT_Performance'}
+[DataHandler] SQL Generated: SELECT 
+    AVG(T1.kpi009_coaching_days) AS average_coaching_days
+FROM 
+    FACT_Performance T1
+JOIN 
+    DIM_Time T2 ON T1.time_id = T2.time_id
+WHERE 
+    T2.year = 2024
+Handler response: The average number of coaching days per month (KPI009) across all employees in 2024 was 1.50 days.
+Judge verdict: PASS
+Reason: The ACTUAL response matches the key fact of the average number of coaching days per month (KPI009) across all employees in 2024, which is 1.50 days, within the allowed ~1% margin.
+
+[ID TC025] Testing: What was the total number of units sold across all brands and countries in Q2 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Time', 'DIM_Account', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(fs.units_sold) AS total_units_sold
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.quarter = 'Q2' AND dt.year = 2024
+Handler response: The total number of units sold across all brands and countries in Q2 2024 is 1,297,154.
+Judge verdict: PASS
+Reason: The chatbot's response is identical to the reference in terms of the total number of units sold and the year (Q2 2024). This ensures accuracy and conveys all key facts without any contradictions or significant errors.
+
+[ID TC026] Testing: Which brand had the highest average year-over-year revenue growth in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    db.brand_name, 
+    AVG(fs.yoy_growth_pct) AS avg_yoy_growth
+FROM 
+    FACT_Sales fs
+JOIN 
+    DIM_Brand db ON fs.brand_id = db.brand_id
+JOIN 
+    DIM_Time dt ON fs.time_id = dt.time_id
+WHERE 
+    dt.year = 2024
+GROUP BY 
+    db.brand_name
+ORDER BY 
+    avg_yoy_growth DESC
+LIMIT 1;
+Handler response: The brand with the highest average year-over-year revenue growth in 2024 is LUPINOVA, with an average growth rate of 50.02%.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the brand name, growth rate, and the time period. Minor wording differences are fine.
+
+[ID TC027] Testing: How many HCO (Healthcare Organization) accounts are registered in the dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account'}
+[DataHandler] SQL Generated: SELECT COUNT(account_name) 
+FROM DIM_Account 
+WHERE account_type = 'HCO';
+Handler response: There are 266 HCO (Healthcare Organization) accounts registered.
+Judge verdict: FAIL
+Reason: The ACTUAL response is missing critical information. The REFERENCE clearly states the exact number (266), while the ACTUAL only states the number of accounts without providing the exact count.
+
+[ID TC027] Verdict: FAIL
+Reference: For the question "How many HCO (Healthcare Organization) accounts are registered in the dataset?", the expected answer is:
+  There are 266 HCO accounts registered in the dataset.
+Actual: There are 266 HCO (Healthcare Organization) accounts registered.
+Reason: The ACTUAL response is missing critical information. The REFERENCE clearly states the exact number (266), while the ACTUAL only states the number of accounts without providing the exact count.
+
+[ID TC028] Testing: How many sample deliveries required a signature and successfully had one collected?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Sample_Management'}
+[DataHandler] SQL Generated: SELECT 
+    SUM(CASE WHEN requires_signature = 1 AND signature_collected = 1 THEN 1 ELSE 0 END) AS successful_signature_deliveries
+FROM 
+    FACT_Sample_Management
+Handler response: There were 13297 sample deliveries that required a signature and successfully had one collected.
+Judge verdict: PASS
+Reason: The actual response 'There were 13297 sample deliveries that required a signature and successfully had one collected.' conveys the same key facts as the reference. Both mention the number of sample deliveries that were successfully signed and collected. The numbers are within acceptable numerical discrepancies (rounding).
+
+[ID TC029] Testing: How did the average Digital Channel Coverage rate (KPI006) change from 2023 to 2025?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Coverage', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    T1.brand_name,
+    T2.year,
+    AVG(T3.kpi006_digital_coverage_pct) AS average_digital_coverage_rate
+FROM 
+    DIM_Brand T1
+JOIN 
+    DIM_Time T2 ON T2.time_id = T3.time_id
+JOIN 
+    FACT_Coverage T3 ON T3.brand_id = T1.brand_id
+WHERE 
+    T2.year IN (2023, 2025)
+GROUP BY 
+    T1.brand_name, T2.year
+ORDER BY 
+    T1.brand_name, T2.year
+Handler response: The average Digital Channel Coverage rate (KPI006) changed for the following brands from 2023 to 2025:
+
+* COGNIVEX: 38.21% in 2023 to 44.38% in 2025, an increase of 6.17 percentage points.
+* COLONEX: 38.16% in 2023 to 43.53% in 2025, an increase of 5.37 percentage points.
+* DERMASHIELD: 45.30% in 2023 to 55.03% in 2025, an increase of 9.73 percentage points.
+* HEMAVEX: 42.87% in 2023 to 55.92% in 2025, an increase of 13.05 percentage points.
+* HEMAVEX COMBO: No data available for 2023, but the rate was 53.27% in 2025.
+* LUNARA: 36.34% in 2023 to 42.29% in 2025, an increase of 5.95 percentage points.
+* LUPINOVA: No data available for 2023, but the rate was 55.55% in 2025.
+* LYMPHACLEAR: 44.02% in 2023 to 51.67% in 2025, an increase of 7.65 percentage points.
+* MIGRANOVA: 39.56% in 2023 to 46.43% in 2025, an increase of 6.87 percentage points.
+* MIGRANOVA EP: 40.52% in 2023 to 43.11% in 2025, an increase of 2.59 percentage points.
+* MYELOGUARD: 43.23% in 2023 to 53.50% in 2025, an increase of 10.27 percentage points.
+* NEUROMYEL: 37.36% in 2023 to 45.00% in 2025, an increase of 7.64 percentage points.
+* NEUROMYEL SPMS: 40.31% in 2023 to 48.08% in 2025, an increase of 7.77 percentage points.
+* ONCOBREAST: 37.58% in 2023 to 45.54% in 2025, an increase of 7.96 percentage points.
+* RHEUMAVEX: 44.50% in 2023 to 53.70% in 2025, an increase of 9.20 percentage points.
+Judge verdict: PASS
+Reason: The ACTUAL response provides detailed data for each brand, including numerical increases, which align with the overall trend described in the REFERENCE. While the exact overall average is not explicitly mentioned, the context from the brand-level data implies an overall increase.
+
+[ID TC030] Testing: What percentage of all interactions in the dataset were promotional?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    CAST(SUM(CASE WHEN is_promotional_flag = 1 THEN 1 ELSE 0 END) AS REAL) * 100 / 
+    COUNT(interaction_id) AS percentage_of_promotional_interactions
+FROM 
+    FACT_Interactions
+Handler response: The percentage of all interactions in the dataset that were promotional is 77.68%.
+Judge verdict: PASS
+Reason: The actual response shares the same figure (77.68%) as the reference (77.7%), which is within the ~1% acceptable margin. The key fact about the percentage of promotional interactions is correctly conveyed.
+
+[ID TC031] Testing: Which brand had the highest total quantity of product samples distributed?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'FACT_Sample_Management', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    DB.brand_name, 
+    SUM(FSM.sample_quantity) AS total_sample_quantity
+FROM 
+    FACT_Sample_Management FSM
+JOIN 
+    DIM_Brand DB ON FSM.brand_id = DB.brand_id
+GROUP BY 
+    DB.brand_name
+ORDER BY 
+    total_sample_quantity DESC
+LIMIT 1;
+Handler response: The brand with the highest total quantity of product samples distributed is ONCOBREAST, with a total sample quantity of 3720.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key fact as the REFERENCE: ONCOBREAST had the highest total sample distribution (3,720 sample units). Minor wording differences are fine.
+
+[ID TC032] Testing: How many distinct HCP accounts have had at least one interaction recorded in the dataset?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Account', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT 
+    COUNT(DISTINCT DA.account_name) 
+FROM 
+    DIM_Account DA
+INNER JOIN 
+    FACT_Interactions FI ON DA.account_id = FI.account_id
+Handler response: There are 1419 distinct HCP accounts that have had at least one interaction recorded in the dataset.
+Judge verdict: PASS
+Reason: The ACTUAL response of 1419 is within a ~1% margin of the REFERENCE's 1420. The key fact is conveyed correctly.
+
+[ID TC033] Testing: What was the average price per unit in EUR for LUNARA in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Brand', 'DIM_Time', 'FACT_Sales', 'FACT_Interactions'}
+[DataHandler] SQL Generated: SELECT AVG(T1.price_per_unit_eur) 
+FROM FACT_Sales T1 
+JOIN DIM_Brand T2 ON T1.brand_id = T2.brand_id 
+JOIN DIM_Time T3 ON T1.time_id = T3.time_id 
+WHERE T2.brand_name = 'LUNARA' AND T3.year = 2024
+Handler response: The average price per unit in EUR for LUNARA in 2024 was 2509.30 EUR.
+Judge verdict: PASS
+Reason: The chatbot's response accurately conveys the key fact that the average price per unit in EUR for LUNARA in 2024 was €2509.30, which is within a ~1% margin of the ground-truth answer €2509.30.
+
+[ID TC034] Testing: How many employees have the role of Field Sales Representative?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'DIM_Employee'}
+[DataHandler] SQL Generated: SELECT COUNT(employee_id) 
+FROM DIM_Employee 
+WHERE employee_role = 'Field Sales Representative'
+Handler response: There are 0 employees who have the role of Field Sales Representative.
+Judge verdict: FAIL
+Reason: The ACTUAL response contradicts the REFERENCE and is incorrect. The REFERENCE states that there are 340 employees with the role of Field Sales Representative, while the ACTUAL response says there are 0 employees with this role.
+
+[ID TC034] Verdict: FAIL
+Reference: For the question "How many employees have the role of Field Sales Representative?", the expected answer is:
+  There are 340 employees with the role of Field Sales Representative.
+Actual: There are 0 employees who have the role of Field Sales Representative.
+Reason: The ACTUAL response contradicts the REFERENCE and is incorrect. The REFERENCE states that there are 340 employees with the role of Field Sales Representative, while the ACTUAL response says there are 0 employees with this role.
+
+[ID TC035] Testing: Which country achieved the highest average Target Coverage Rate (KPI002) across all brands in 2024?
+Determined intent: data_handler
+Instantiated handler: DataHandler
+[DataHandler] Tables identified: {'FACT_Coverage', 'FACT_Interactions', 'DIM_Geography', 'DIM_Brand', 'DIM_Time'}
+[DataHandler] SQL Generated: SELECT 
+    DG.geo_name, 
+    AVG(FC.kpi002_target_coverage_pct) AS average_target_coverage_rate
+FROM 
+    FACT_Coverage FC
+JOIN 
+    DIM_Geography DG ON FC.geo_id = DG.geo_id
+JOIN 
+    DIM_Time DT ON FC.time_id = DT.time_id
+WHERE 
+    DT.year = 2024
+GROUP BY 
+    DG.geo_name
+ORDER BY 
+    average_target_coverage_rate DESC
+LIMIT 1;
+Handler response: Portugal achieved the highest average Target Coverage Rate (KPI002) across all brands in 2024, with an average rate of 89.05%.
+Judge verdict: PASS
+Reason: The actual response conveys the same key fact as the reference, including the country and the exact percentage value.
+Stats for reference_answers_data_handler.json: {'ratio_pass': 0.8571428571428571, 'ratio_partial': 0.0, 'ratio_fail': 0.11428571428571428, 'average_response_time_sec': 6.198771531241281, 'ratio_errors': 0.02857142857142857}
+
+=== Running tests for reference_answers_metadata_handler.json ===
+
+[ID 1] Testing: What schema pattern does the NovaCarta EMEA CDP use and how many tables does it have?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The NovaCarta EMEA CDP uses a star schema pattern with multiple fact tables and several dimension tables. There are 13 tables in total, consisting of 5 dimension tables and 8 fact tables. The dimension tables are DIM_Account, DIM_Brand, DIM_Brand_Indication, DIM_Employee, and DIM_Geography, and DIM_Time. The fact tables are FACT_Account_Metrics, FACT_Coverage, FACT_Interactions, FACT_Performance, FACT_Sales, FACT_Sample_Management, FACT_KPI_Summary, and FACT_Targets.
+Judge verdict: PASS
+Reason: The actual answer lists the specific dimension and fact tables present in the NovaCarta EMEA CDP, and the total number of tables is correctly stated (13). While the reference mentions a specific fact table (FACT_Interactions) and a bridge table (DIM_Brand_Indication), the actual answer does not explicitly mention these but still conveys the total number of tables correctly. The minor discrepancy in the number of tables is within a ~1% margin.
+
+[ID 2] Testing: What are the 6 dimension tables in the data model?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The six dimension tables in the data model are DIM_Account, DIM_Brand, DIM_Brand_Indication, DIM_Employee, DIM_Geography, and DIM_Time. 
+
+DIM_Account contains information about accounts such as account name, account type, and specialty. 
+DIM_Brand contains information about brands such as brand name, molecule name, and primary launch date. 
+DIM_Brand_Indication contains information about brand indications such as indication name, sub indication name, and indication launch date. 
+DIM_Employee contains information about employees such as employee name, employee role, and hire date. 
+DIM_Geography contains information about geography such as geo name, geo level, and country code. 
+DIM_Time contains information about time such as year month, year, and quarter. 
+
+These dimension tables provide context to the fact tables in the data model, allowing for more detailed and meaningful analysis of the data.
+Judge verdict: PASS
+Reason: The actual response lists all six dimension tables in the data model: DIM_Account, DIM_Brand, DIM_Brand_Indication, DIM_Employee, DIM_Geography, and DIM_Time. It also provides descriptions for each table, which are consistent with the reference. No significant errors or contradictions are present.
+
+[ID 3] Testing: What are the 8 fact tables in the data model?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: There are 8 fact tables in the data model, which are FACT_Account_Metrics, FACT_Coverage, FACT_Interactions, FACT_KPI_Summary, FACT_Performance, FACT_Sales, FACT_Sample_Management, and FACT_Targets. Each fact table contains specific metrics and measurements related to different aspects of the business, such as account metrics, coverage, interactions, performance, sales, sample management, and targets. These fact tables are connected to various dimension tables, which provide additional context and information about the data.
+Judge verdict: PASS
+Reason: The actual response lists all 8 fact tables as specified in the reference, with correct names and descriptions, conveying the same key facts without contradictions.
+
+[ID 4] Testing: What time range does the DIM_Time table cover?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The DIM_Time table covers a time range that can be determined by the minimum and maximum values in the year and month columns. The year column ranges from 2023, and the month column ranges from 1 to 12, but the exact range is not specified in the sample rows provided. To determine the exact time range, you would need to query the DIM_Time table for the minimum and maximum values in the year and month columns. 
+
+The DIM_Time table includes columns such as year_month, year, quarter, month, and month_name, which suggest that it covers monthly time periods, with each row representing a unique month. The time_period column also suggests that the table may include data for different time periods, such as year-to-date or fiscal year. 
+
+The is_current_month column indicates whether a given month is the current month, which could be used to identify the most recent data in the table. The fiscal_year and fiscal_quarter columns provide additional information about the time range, suggesting that the table covers multiple fiscal years and quarters. 
+
+Overall, the DIM_Time table appears to provide a comprehensive set of time-related data that can be used to analyze and report on various aspects of the business.
+Judge verdict: FAIL
+Reason: The actual response does not convey the same key facts as the reference. It does not specify the exact time range of the DIM_Time table, which is a critical piece of information. The reference states that the DIM_Time table covers January 2023 to December 2025, spanning 36 monthly periods. The actual response only mentions that the exact time range can be determined by querying the table for minimum and maximum values in the year and month columns, but it does not provide this information.
+
+[ID 4] Verdict: FAIL
+Reference: For the question "What time range does the DIM_Time table cover?", the expected answer is:
+  DIM_Time covers January 2023 to December 2025, spanning 36 monthly periods. The primary key format is TYYYYMM (e.g., T202501 for January 2025).
+Actual: The DIM_Time table covers a time range that can be determined by the minimum and maximum values in the year and month columns. The year column ranges from 2023, and the month column ranges from 1 to 12, but the exact range is not specified in the sample rows provided. To determine the exact time range, you would need to query the DIM_Time table for the minimum and maximum values in the year and mo
+Reason: The actual response does not convey the same key facts as the reference. It does not specify the exact time range of the DIM_Time table, which is a critical piece of information. The reference states that the DIM_Time table covers January 2023 to December 2025, spanning 36 monthly periods. The actual response only mentions that the exact time range can be determined by querying the table for minimum and maximum values in the year and month columns, but it does not provide this information.
+
+[ID 5] Testing: How many records does each table contain?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: To determine the number of records in each table, you would need to query each table individually and count the number of rows. 
+
+For example, to count the number of records in the DIM_Account table, you would use a query like this: 
+Select count(*) from DIM_Account.
+
+You would need to repeat this process for each table in the database. 
+
+The number of records in each table is not provided in the given database schema, so the exact counts are unknown without querying the database directly. 
+
+However, based on the sample rows provided for each table, we can see that each table has at least two records, but the actual number of records in each table could be much higher. 
+
+It's also worth noting that the sample rows provided are just examples and may not reflect the actual data in the database. 
+
+To get an accurate count of the number of records in each table, you would need to run the count query on the actual database. 
+
+The tables and their descriptions are as follows: 
+DIM_Account: This table contains information about accounts, with 13 columns and at least 2 records.
+DIM_Brand: This table contains information about brands, with 8 columns and at least 2 records.
+DIM_Brand_Indication: This table contains information about brand indications, with 9 columns and at least 2 records.
+DIM_Employee: This table contains information about employees, with 11 columns and at least 2 records.
+DIM_Geography: This table contains information about geography, with 9 columns and at least 2 records.
+DIM_Time: This table contains information about time, with 10 columns and at least 2 records.
+FACT_Account_Metrics: This table contains account metrics, with 16 columns and at least 2 records.
+FACT_Coverage: This table contains coverage information, with 17 columns and at least 2 records.
+FACT_Interactions: This table contains interaction information, with 20 columns and at least 2 records.
+FACT_KPI_Summary: This table contains KPI summary information, with 11 columns and at least 2 records.
+FACT_Performance: This table contains performance information, with 17 columns and at least 2 records.
+FACT_Sales: This table contains sales information, with 12 columns and at least 2 records.
+FACT_Sample_Management: This table contains sample management information, with 10 columns and at least 2 records.
+FACT_Targets: This table contains target information, with 9 columns and at least 2 records.
+
+Again, to get the actual count of records in each table, you would need to query the database directly.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not provide the record counts for each table, which is a critical piece of information required to answer the question.
+
+[ID 5] Verdict: FAIL
+Reference: For the question "How many records does each table contain?", the expected answer is:
+  Record counts by table: DIM_Geography (287), DIM_Brand (15), DIM_Brand_Indication (20), DIM_Time (36), DIM_Employee (588), DIM_Account (1,732), FACT_Interactions (189,953), FACT_Coverage (10,270), FACT_Performance (15,070), FACT_Sales (124,886), FACT_Account_Metrics (33,400), FACT_KPI_Summary (52,170), FACT_Sample_Management (13,982), FACT_Targets (14,696).
+Actual: To determine the number of records in each table, you would need to query each table individually and count the number of rows. 
+
+For example, to count the number of records in the DIM_Account table, you would use a query like this: 
+Select count(*) from DIM_Account.
+
+You would need to repeat this process for each table in the database. 
+
+The number of records in each table is not provided in the 
+Reason: The ACTUAL response does not provide the record counts for each table, which is a critical piece of information required to answer the question.
+
+[ID 6] Testing: What is the purpose of DIM_Brand_Indication and why is it a bridge table?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The DIM_Brand_Indication table serves as a bridge table between the DIM_Brand table and the indication data, allowing for a many-to-many relationship between brands and indications. This is necessary because a brand can have multiple indications and an indication can be associated with multiple brands. 
+
+The table contains foreign keys to the DIM_Brand table, specifically the brand_id column, which links a brand to its corresponding indications. The indication_id column in the DIM_Brand_Indication table can be linked to other tables that contain indication-specific data, such as the FACT_Interactions table.
+
+The purpose of the DIM_Brand_Indication table is to provide a centralized location for storing brand-indication relationships, making it easier to manage and analyze data related to these relationships. This table enables the creation of complex queries that involve brand and indication data, such as analyzing sales performance by brand and indication or identifying the most common indications for a particular brand.
+
+In the context of the provided database schema, the DIM_Brand_Indication table plays a crucial role in supporting data analysis and business intelligence activities, particularly those related to pharmaceutical sales, marketing, and performance management.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key facts present in the REFERENCE. It describes the purpose and structure of the DIM_Brand_Indication table, including its role as a bridge table, its composite primary key, and its relationship to other tables. The response also correctly identifies the need for a many-to-many relationship between brands and indications, and explains the benefits of the DIM_Brand_Indication table in data analysis. Minor wording differences are present, but the key facts are accurately conveyed.
+
+[ID 7] Testing: What is the difference between FACT_Interactions and FACT_Coverage?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The difference between FACT_Interactions and FACT_Coverage is that FACT_Interactions stores information about specific interactions between employees and accounts, such as the type of interaction, the channel used, and the duration of the interaction, whereas FACT_Coverage stores information about the coverage of accounts by employees, including the number of accounts covered, the number of face-to-face interactions, and the percentage of target coverage.
+
+In other words, FACT_Interactions focuses on the details of individual interactions, while FACT_Coverage provides a higher-level view of the overall coverage of accounts by employees. FACT_Interactions includes columns such as interaction_type, interaction_channel, and interaction_duration_min, which are not present in FACT_Coverage. On the other hand, FACT_Coverage includes columns such as target_universe_count, covered_accounts_count, and kpi002_target_coverage_pct, which are not present in FACT_Interactions.
+
+This suggests that FACT_Interactions is used to track and analyze the interactions between employees and accounts, while FACT_Coverage is used to track and analyze the overall coverage of accounts by employees, including the effectiveness of their interactions.
+Judge verdict: PASS
+Reason: The ACTUAL response accurately conveys the key differences between FACT_Interactions and FACT_Coverage, including their data storage (interactions vs. coverage), the types of data captured (e.g., interaction details vs. coverage metrics), and their respective uses (tracking interactions vs. assessing overall coverage). Minor wording differences are acceptable given the precision required for a technical context.
+
+[ID 8] Testing: What is the granularity of FACT_Sales?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_Sales is at the account, geography, brand, and time level, as it contains columns such as account_id, geo_id, brand_id, and time_id, which are foreign keys referencing the DIM_Account, DIM_Geography, DIM_Brand, and DIM_Time tables respectively. This means that each row in the FACT_Sales table represents a specific combination of account, geography, brand, and time period, and contains sales metrics such as net revenue, units sold, and market share for that particular combination.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the same key facts as the REFERENCE, including the granularity at the account, geography, brand, and time level, the presence of foreign keys referencing DIM_Account, DIM_Geography, DIM_Brand, and DIM_Time tables, and the sales metrics in the table. Minor wording differences are fine.
+
+[ID 9] Testing: What is the granularity of FACT_Account_Metrics?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_Account_Metrics is at the account, brand, and time level, as it contains foreign keys to DIM_Account, DIM_Brand, and DIM_Time tables. This means that each row in the FACT_Account_Metrics table represents a unique combination of an account, a brand, and a time period, and contains metrics such as penetration percentage, potential score, and target class that are specific to that combination.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the granularity (account, brand, time) and specific metrics (penetration percentage, potential score, target class). Minor wording differences are fine, but no contradictions or significant errors are present.
+
+[ID 10] Testing: What is the granularity of FACT_KPI_Summary?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_KPI_Summary is at the level of KPI, geography, brand, and time period. This means that each row in the FACT_KPI_Summary table represents a specific KPI, such as Field Day Percentage or Target Coverage Rate, for a particular geography, brand, and time period. The time period can be either fiscal quarter or year to date, and the KPI values are calculated based on the numerator and denominator values provided in the table. This granularity allows for analysis of KPI performance across different geographies, brands, and time periods.
+Judge verdict: PASS
+Reason: The ACTUAL response accurately conveys the key facts of the granularity of FACT_KPI_Summary, including the level of KPI, geography, brand, and time period, as well as the specifics of the time period (fiscal quarter or year to date) and how KPI values are calculated. Minor wording differences are present but do not change the factual accuracy of the response.
+
+[ID 11] Testing: What is the granularity of FACT_Targets?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_Targets is at the level of geo_id, brand_id, and time_id. This means that each row in the FACT_Targets table represents a specific target value for a particular geographic region, brand, and time period. The target_type column further refines this granularity by specifying whether the target is a revenue target or a unit target. As a result, the FACT_Targets table can be used to analyze and track target values at a detailed level, allowing for insights into performance and progress towards goals at various levels of aggregation.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys all key facts from the REFERENCE, including the granularity of FACT_Targets at the country-brand-quarter level, the specific target type represented by the target_type column, and the detailed level of analysis provided by the table.
+
+[ID 12] Testing: What is the granularity of FACT_Performance?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_Performance is at the employee, geography, brand, and time level. This means that each row in the FACT_Performance table represents a unique combination of an employee, a geography, a brand, and a time period, and contains metrics such as field days, interaction count, and target adherence percentage for that specific combination. 
+
+In other words, the FACT_Performance table is designed to track the performance of individual employees within specific geographies and brands over time, allowing for analysis and comparison of performance metrics across different employees, geographies, brands, and time periods. 
+
+The columns that define the granularity of FACT_Performance are employee_id, geo_id, brand_id, and time_id, which are foreign keys referencing the DIM_Employee, DIM_Geography, DIM_Brand, and DIM_Time dimension tables, respectively.
+Judge verdict: PASS
+Reason: The actual response accurately conveys the same key facts as the reference. It specifies the granularity of FACT_Performance at the employee, geography (geo_id), brand (brand_id), and time (time_id) level, with similar details about the metrics and columns involved. Minor wording differences are present but do not affect the accuracy or completeness of the information.
+
+[ID 13] Testing: What is the granularity of FACT_Sample_Management?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The granularity of FACT_Sample_Management is at the sample level, with each row representing a specific sample, including its interaction id, account id, employee id, brand id, time id, sample quantity, lot number, sample status, and signature collection status. This means that the fact table stores detailed information about each sample, allowing for analysis and reporting at a very specific level. The foreign keys in the table, such as interaction id, account id, employee id, brand id, and time id, also enable linking to other tables in the database, like FACT_Interactions, DIM_Account, DIM_Employee, DIM_Brand, and DIM_Time, to provide additional context and support more comprehensive analysis.
+Judge verdict: PASS
+Reason: The chatbot's response conveys all key facts from the reference, including the granularity (sample level), the fact that each row represents a specific sample, the foreign keys in the table, and the linking to other tables in the database. The numbers (record count) are not provided, but the overall structure and context are correctly conveyed.
+
+[ID 14] Testing: What does the target_class column in FACT_Account_Metrics represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The target_class column in FACT_Account_Metrics represents a classification or categorization of accounts based on certain criteria, but the exact definition or criteria used to determine the target class is not explicitly stated in the provided database schema. However, based on the sample rows, it appears that the target class is represented by a code such as 'TC2', which may indicate a specific level of priority, potential, or engagement for the account. This classification could be used to guide sales strategies, resource allocation, or other business decisions.
+Judge verdict: FAIL
+Reason: The ACTUAL response does not convey the same key facts as the REFERENCE. The target_class column in FACT_Account_Metrics is explicitly defined in the REFERENCE as representing a targeting classification based on account's potential (TC1, TC2, TC3), but the ACTUAL response is ambiguous and does not provide this detail.
+
+[ID 14] Verdict: FAIL
+Reference: For the question "What does the target_class column in FACT_Account_Metrics represent?", the expected answer is:
+  target_class is a computed field in FACT_Account_Metrics representing the account's targeting classification: TC1 (high-potential), TC2 (medium-potential), or TC3 (low-potential). It is not stored in DIM_Account — it lives in FACT_Account_Metrics because it is derived analytically per brand-quarter.
+Actual: The target_class column in FACT_Account_Metrics represents a classification or categorization of accounts based on certain criteria, but the exact definition or criteria used to determine the target class is not explicitly stated in the provided database schema. However, based on the sample rows, it appears that the target class is represented by a code such as 'TC2', which may indicate a specific
+Reason: The ACTUAL response does not convey the same key facts as the REFERENCE. The target_class column in FACT_Account_Metrics is explicitly defined in the REFERENCE as representing a targeting classification based on account's potential (TC1, TC2, TC3), but the ACTUAL response is ambiguous and does not provide this detail.
+
+[ID 15] Testing: Why is target_class not in DIM_Account?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The column target_class is not in the DIM_Account table because it is actually located in the FACT_Account_Metrics table. The FACT_Account_Metrics table contains various metrics related to accounts, including the target_class column, which is used to categorize accounts based on their potential and other factors. 
+
+The DIM_Account table, on the other hand, contains general information about accounts, such as account_id, account_name, account_type, and specialty, but it does not include metrics or performance-related data. This is a common design pattern in data warehousing, where dimension tables contain descriptive information about entities, and fact tables contain measurable data related to those entities. 
+
+Therefore, if you need to access the target_class column, you should join the FACT_Account_Metrics table with the DIM_Account table on the account_id column.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key facts from the REFERENCE, including the explanation of why target_class is not in DIM_Account and where it is located. The response also includes additional details that help clarify the design pattern in data warehousing, which is acceptable as long as it does not contradict or omit critical information from the REFERENCE.
+
+[ID 16] Testing: What does the consent_status field in DIM_Account represent and what values can it take?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The consent_status field in the DIM_Account table represents the status of consent given by an account, which can be either CONSENTED or not, although only CONSENTED is shown in the provided sample rows. This field is a TEXT type and indicates whether an account has given consent or not. The values it can take are not fully specified in the sample data, but based on the provided information, one possible value is CONSENTED.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the key facts from the REFERENCE, including the representation of the consent_status field, its TEXT type, and the sample value 'CONSENTED'. Minor differences in wording are acceptable, but the critical information is present.
+
+[ID 17] Testing: What does the lifecycle_stage field in DIM_Brand represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The lifecycle_stage field in the DIM_Brand table represents the stage of a brand's life cycle, indicating whether it is in the growth, mature, or decline phase. This field provides information about the brand's current position in its product life cycle, which can be useful for analyzing sales trends, marketing strategies, and competitive positioning. 
+
+In the provided sample rows, the lifecycle_stage field has values such as 'GROWTH' and 'MATURE', indicating that the brand is either in a growth phase or a mature phase. This information can be used to inform business decisions, such as allocating resources, setting targets, and developing marketing campaigns. 
+
+It's worth noting that the lifecycle_stage field is also present in the DIM_Brand_Indication table, which suggests that the life cycle stage can vary depending on the specific indication or therapeutic area of the brand. This allows for more nuanced analysis and decision-making at the indication level.
+Judge verdict: PASS
+Reason: The actual response conveys the key facts about the lifecycle_stage field in DIM_Brand, including its purpose and the types of values it can take. It provides additional context about the presence of this field in the DIM_Brand_Indication table, which is useful for more nuanced analysis. Minor wording differences are fine.
+
+[ID 18] Testing: What interaction channel types are captured in FACT_Interactions?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The interaction channel types captured in FACT_Interactions are stored in the interaction_channel column. Based on the provided sample rows, the interaction channel types include APPROVED_EMAIL and F2F. However, since the complete list of possible values for interaction_channel is not provided in the sample rows, it is possible that there are other interaction channel types captured in FACT_Interactions as well.
+Judge verdict: PASS
+Reason: The ACTUAL response mentions interaction_channel column and APPROVED_EMAIL as an example, which aligns with REFERENCE's mention of interaction_channel column and F2F as an example. While the actual list of possible values is not provided, it does not contradict, and the fact that other values might exist is acknowledged.
+
+[ID 19] Testing: What does the kpi015_multichannel_score column in FACT_Interactions represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The kpi015_multichannel_score column in the FACT_Interactions table represents a score that indicates the level of engagement or interaction with a brand across multiple channels, such as face-to-face, web calls, emails, and events. This score is likely used to measure the effectiveness of multichannel marketing strategies and to identify areas for improvement. The score is an integer value, with higher values indicating a higher level of engagement or interaction across multiple channels.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE (kpi015_multichannel_score is an integer column representing a weighted engagement score across multiple channels, with higher values indicating higher engagement). Minor wording differences are fine.
+
+[ID 20] Testing: What does the time_period column represent in FACT_Coverage and FACT_Performance?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The time_period column in FACT_Coverage and FACT_Performance represents a specific period of time for which the data is being measured. In FACT_Coverage, it represents the time period for which the coverage metrics such as target universe count, covered accounts count, and kpi values are being calculated. Similarly, in FACT_Performance, it represents the time period for which the performance metrics such as field days, interaction count, and kpi values are being calculated. The time_period column can have values such as YTD, QTD, MTD, etc. which stand for Year-To-Date, Quarter-To-Date, and Month-To-Date respectively. This column is used to provide a context for the data and to help in analyzing the trends and patterns over different time periods.
+Judge verdict: PASS
+Reason: The ACTUAL response provides the same key facts as the REFERENCE, including the explanation of the time_period column and its values (YTD, QTD, MTD). Minor wording differences and additional context do not affect the accuracy of the information provided.
+
+[ID 21] Testing: What does the is_key_opinion_leader field in DIM_Account represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The is_key_opinion_leader field in the DIM_Account table represents a flag indicating whether an account is a key opinion leader or not. It is an integer field, where a value of 1 would likely indicate that the account is a key opinion leader and a value of 0 would indicate that it is not. This field can be used to identify and analyze key opinion leaders in the data.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly conveys the key fact that the is_key_opinion_leader field in DIM_Account is a flag indicating whether an account is a key opinion leader, and its value can be used to identify and analyze key opinion leaders in the data. While it does not explicitly mention the Y/N flag or the integer value specification, the context and the nature of the question suggest that the REFERENCE and ACTUAL are discussing the same field and its purpose, albeit with slightly different wording.
+
+[ID 22] Testing: What does the prescriber_volume field in DIM_Account represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The prescriber_volume field in the DIM_Account table represents the volume of prescriptions written by an account, which is categorized as low, medium, or high. This field provides information about the account's prescribing behavior and can be used to identify high-volume prescribers or to analyze the account's potential for sales. The prescriber_volume field is a text field and contains values such as 'LOW', 'MEDIUM', or 'HIGH', indicating the level of prescribing activity for each account.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE, including the field's categorization, usage, and meaning. While the wording is slightly different, the essential information is present and consistent.
+
+[ID 23] Testing: What is the purpose of the institution_id field in DIM_Account?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The institution_id field in the DIM_Account table is a foreign key that references the account_id field in the same table. This suggests that the institution_id field is used to establish a hierarchical relationship between accounts, where an institution can be composed of multiple accounts. In other words, the institution_id field identifies the parent account of a given account, allowing for the creation of an account hierarchy. This relationship can be useful for analyzing account data at different levels of granularity, such as rolling up data from individual accounts to their parent institutions.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys the same key facts as the REFERENCE, including the purpose of the institution_id field, the usage as a foreign key, and its role in establishing a hierarchical relationship between accounts.
+
+[ID 24] Testing: What does the manager_id field in DIM_Employee represent?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The manager_id field in the DIM_Employee table represents the employee_id of the manager of the employee. It is a foreign key that references the employee_id field in the same DIM_Employee table, indicating a self-referential relationship where an employee's manager is also an employee. This allows for the creation of a hierarchical structure to represent the organization's management chain.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE: 1) manager_id in DIM_Employee is a self-referential foreign key pointing to employee_id in the same table; 2) it represents the organizational hierarchy; 3) manager records have NULL brand_id. Minor wording differences exist but no critical errors or contradictions are present.
+
+[ID 25] Testing: What are the columns in DIM_Geography and what geographic levels does it support?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The DIM_Geography table has the following columns: geo_id, geo_name, geo_level, parent_geo_id, country_code, region_name, cluster_name, and population_millions. The DIM_Geography table supports various geographic levels as indicated by the geo_level column, including REGION and CLUSTER. The geo_level column allows for the storage of different geographic hierarchies, enabling analysis and reporting at various levels of granularity.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the columns in DIM_Geography and the supported geographic levels. Minor wording differences are fine.
+
+[ID 26] Testing: What does the fiscal_year and fiscal_quarter format look like in the data model?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The fiscal year and fiscal quarter format in the data model is found in the DIM_Time table. The fiscal_year column is in the format 'FYYYYY' where YYYY is the year, and the fiscal_quarter column is in the format 'FYYYYY-QX' where X is the quarter number. For example, 'FY2023' and 'FY2023-Q1'. This format is also used in other tables such as FACT_Account_Metrics and FACT_Targets.
+Judge verdict: PASS
+Reason: The ACTUAL response conveys all key facts from the REFERENCE, including the formats for fiscal_year and fiscal_quarter (FY{YYYY} vs. 'FYYYYY'-'FYYYYY-QX'), and mentions the same tables (DIM_Time, FACT_Account_Metrics, FACT_Targets). Minor wording differences are fine.
+
+[ID 27] Testing: Which fact table has a foreign key to another fact table, and what is the relationship?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The fact table that has a foreign key to another fact table is FACT_Sample_Management, and it has a foreign key to FACT_Interactions. The relationship between FACT_Sample_Management and FACT_Interactions is established through the interaction_id column, which is a foreign key in FACT_Sample_Management that references the interaction_id column in FACT_Interactions. This means that each sample management record in FACT_Sample_Management is related to a specific interaction record in FACT_Interactions.
+Judge verdict: PASS
+Reason: The actual response correctly identifies the fact table (FACT_Sample_Management) with a foreign key to another table (FACT_Interactions), and accurately describes the relationship established through the interaction_id column. The factual information aligns with the reference response, making it a PASS.
+
+[ID 28] Testing: What dimensions does FACT_Interactions connect to?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The FACT_Interactions table connects to the following dimensions: 
+DIM_Account through the account_id column, 
+DIM_Employee through the employee_id column, 
+DIM_Brand through the brand_id column, 
+DIM_Brand_Indication through the indication_id column, 
+DIM_Geography through the geo_id column, and 
+DIM_Time through the time_id column. 
+These connections allow for the analysis of interactions with various attributes from the connected dimension tables.
+Judge verdict: PASS
+Reason: The actual response correctly lists all six dimensions that FACT_Interactions connects to, including the columns through which the connections are made. Minor wording differences are fine.
+
+[ID 29] Testing: Which dimensions does FACT_Sales connect to?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The FACT_Sales fact table connects to the following dimensions: 
+DIM_Account through the account_id column, 
+DIM_Geography through the geo_id column, 
+DIM_Brand through the brand_id column, and 
+DIM_Time through the time_id column.
+Judge verdict: PASS
+Reason: The chatbot's response correctly conveys all key facts from the reference, including the dimensions DIM_Account, DIM_Geography, DIM_Brand, and DIM_Time, and the columns they connect to (account_id, geo_id, brand_id, and time_id).
+
+[ID 30] Testing: Does FACT_Sales connect to DIM_Employee?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: To determine if FACT_Sales connects to DIM_Employee, we need to examine the foreign keys of the FACT_Sales table. The FACT_Sales table has foreign keys to DIM_Account, DIM_Brand, DIM_Geography, and DIM_Time, but it does not have a direct foreign key to DIM_Employee.
+
+However, we can establish an indirect connection between FACT_Sales and DIM_Employee through other tables. For instance, the FACT_Interactions table has foreign keys to both DIM_Employee and DIM_Account. Since FACT_Sales has a foreign key to DIM_Account, we can connect FACT_Sales to FACT_Interactions through DIM_Account, and then connect FACT_Interactions to DIM_Employee.
+
+Another possible connection is through the FACT_Performance table, which has foreign keys to both DIM_Employee and DIM_Geography. Since FACT_Sales has a foreign key to DIM_Geography, we can connect FACT_Sales to FACT_Performance through DIM_Geography, and then connect FACT_Performance to DIM_Employee.
+
+In summary, while there is no direct connection between FACT_Sales and DIM_Employee, there are indirect connections through other tables, such as FACT_Interactions and FACT_Performance.
+Judge verdict: FAIL
+Reason: The actual response contains incorrect information and contradicts the reference. The reference states that FACT_Sales does not connect to DIM_Employee directly, but the actual response incorrectly implies connections exist.
+
+[ID 30] Verdict: FAIL
+Reference: For the question "Does FACT_Sales connect to DIM_Employee?", the expected answer is:
+  No, FACT_Sales does not connect to DIM_Employee. Sales in this model are recorded at the HCO account level per brand and country, not attributed to individual sales reps. Employee-level performance is tracked separately in FACT_Performance.
+Actual: To determine if FACT_Sales connects to DIM_Employee, we need to examine the foreign keys of the FACT_Sales table. The FACT_Sales table has foreign keys to DIM_Account, DIM_Brand, DIM_Geography, and DIM_Time, but it does not have a direct foreign key to DIM_Employee.
+
+However, we can establish an indirect connection between FACT_Sales and DIM_Employee through other tables. For instance, the FACT_In
+Reason: The actual response contains incorrect information and contradicts the reference. The reference states that FACT_Sales does not connect to DIM_Employee directly, but the actual response incorrectly implies connections exist.
+
+[ID 31] Testing: How is the geographic hierarchy modeled in DIM_Geography?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The geographic hierarchy is modeled in the DIM_Geography table through the use of the geo_level and parent_geo_id columns. The geo_level column indicates the level of the geographic hierarchy, such as region or cluster, and the parent_geo_id column references the parent geographic ID, allowing for a hierarchical relationship between different geographic levels. This structure enables the representation of a geographic hierarchy with multiple levels, such as region, cluster, and country. The parent_geo_id column is a foreign key that references the geo_id column in the same table, establishing the hierarchical relationship between different geographic entities.
+Judge verdict: PASS
+Reason: The actual response conveys the same key facts as the reference. It describes how the geographic hierarchy is modeled in DIM_Geography through the geo_level and parent_geo_id columns, indicating the level and establishing a hierarchical relationship. The structure enables representation of multiple geographic levels, such as region, cluster, and country. This matches the reference in terms of the five-level hierarchy (REGION > CLUSTER > COUNTRY > TERRITORY > DISTRICT) and the total records (287).
+
+[ID 32] Testing: What is the cardinality of the relationship between DIM_Brand_Indication and DIM_Brand?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The relationship between DIM_Brand_Indication and DIM_Brand is one-to-many, as indicated by the foreign key brand_id in DIM_Brand_Indication referencing the primary key brand_id in DIM_Brand. This means that each brand can have multiple indications, but each indication is associated with only one brand. The cardinality of this relationship is therefore one brand to many indications.
+Judge verdict: PASS
+Reason: The actual response correctly conveys the nature of the relationship (one-to-many) and its cardinality (one brand to many indications), aligning with the reference's explanation of a foreign key pointing to a primary key.
+
+[ID 33] Testing: Which dimensions does FACT_Coverage join to?
+Determined intent: metadata_handler
+Instantiated handler: MetaDataHandler
+Handler response: The FACT_Coverage table joins to the following dimensions: 
+DIM_Brand through the brand_id column, 
+DIM_Geography through the geo_id column, and 
+DIM_Time through the time_id column.
+Judge verdict: PASS
+Reason: The ACTUAL response correctly identifies the dimensions that FACT_Coverage joins to, including DIM_Brand, DIM_Geography, and DIM_Time, as well as the specific column or ID used for each join.
+
+[ID 34] Testing: What does KPI001 measure and what is its target?
+Determined intent: dashboardhandler
+Instantiated handler: Handler
+Handler response: None
+  [ID 34] Assertion error: [ID 34] Empty response on turn 1
+assert None
+
+[ID 35] Testing: What does KPI002 measure and what is its target?
+Determined intent: dashboard_handler
+Instantiated handler: DashboardHandler
+Handler response: KPI002 measures the Target Coverage Rate, which is the percentage of target accounts reached within a period. The target for KPI002 is 80.0%.
+Judge verdict: PASS
+Reason: The chatbot's response correctly identifies KPI002 as Target Coverage Rate and its target as 80.0%. Minor wording differences are acceptable, and the numbers are within the ~1% margin.
+Stats for reference_answers_metadata_handler.json: {'ratio_pass': 0.8571428571428571, 'ratio_partial': 0.0, 'ratio_fail': 0.11428571428571428, 'average_response_time_sec': 2.4520304339272636, 'ratio_errors': 0.02857142857142857}
+Closing resources...
+Resources closed.

@@ -88,6 +88,7 @@ class DataHandler(Handler):
     def _get_sql_query(self, prompt: str) -> str:
         """Directly uses the Large LLM to generate SQL."""
         # Directly calling agent.large_llm.query
+        # TODO add few-shot examples in the system prompt with verified queries on the real data
         system_instruction = (
             """
             SYSTEM: 
